@@ -1,0 +1,680 @@
+<!DOCTYPE html>
+<html lang="pt-BR" data-theme="papel">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+
+  <!-- ===================================================================
+       1) ANTI-FOUC — script BLOQUEANTE, PRIMEIRO no <head>, ANTES das fontes
+          e do learn.css. Le inema.prefs (global, cross-curso) e aplica
+          data-theme + color-scheme + --measure/--leading/--fontscale +
+          data-font/--font-disp/--font-body ANTES do primeiro paint.
+          try/catch total => default papel no erro (preserva a marca INEMA).
+       =================================================================== -->
+  <script>
+  (function () {
+    try {
+      var html = document.documentElement;
+      var DEF = { theme: 'papel', font: 'serif', fontScale: 100, lineWidth: 66, leading: 1.66 };
+      function clone(o) { var r = {}; for (var x in o) r[x] = o[x]; return r; }
+      var p = clone(DEF);
+      try {
+        var raw = localStorage.getItem('inema.prefs');
+        if (raw) {
+          var parsed = JSON.parse(raw);
+          if (parsed && typeof parsed === 'object') {
+            for (var k in DEF) if (parsed[k] != null) p[k] = parsed[k];
+          }
+        }
+      } catch (e) { p = clone(DEF); }
+
+      var THEMES = {
+        'papel':  { attr: 'papel',  cs: 'light' },
+        'sepia':  { attr: 'sepia',  cs: 'light' },
+        'escuro': { attr: 'escuro', cs: 'dark'  }
+      };
+      var t = THEMES[p.theme] || THEMES['papel'];
+      html.setAttribute('data-theme', t.attr);
+      html.style.colorScheme = t.cs;
+
+      var font = (p.font === 'sans' || p.font === 'hyperlegible') ? p.font : 'serif';
+      html.setAttribute('data-font', font);
+
+      var s = html.style;
+
+      var scale = (+p.fontScale || 100);
+      s.setProperty('--fontscale', scale + '%');
+      html.setAttribute('data-fontscale', String(scale));
+
+      var lw = (+p.lineWidth || 66);
+      s.setProperty('--measure', lw + 'ch');
+      html.setAttribute('data-line-width', lw <= 62 ? 'estreito' : (lw >= 70 ? 'largo' : 'medio'));
+
+      var lh = (+p.leading || 1.66);
+      s.setProperty('--leading', lh.toString());
+      html.setAttribute('data-leading', lh <= 1.66 ? 'compacto' : 'confortavel');
+
+      var DISP = {
+        serif: '"Spectral", Georgia, "Times New Roman", serif',
+        sans: 'ui-sans-serif, system-ui, -apple-system, "Segoe UI", Roboto, sans-serif',
+        hyperlegible: '"Atkinson Hyperlegible", system-ui, -apple-system, sans-serif'
+      };
+      var BODY = {
+        serif: '"Source Serif 4", Georgia, "Times New Roman", serif',
+        sans: 'ui-sans-serif, system-ui, -apple-system, "Segoe UI", Roboto, sans-serif',
+        hyperlegible: '"Atkinson Hyperlegible", system-ui, -apple-system, sans-serif'
+      };
+      s.setProperty('--font-disp', DISP[font] || DISP.serif);
+      s.setProperty('--font-body', BODY[font] || BODY.serif);
+    } catch (err) {
+      try {
+        document.documentElement.setAttribute('data-theme', 'papel');
+        document.documentElement.style.colorScheme = 'light';
+      } catch (e) {}
+    }
+  })();
+  </script>
+
+  <!-- 2) Identidade do curso + manifesto (courseId estavel + estrutura completa) -->
+  <meta name="inema-course" content="inema-ncia" />
+  <script type="application/json" data-inema-manifest>
+  {
+    "course": "inema-ncia",
+    "tracks": [
+      { "n":"1","title":"Neurociencia da Atencao","modules":[{"id":"1","title":"Neurociencia da Atencao & do Foco","topics":6,"href":"t/t1.html"}]},
+      { "n":"2","title":"Percepcao & Autoconhecimento","modules":[{"id":"2","title":"Percepcao & Autoconhecimento","topics":5,"href":"t/t2.html"}]},
+      { "n":"3","title":"Habitos & Determinacao","modules":[{"id":"3","title":"Habitos, Motivacao & Determinacao","topics":5,"href":"t/t3.html"}]},
+      { "n":"4","title":"Habilidades & Talentos","modules":[{"id":"4","title":"Habilidades & Talentos do Futuro","topics":3,"href":"t/t4.html"}]},
+      { "n":"5","title":"Persuasao & Viral","modules":[{"id":"5","title":"Persuasao & Psicologia Viral","topics":5,"href":"t/t5.html"}]},
+      { "n":"6","title":"Recursos do Canal","modules":[{"id":"6","title":"Recursos do Canal","topics":3,"href":"t/t6.html"}]}
+    ]
+  }
+  </script>
+
+  <title>Trilha 1 — Neurociencia da Atencao &amp; do Foco | INEMA.NCIA</title>
+
+  <!-- 3) Fontes (DEPOIS do anti-FOUC) -->
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Spectral:ital,wght@0,300;0,400;0,500;0,600;0,700;1,400;1,500&family=Source+Serif+4:ital,opsz,wght@0,8..60,400;0,8..60,500;0,8..60,600;1,8..60,400;1,8..60,500&family=IBM+Plex+Mono:wght@400;500&family=Atkinson+Hyperlegible:ital,wght@0,400;0,700;1,400&display=swap" rel="stylesheet" />
+
+  <!-- 4) Folha de estilos da camada de aprendizagem v3 (caminho RELATIVO) -->
+  <link rel="stylesheet" href="../assets/learn.css" />
+</head>
+
+<body>
+
+  <!-- SKIP LINK (primeiro focavel) -->
+  <a class="skip" href="#reading">Pular para o conteudo</a>
+
+  <!-- ===================== READER BAR — controles minimos ===================== -->
+  <div class="reader-bar">
+    <div class="reader-inner">
+      <a class="wordmark" href="../index.html">INEMA<span class="dot">.</span><span class="club">NCIA</span></a>
+      <div class="reader-controls" data-inema-appearance>
+        <span class="rc-read"><span data-inema-meter="modulo:1"><span data-inema-meter-frac><strong>0</strong> de 6</span></span> lidas</span>
+        <div class="rc-group" role="group" aria-label="Tema de leitura">
+          <button type="button" class="rc-btn" data-inema-set-theme="papel" aria-pressed="true">Papel</button>
+          <button type="button" class="rc-btn" data-inema-set-theme="sepia" aria-pressed="false">Sepia</button>
+          <button type="button" class="rc-btn" data-inema-set-theme="escuro" aria-pressed="false">Escuro</button>
+        </div>
+        <div class="rc-group" role="group" aria-label="Fonte de leitura">
+          <button type="button" class="rc-btn" data-inema-set-font="serif" aria-pressed="true">Serif</button>
+          <button type="button" class="rc-btn" data-inema-set-font="sans" aria-pressed="false">Sans</button>
+          <button type="button" class="rc-btn" data-inema-set-font="hyperlegible" aria-pressed="false" title="Atkinson Hyperlegible — legibilidade maxima">Aa&#8633;</button>
+        </div>
+        <div class="rc-group" role="group" aria-label="Tamanho do texto">
+          <button type="button" class="rc-btn" data-inema-set-fontscale="100" aria-pressed="true">A</button>
+          <button type="button" class="rc-btn" data-inema-set-fontscale="112" aria-pressed="false">A+</button>
+          <button type="button" class="rc-btn" data-inema-set-fontscale="125" aria-pressed="false">A++</button>
+        </div>
+        <div class="rc-group" role="group" aria-label="Largura da linha">
+          <button type="button" class="rc-btn" data-inema-set-linewidth="62" aria-pressed="false">Estreito</button>
+          <button type="button" class="rc-btn" data-inema-set-linewidth="66" aria-pressed="true">Medio</button>
+          <button type="button" class="rc-btn" data-inema-set-linewidth="70" aria-pressed="false">Largo</button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ===================== MASTHEAD + WAYFINDING ===================== -->
+  <header class="masthead">
+    <nav class="wayfind" aria-label="Onde voce esta">
+      <span><a href="../index.html" style="text-decoration:none">INEMA.NCIA</a></span>
+      <span class="sep">&middot;</span>
+      <span>Trilha <b>1</b> Neurociencia da Atencao</span>
+      <span class="sep">&middot;</span>
+      <span data-inema-section-counter>Secao 1 de 6</span>
+      <span class="sep">&middot;</span>
+      <button type="button" data-inema-journey-open>
+        Minha jornada <span class="inema-journey-badge" data-inema-journey-badge data-count="0">0</span>
+      </button>
+    </nav>
+  </header>
+
+  <!-- ===================== SPREAD: coluna de leitura + trilho de margem ===================== -->
+  <main class="spread">
+    <div class="leaf">
+
+      <!-- ============================= COLUNA DE LEITURA ============================= -->
+      <article class="reading" id="reading">
+
+        <!-- abertura da trilha -->
+        <p class="kicker">Trilha 1 &middot; INEMA.NCIA</p>
+        <h1 class="module">Neurociencia da <em>Atencao</em> &amp; do Foco</h1>
+        <p class="deck">Antes de qualquer tecnica, entender o orgao em disputa: por que a sua atencao e leiloada,
+          como o vicio sequestra a recompensa e por que a distracao custa mais do que parece.</p>
+        <p class="read-meta">
+          <span class="here">Lendo agora</span>
+          <span>~18 min</span>
+          <span>6 secoes</span>
+        </p>
+
+        <!-- objetivos: o que voce vai entender -->
+        <section class="aims" aria-label="O que voce vai entender">
+          <h2>O que voce vai entender</h2>
+          <ul>
+            <li>O que as principais teorias dizem sobre <b>necessidades e motivacao</b> &mdash; e onde cada uma acerta e falha.</li>
+            <li>Como o <b>filtro de atencao</b> do cerebro decide o que voce percebe, e o que isso tem a ver com repeticao.</li>
+            <li>Por que <b>redes sociais</b> exploram o sistema de recompensa do mesmo jeito que um cassino.</li>
+            <li>Por que cortar distracao &mdash; a <b>Sindrome do Objeto Brilhante</b> &mdash; vale mais do que parece, e onde mora a vulnerabilidade de 2025.</li>
+          </ul>
+        </section>
+
+        <!-- SUMARIO -->
+        <nav class="toc" aria-label="Sumario da trilha" data-inema-toc>
+          <p class="toc-head">Sumario &mdash; seis movimentos</p>
+          <ol>
+            <li class="current"><span class="dot-now"></span><span class="n">1</span>
+              <a href="#topico-1"><span class="t">Necessidades Humanas</span></a></li>
+            <li><span class="n">2</span><a href="#topico-2"><span class="t">Atencao Seletiva e o SRAA</span></a><span class="leader"></span></li>
+            <li><span class="n">3</span><a href="#topico-3"><span class="t">A Neurociencia do Vicio</span></a><span class="leader"></span></li>
+            <li><span class="n">4</span><a href="#topico-4"><span class="t">A Sindrome do Objeto Brilhante</span></a><span class="leader"></span></li>
+            <li><span class="n">5</span><a href="#topico-5"><span class="t">Eficiencia x Distracao</span></a><span class="leader"></span></li>
+            <li><span class="n">6</span><a href="#topico-6"><span class="t">2025: a Principal Vulnerabilidade</span></a><span class="leader"></span></li>
+          </ol>
+        </nav>
+
+        <!-- ============================= SECAO 1 ============================= -->
+        <section id="topico-1"
+                 data-inema-topic="modulo-1#topico-1"
+                 data-inema-module="1"
+                 data-inema-track="1">
+          <div class="section-mark">
+            <span class="where">Secao 1 de 6</span><span>&middot;</span><span>Necessidades</span>
+          </div>
+          <h2 class="head"><span class="num">1.</span>Necessidades Humanas</h2>
+
+          <div class="prose">
+            <p class="lede dropcap" data-inema-block="m1-t1-p1">Antes de falar de foco, vale uma pergunta mais
+              antiga: <em>o que move uma pessoa?</em> Ao longo do seculo XX, varias teorias tentaram mapear as
+              necessidades e a motivacao humana. Nenhuma e a resposta final &mdash; cada uma ilumina um angulo e
+              deixa outro na sombra.<span class="sidenote-ref">1</span> Conhece-las e ganhar vocabulario para
+              entender o terreno em que a atencao depois sera disputada.</p>
+
+            <p data-inema-block="m1-t1-p2">A mais conhecida e a <strong>Piramide de Maslow</strong>, que organiza
+              as necessidades em cinco niveis &mdash; fisiologicas, seguranca, sociais, estima e auto-realizacao.
+              Sua forca e a clareza; sua fraqueza, supor que percorremos a piramide em ordem, quando na pratica
+              buscamos varios niveis ao mesmo tempo. A <strong>Teoria ERG, de Alderfer</strong>, reorganiza isso
+              em existencia, relacionamento e crescimento, e admite justamente o que falta a Maslow: que as
+              pessoas perseguem necessidades em paralelo, nao em fila.</p>
+
+            <h3 class="sub">Da motivacao no trabalho ao estado de fluxo</h3>
+
+            <p data-inema-block="m1-t1-p3">Outras teorias miram contextos especificos. A <strong>dos Dois
+              Fatores, de Herzberg</strong>, separa o que motiva de fato do que apenas evita a insatisfacao. A
+              <strong>da Autodeterminacao</strong> aposta na motivacao intrinseca e em tres necessidades
+              &mdash; autonomia, competencia e relacionamento. <strong>McClelland</strong> fala em afiliacao,
+              poder e realizacao; <strong>Vroom</strong>, em expectativa, instrumentalidade e valencia &mdash; a
+              motivacao como calculo entre esforco, desempenho e recompensa.</p>
+
+            <p data-inema-block="m1-t1-p4">Vale destacar a <strong>Teoria do Fluxo</strong>: o estado de imersao
+              total numa atividade que une prazer e produtividade. Ela aparece quando o desafio se equilibra com a
+              habilidade &mdash; e e <em>dificil de atingir em ambientes cheios de distracoes</em>. Guarde essa
+              ultima frase: ela e a ponte para tudo o que vem nesta trilha.</p>
+          </div>
+
+          <details class="go-deeper">
+            <summary><span class="chev">&#9656;</span> Indo mais fundo: por que nenhuma teoria fecha sozinha
+              <span class="opt">opcional</span></summary>
+            <div class="inner">
+              <p>O caminho-feliz acima ja basta para seguir. Esta camada e para quem quer entender por que ha
+                tantas teorias concorrentes &mdash; e pode ser pulada sem perda.</p>
+              <p>Cada modelo nasceu de uma pergunta diferente. Maslow e Alderfer perguntam <em>quais</em>
+                necessidades existem e como se ordenam. Herzberg e a Autodeterminacao perguntam <em>o que</em>
+                motiva no ambiente de trabalho. Vroom pergunta <em>como</em> a recompensa percebida vira esforco.
+                Por isso elas nao se anulam: respondem coisas distintas. A limitacao comum &mdash; apontada em
+                varias delas &mdash; e a base empirica fragil e a dificuldade de medir necessidades subjetivas em
+                contextos diversos. A leitura util nao e escolher a teoria "certa", e saber qual lente serve a
+                qual situacao.</p>
+            </div>
+          </details>
+        </section>
+
+        <!-- ============================= SECAO 2 ============================= -->
+        <section id="topico-2"
+                 data-inema-topic="modulo-1#topico-2"
+                 data-inema-module="1"
+                 data-inema-track="1">
+          <div class="section-mark">
+            <span class="where">Secao 2 de 6</span><span>&middot;</span><span>Atencao seletiva</span>
+          </div>
+          <h2 class="head"><span class="num">2.</span>Atencao Seletiva e o SRAA</h2>
+
+          <div class="prose">
+            <p class="lede" data-inema-block="m1-t2-p1">Seu cerebro recebe muito mais do que consegue notar. Por
+              isso existe um porteiro: o <strong>Sistema Reticular Ativador Ascendente</strong>, ou
+              <strong>SRAA</strong> &mdash; uma estrutura que regula o estado de vigilia e filtra quais estimulos
+              chegam ao cortex, decidindo, a cada instante, o que sobe a consciencia e o que fica de fora.<span class="sidenote-ref">2</span></p>
+
+            <p data-inema-block="m1-t2-p2">A escala da filtragem impressiona. Estima-se que o cerebro processe
+              cerca de 400 bilhoes de bytes de informacao por segundo, mas apenas algo na ordem de 2 mil bytes
+              alcance a consciencia. O resto fica abaixo da linha d'agua. Sem esse filtro, a sobrecarga seria
+              total &mdash; e o criterio que ele usa para decidir o que passa e, em boa parte, a
+              <em>relevancia percebida</em>.</p>
+
+            <h3 class="sub">O carro vermelho e o que voce "programa"</h3>
+
+            <p data-inema-block="m1-t2-p3">Dai vem o exemplo classico: ao desejar um carro vermelho, voce passa a
+              notar carros vermelhos por toda parte. A quantidade no mundo nao mudou &mdash; o que mudou foi o seu
+              foco. A repeticao de pensamentos, palavras e intencoes sinaliza ao SRAA que aquilo importa, e ele
+              passa a destacar no ambiente tudo que se correlaciona. O lado sombrio e simetrico: repetir
+              "nao vai dar certo" ensina o filtro a confirmar o pessimismo, varrendo o bom de cena.</p>
+
+            <p data-inema-block="m1-t2-p4">Convem uma ressalva honesta. A ideia popular de que repetir uma frase
+              exatamente 21 vezes a torna de "vital interesse" para o sistema <em>carece de respaldo
+              cientifico</em>. A formacao de habitos e a percepcao seletiva sao processos complexos, que envolvem
+              emocao, contexto e frequencia &mdash; e os mecanismos exatos ainda sao tema de estudo em
+              neurociencia. O efeito do foco e real; o numero magico, nao.</p>
+          </div>
+
+          <div class="predict">
+            <p class="lbl">Pare e preveja</p>
+            <p>Se o SRAA destaca aquilo em que voce repara com frequencia, o que acontece quando voce passa horas
+              por dia rolando um feed projetado para prender a atencao?</p>
+            <details>
+              <summary>Ver uma resposta possivel</summary>
+              <p class="answer">Voce treina o filtro para priorizar exatamente esses estimulos &mdash; e a notar
+                cada vez mais do mesmo. O que voce escolhe repetir, o cerebro aprende a destacar. E o tema da
+                proxima secao: como esse mecanismo e explorado de proposito.</p>
+            </details>
+          </div>
+        </section>
+
+        <!-- ============================= SECAO 3 ============================= -->
+        <section id="topico-3"
+                 data-inema-topic="modulo-1#topico-3"
+                 data-inema-module="1"
+                 data-inema-track="1">
+          <div class="section-mark">
+            <span class="where">Secao 3 de 6</span><span>&middot;</span><span>Vicio</span>
+          </div>
+          <h2 class="head"><span class="num">3.</span>A Neurociencia do Vicio</h2>
+
+          <div class="prose">
+            <p class="lede" data-inema-block="m1-t3-p1">Vicio nao e falta de forca de vontade &mdash; tem base
+              biologica. A neurociencia do vicio estuda como certas substancias e comportamentos sequestram os
+              circuitos cerebrais ligados a recompensa, a motivacao e ao autocontrole. E vale tanto para drogas
+              quanto para comportamentos: jogo, compras, comida e, cada vez mais, redes sociais.<span class="sidenote-ref">3</span></p>
+
+            <p data-inema-block="m1-t3-p2">Tres pecas do cerebro entram em cena. O <strong>sistema de
+              recompensa</strong> &mdash; nucleo accumbens e <strong>dopamina</strong> &mdash; dispara quando algo
+              da prazer. O <strong>cortex pre-frontal</strong>, centro do planejamento e do controle de impulsos,
+              tem sua atividade reduzida no vicio, o que enfraquece a capacidade de resistir. E a
+              <strong>amigdala</strong> com o <strong>hipocampo</strong> guardam memorias emocionais fortes
+              &mdash; os gatilhos que reacendem o desejo muito depois.</p>
+
+            <h3 class="sub">Por que a rede social funciona como cassino</h3>
+
+            <p data-inema-block="m1-t3-p3">As plataformas foram desenhadas para acionar esse sistema sem parar. O
+              motor central e a <strong>recompensa variavel intermitente</strong>: como uma maquina caca-niqueis,
+              as vezes vem o premio &mdash; like, comentario, notificacao &mdash; e as vezes nao. A incerteza e
+              justamente o que prende, mantendo voce no ciclo a espera da proxima dose de dopamina. Some a isso o
+              <strong>FOMO</strong> dos stories que somem em 24 horas e a <strong>validacao social</strong> que
+              transforma curtidas em necessidade.</p>
+
+            <p data-inema-block="m1-t3-p4">O custo aparece com o tempo. O excesso de estimulo causa
+              <em>dessensibilizacao</em>: conteudos comuns ficam entediantes, e o cerebro pede doses cada vez mais
+              intensas &mdash; a mesma tolerancia que o vicio quimico produz. Longe do celular, vem a abstinencia
+              em forma de ansiedade. O problema, conclui o campo, nao esta so no usuario: esta em como as
+              plataformas exploram vulnerabilidades reais do cerebro para maximizar o engajamento.</p>
+          </div>
+
+          <details class="go-deeper">
+            <summary><span class="chev">&#9656;</span> Indo mais fundo: como recalibrar o sistema de recompensa
+              <span class="opt">opcional</span></summary>
+            <div class="inner">
+              <p>Camada opcional &mdash; o que a propria literatura sugere para sair da prisao sem demonizar a
+                ferramenta.</p>
+              <p>Quase toda estrategia ataca o <em>gatilho</em> ou a <em>dose</em>. Reduzir notificacoes corta os
+                sinais que disparam o ciclo. Criar barreiras fisicas &mdash; o celular longe da cama, horarios
+                definidos &mdash; quebra o comportamento automatico. Substituir estimulos por atividades que
+                exigem esforco real e presenca (exercicio, por exemplo) ajuda a recalibrar a dopamina. Usar a rede
+                de forma intencional, criando em vez de so consumir, reduz o impacto; e periodos de detox digital
+                dao folego ao sistema de recompensa para voltar ao equilibrio. O objetivo nao e abstinencia
+                total, e uma relacao em que a tecnologia volta a ser ferramenta.</p>
+            </div>
+          </details>
+        </section>
+
+        <!-- ============================= SECAO 4 ============================= -->
+        <section id="topico-4"
+                 data-inema-topic="modulo-1#topico-4"
+                 data-inema-module="1"
+                 data-inema-track="1">
+          <div class="section-mark">
+            <span class="where">Secao 4 de 6</span><span>&middot;</span><span>Objeto brilhante</span>
+          </div>
+          <h2 class="head"><span class="num">4.</span>A Sindrome do Objeto Brilhante (SOS)</h2>
+
+          <div class="prose">
+            <p class="lede" data-inema-block="m1-t4-p1">Se a secao anterior foi sobre distracao consumida, esta e
+              sobre distracao <em>produzida</em>. A <strong>Sindrome do Objeto Brilhante</strong> e a tendencia a
+              largar o que esta em andamento sempre que surge uma nova ideia, ferramenta ou projeto mais
+              empolgante. Cada novidade brilha &mdash; e o foco escorre para ela, deixando para tras o que ja
+              estava perto de dar fruto.<span class="sidenote-ref">4</span></p>
+
+            <p data-inema-block="m1-t4-p2">O preco e concreto. Trocar de projeto antes de terminar desperdica
+              recursos &mdash; tempo, dinheiro, equipe &mdash; sem retorno real. Abandonar uma ideia que daria
+              certo se concluida custa oportunidades. E ha o custo invisivel do tempo de <em>ramp-up</em>: cada
+              comeco exige um periodo ate alcancar eficiencia, e quem pula de uma coisa para outra nunca colhe os
+              frutos desse aprendizado. Muitos projetos comecam; quase nenhum termina.</p>
+
+            <h3 class="sub">A disciplina de filtrar ideias</h3>
+
+            <p data-inema-block="m1-t4-p3">A defesa nao e parar de ter ideias &mdash; e filtrar. Comeca com
+              <strong>clareza de objetivos</strong>: quanto mais nitido o destino, mais facil perceber quando uma
+              novidade puxa para o lado errado. Vem entao a pergunta-filtro diante de cada tentacao: <em>isso
+              contribui de forma significativa para o meu objetivo principal?</em> Se nao resolve um problema real
+              nem se alinha as metas, talvez nao seja a hora. E a regra de ouro: so comece algo novo quando tiver
+              fechado ou sistematizado o que estava em andamento.</p>
+          </div>
+
+          <div class="predict">
+            <p class="lbl">Pare e preveja</p>
+            <p>Progresso lento nao e o mesmo que projeto ruim. Antes de pular para a proxima ideia brilhante, o
+              que voce olharia para decidir entre <em>continuar</em> ou <em>abandonar</em>?</p>
+            <details>
+              <summary>Ver uma resposta possivel</summary>
+              <p class="answer">Tendencias, nao apenas o numero do dia. Crescimento pequeno mas constante,
+                retencao subindo, feedback melhorando &mdash; sinais de progresso sustentavel pedem paciencia.
+                Estagnacao prolongada, custo de aquisicao sempre acima do valor do cliente ou tendencia de mercado
+                virando contra sao os sinais de que talvez seja hora de mudar o foco &mdash; por dado, nao por
+                tedio.</p>
+            </details>
+          </div>
+        </section>
+
+        <!-- ============================= SECAO 5 ============================= -->
+        <section id="topico-5"
+                 data-inema-topic="modulo-1#topico-5"
+                 data-inema-module="1"
+                 data-inema-track="1">
+          <div class="section-mark">
+            <span class="where">Secao 5 de 6</span><span>&middot;</span><span>Eficiencia</span>
+          </div>
+          <h2 class="head"><span class="num">5.</span>Eficiencia x Distracao</h2>
+
+          <div class="prose">
+            <p class="lede" data-inema-block="m1-t5-p1">Ha quem trate o foco como esporte de alto rendimento. O
+              investidor Kevin O'Leary, do programa <i>Shark Tank</i>, descreve assim a postura de Elon Musk: se
+              voce nao esta dizendo algo valioso, ele simplesmente vai embora &mdash; no meio da conversa, sem
+              pedir desculpas. Para O'Leary, Musk e Steve Jobs operavam na mesma frequencia, onde a distracao e
+              eliminada sem piedade.<span class="sidenote-ref">5</span></p>
+
+            <p data-inema-block="m1-t5-p2">A metafora que ele usa e simples. <strong>Sinal</strong> e o tempo
+              gasto avancando seus objetivos; <strong>ruido</strong> e todo o resto &mdash; distracoes, reunioes
+              inuteis, conversa fiada. Perder tempo demais com o segundo, diz O'Leary, e fracassar. Tanto Jobs
+              quanto Musk teriam dominado esse equilibrio. Nao e pessoal: e questao de eficiencia.</p>
+
+            <h3 class="sub">Sinal sobre ruido, em numeros</h3>
+
+            <p data-inema-block="m1-t5-p3">O'Leary, que trabalhou com Jobs na Apple, lembra reunioes em que ele
+              era brutalmente focado &mdash; ao ponto de cortar na hora uma proposta de gastar milhoes em pesquisa
+              de mercado, com a frase de que "ninguem sabe o que quer ate eu dizer". Na conta de O'Leary, Jobs era
+              cerca de "85% sinal, 15% ruido": ainda deixava algumas distracoes passarem. Musk seria o caso raro
+              de "100% sinal", o homem mais focado que ele ja conheceu. A postura pode soar arrogante, mas o
+              argumento e que foi ela &mdash; ignorar distracoes e decidir com confianca &mdash; que ajudou a
+              construir empresas que mudaram o mundo.</p>
+          </div>
+
+          <details class="go-deeper">
+            <summary><span class="chev">&#9656;</span> Indo mais fundo: o que guardar e o que relativizar
+              <span class="opt">opcional</span></summary>
+            <div class="inner">
+              <p>Camada opcional. A historia e inspiradora, mas vale ler com cuidado.</p>
+              <p>O nucleo aproveitavel e a distincao <em>sinal x ruido</em>: vale a pena, de fato, perguntar a cada
+                tarefa se ela avanca um objetivo ou apenas consome tempo. Esse e o fio que conecta esta secao a
+                Sindrome do Objeto Brilhante &mdash; ambas tratam de proteger o que importa do que so parece
+                urgente. Por outro lado, o relato de O'Leary descreve um estilo pessoal, nao uma receita universal:
+                tratar pessoas com aspereza nao e o que torna o foco eficaz, e os numeros ("85%", "100%") sao uma
+                figura de linguagem, nao uma medida. Fique com o principio &mdash; menos ruido, mais sinal &mdash;
+                e descarte a parte da grosseria.</p>
+            </div>
+          </details>
+        </section>
+
+        <!-- ============================= SECAO 6 ============================= -->
+        <section id="topico-6"
+                 data-inema-topic="modulo-1#topico-6"
+                 data-inema-module="1"
+                 data-inema-track="1">
+          <div class="section-mark">
+            <span class="where">Secao 6 de 6</span><span>&middot;</span><span>Vulnerabilidade</span>
+          </div>
+          <h2 class="head"><span class="num">6.</span>2025: a Principal Vulnerabilidade</h2>
+
+          <div class="prose">
+            <p class="lede" data-inema-block="m1-t6-p1">Aqui a trilha fecha o circulo. Em 2025, argumenta-se, a
+              principal vulnerabilidade das organizacoes deixa de ser <em>tecnica</em> e passa a ser
+              <em>humana</em>. Mesmo com firewalls, criptografia e infraestrutura reforcados, o elo mais fraco
+              continua sendo o comportamento das pessoas &mdash; o chamado <strong>algoritmo humano</strong>.<span class="sidenote-ref">6</span></p>
+
+            <p data-inema-block="m1-t6-p2">A consequencia e uma mudanca de foco da defesa. Do
+              <strong>perimetro</strong> de redes e pacotes para a <strong>defesa cognitiva</strong>: monitorar o
+              uso indevido da confianca, identificar manipulacoes sutis em mensagens &mdash; engenharia social,
+              phishing sofisticado, sobrecarga de decisao. Da simples <em>deteccao</em> para a
+              <em>previsao de padroes humanos</em>: antecipar, por exemplo, quando alguem esta sob fadiga digital
+              e mais propenso a clicar num link suspeito.</p>
+
+            <h3 class="sub">Do firewall na rede ao firewall na mente</h3>
+
+            <p data-inema-block="m1-t6-p3">Por isso a seguranca deixa de ser so tecnica e vira
+              <strong>educacional e comportamental</strong> &mdash; uma especie de <em>mindfulness digital</em>:
+              treinar equipes sobre vieses cognitivos, tecnicas de persuasao e desinformacao. E os silos dao lugar
+              a ecossistemas que integram TI, tecnologia operacional e seguranca fisica, ja que tudo esta
+              interligado. A sintese e direta: a seguranca se torna uma questao de
+              <strong>alfabetizacao cognitiva</strong>, onde o verdadeiro firewall e a mente treinada.</p>
+
+            <p data-inema-block="m1-t6-p4">Note como tudo se encaixa. As necessidades movem a pessoa; o SRAA
+              decide o que ela percebe; o vicio sequestra a recompensa; a Sindrome do Objeto Brilhante e a
+              distracao dispersam o foco. No fim, a propria seguranca passa a depender de uma atencao treinada.
+              Entender o orgao em disputa nao e curiosidade academica &mdash; e o pre-requisito de tudo o que vem
+              nas proximas trilhas.</p>
+          </div>
+        </section>
+
+        <!-- ============================= KNOWLEDGE CHECK ============================= -->
+        <section class="check" aria-label="Auto-checagem">
+          <h2>Antes de seguir: quatro checagens rapidas</h2>
+          <p class="intro">Sem nota, sem placar. Responda de cabeca, depois revele para comparar.</p>
+
+          <details class="q-item">
+            <summary><span class="qn">01</span><span>Por que voce passa a notar mais carros vermelhos ao desejar um?</span><span class="reveal">Revelar</span></summary>
+            <div class="ans"><p>O SRAA filtra a enxurrada de estimulos pela <em>relevancia percebida</em>. Ao
+              focar no carro vermelho, voce ensina o filtro a destaca-lo &mdash; a quantidade no mundo nao mudou,
+              o seu foco mudou.</p></div>
+          </details>
+          <details class="q-item">
+            <summary><span class="qn">02</span><span>Por que a rede social vicia como um cassino?</span><span class="reveal">Revelar</span></summary>
+            <div class="ans"><p>Pela <em>recompensa variavel intermitente</em>: as vezes vem o premio (like,
+              notificacao), as vezes nao. A incerteza prende o usuario a espera da proxima dose de dopamina, igual
+              a uma maquina caca-niqueis.</p></div>
+          </details>
+          <details class="q-item">
+            <summary><span class="qn">03</span><span>Qual o maior custo da Sindrome do Objeto Brilhante?</span><span class="reveal">Revelar</span></summary>
+            <div class="ans"><p>Trocar de projeto antes de terminar desperdica recursos, perde oportunidades e
+              joga fora o tempo de <em>ramp-up</em> &mdash; muitos comecos, quase nenhuma conclusao. A defesa e
+              filtrar ideias por alinhamento com o objetivo principal.</p></div>
+          </details>
+          <details class="q-item">
+            <summary><span class="qn">04</span><span>O que muda na seguranca de 2025, segundo a leitura da trilha?</span><span class="reveal">Revelar</span></summary>
+            <div class="ans"><p>A vulnerabilidade passa de tecnica a humana. A defesa migra do perimetro de redes
+              para a <em>defesa cognitiva</em> &mdash; o firewall vira a mente treinada, uma questao de
+              alfabetizacao cognitiva.</p></div>
+          </details>
+        </section>
+
+        <!-- ============================= MINHA JORNADA (painel consolidado) ============================= -->
+        <section class="journey" aria-label="Minha jornada — progresso consolidado">
+          <div class="journey-top">
+            <h2><span class="ico">&#10087;</span> Minha jornada</h2>
+            <button class="journey-cta" type="button" data-inema-journey-open>Abrir caderno &rarr;</button>
+          </div>
+          <div class="journey-body">
+            <div class="jstat">
+              <div class="k">Nesta trilha</div>
+              <div class="v" data-inema-meter="modulo:1">
+                <span data-inema-meter-frac><strong>0</strong> de 6</span> <span class="nm">secoes lidas</span>
+                <div class="progress-line"><span class="progress-line__fill" data-inema-meter-fill></span></div>
+              </div>
+            </div>
+            <div class="jstat">
+              <div class="k">Na trilha 1</div>
+              <div class="v" data-inema-meter="trilha:1">
+                <span data-inema-meter-frac><strong>0</strong> de 6</span> <span class="nm">topicos</span>
+                <div class="progress-line"><span class="progress-line__fill" data-inema-meter-fill></span></div>
+              </div>
+            </div>
+            <div class="jstat">
+              <div class="k">No curso</div>
+              <div class="v" data-inema-meter="curso">
+                <span data-inema-meter-frac><strong>0</strong> de 27</span> <span class="nm">percorrido</span>
+                <div class="progress-line"><span class="progress-line__fill" data-inema-meter-fill></span></div>
+              </div>
+            </div>
+          </div>
+        </section>
+
+        <!-- proxima acao (UMA clara) -->
+        <div class="nextup">
+          <div class="txt">
+            <div class="k">Continuar</div>
+            <div class="t">Trilha 2 &mdash; Percepcao &amp; Autoconhecimento</div>
+          </div>
+          <a class="go" href="t2.html">Proximo &rarr;</a>
+        </div>
+
+      </article>
+
+      <!-- ============================= TRILHO DE MARGEM ============================= -->
+      <aside class="margin-rail" aria-label="Margem: notas de autor, definicoes e seu painel de aprendizado">
+
+        <!-- ---- SECAO 1: painel do aluno (vazio; learn.js preenche) + sidenotes de autor ---- -->
+        <aside data-inema-rail="modulo-1#topico-1"></aside>
+
+        <aside class="sidenote" data-kind="definicao">
+          <div class="tag">Definicao</div>
+          <b>Motivacao intrinseca.</b> O impulso que vem da propria atividade &mdash; nao de premio ou punicao
+          externos. E o coracao da Teoria da Autodeterminacao: autonomia, competencia e relacionamento.
+        </aside>
+        <aside class="sidenote" data-kind="fundo">
+          <div class="tag">Indo mais fundo</div>
+          O <i>estado de fluxo</i> exige equilibrio entre desafio e habilidade &mdash; e some quando o ambiente
+          esta cheio de distracoes. Por isso esta secao abre a trilha: e a ponte para o tema do foco.
+        </aside>
+
+        <!-- ---- SECAO 2 ---- -->
+        <aside data-inema-rail="modulo-1#topico-2"></aside>
+
+        <aside class="sidenote" data-kind="definicao">
+          <div class="tag">Definicao</div>
+          <b>SRAA.</b> Sistema Reticular Ativador Ascendente: estrutura que regula a vigilia e filtra quais
+          estimulos sensoriais chegam ao cortex &mdash; o porteiro da sua atencao.
+        </aside>
+        <aside class="sidenote" data-kind="fonte">
+          <div class="tag">Fonte</div>
+          O numero "21 vezes" para fixar uma frase na atencao circula em conteudos populares, mas <i>carece de
+          respaldo cientifico</i>. O efeito do foco e real; a quantidade exata, nao.
+        </aside>
+
+        <!-- ---- SECAO 3 ---- -->
+        <aside data-inema-rail="modulo-1#topico-3"></aside>
+
+        <aside class="sidenote" data-kind="definicao">
+          <div class="tag">Definicao</div>
+          <b>Recompensa variavel intermitente.</b> Premio que chega de forma imprevisivel &mdash; as vezes sim,
+          as vezes nao. E o mecanismo da maquina caca-niqueis, e o motor do feed.
+        </aside>
+        <aside class="sidenote" data-kind="fundo">
+          <div class="tag">Indo mais fundo</div>
+          <i>Dessensibilizacao:</i> o excesso de estimulo cria tolerancia neural; o comum fica entediante e o
+          cerebro pede doses mais intensas &mdash; a mesma logica do vicio quimico.
+        </aside>
+
+        <!-- ---- SECAO 4 ---- -->
+        <aside data-inema-rail="modulo-1#topico-4"></aside>
+
+        <aside class="sidenote" data-kind="definicao">
+          <div class="tag">Definicao</div>
+          <b>Ramp-up.</b> O tempo necessario ate alcancar eficiencia em algo novo. Quem pula de projeto em projeto
+          paga esse custo toda vez e nunca colhe o aprendizado.
+        </aside>
+        <aside class="sidenote" data-kind="fundo">
+          <div class="tag">Indo mais fundo</div>
+          A pergunta-filtro resolve quase todo caso: <i>isso contribui de forma significativa para o meu objetivo
+          principal?</i> So comece algo novo quando tiver fechado o que estava em andamento.
+        </aside>
+
+        <!-- ---- SECAO 5 ---- -->
+        <aside data-inema-rail="modulo-1#topico-5"></aside>
+
+        <aside class="sidenote" data-kind="definicao">
+          <div class="tag">Definicao</div>
+          <b>Sinal x ruido.</b> Sinal e o tempo que avanca um objetivo; ruido e todo o resto. A metafora de Kevin
+          O'Leary para descrever o foco de Jobs e Musk.
+        </aside>
+        <aside class="sidenote" data-kind="fonte">
+          <div class="tag">Fonte</div>
+          O relato e de Kevin O'Leary, investidor do <i>Shark Tank</i>, em publicacao no X. As porcentagens
+          ("85%", "100% sinal") sao figura de linguagem, nao medida &mdash; guarde o principio, nao a grosseria.
+        </aside>
+
+        <!-- ---- SECAO 6 ---- -->
+        <aside data-inema-rail="modulo-1#topico-6"></aside>
+
+        <aside class="sidenote" data-kind="definicao">
+          <div class="tag">Definicao</div>
+          <b>Algoritmo humano.</b> O comportamento das pessoas como elo mais fraco da seguranca &mdash; alvo de
+          engenharia social e sobrecarga cognitiva, mesmo com a infraestrutura tecnica reforcada.
+        </aside>
+        <aside class="sidenote" data-kind="fundo" style="margin-bottom:0">
+          <div class="tag">Indo mais fundo</div>
+          A trilha fecha o circulo: necessidades, filtro de atencao, vicio e distracao convergem aqui &mdash; a
+          seguranca de 2025 vira <i>alfabetizacao cognitiva</i>, e o firewall passa a ser a mente treinada.
+        </aside>
+
+      </aside>
+
+    </div>
+  </main>
+
+  <!-- COLOFAO -->
+  <footer class="colophon">
+    <span>INEMA.NCIA &middot; Caderno do aluno</span>
+    <span class="pg">Trilha 1 &mdash; folio i</span>
+    <span>Composto em Spectral &amp; Source Serif 4</span>
+  </footer>
+
+  <!-- ===================================================================
+       FIM DO <body>: carrega + inicializa learn.js (caminho RELATIVO).
+       Idempotente: chamar init() mais de uma vez nao duplica listeners.
+       =================================================================== -->
+  <script src="../assets/learn.js"></script>
+  <script>
+    if (window.INEMA && typeof window.INEMA.init === 'function') {
+      window.INEMA.init();
+    }
+  </script>
+</body>
+</html>

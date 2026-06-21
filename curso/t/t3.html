@@ -1,0 +1,673 @@
+<!DOCTYPE html>
+<html lang="pt-BR" data-theme="papel">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+
+  <!-- ===================================================================
+       1) ANTI-FOUC — script BLOQUEANTE, PRIMEIRO no <head>, ANTES das fontes
+          e do learn.css. Le inema.prefs (global, cross-curso) e aplica
+          data-theme + color-scheme + --measure/--leading/--fontscale +
+          data-font/--font-disp/--font-body ANTES do primeiro paint.
+          try/catch total => default papel no erro (preserva a marca INEMA).
+       =================================================================== -->
+  <script>
+  (function () {
+    try {
+      var html = document.documentElement;
+      var DEF = { theme: 'papel', font: 'serif', fontScale: 100, lineWidth: 66, leading: 1.66 };
+      function clone(o) { var r = {}; for (var x in o) r[x] = o[x]; return r; }
+      var p = clone(DEF);
+      try {
+        var raw = localStorage.getItem('inema.prefs');
+        if (raw) {
+          var parsed = JSON.parse(raw);
+          if (parsed && typeof parsed === 'object') {
+            for (var k in DEF) if (parsed[k] != null) p[k] = parsed[k];
+          }
+        }
+      } catch (e) { p = clone(DEF); }
+
+      var THEMES = {
+        'papel':  { attr: 'papel',  cs: 'light' },
+        'sepia':  { attr: 'sepia',  cs: 'light' },
+        'escuro': { attr: 'escuro', cs: 'dark'  }
+      };
+      var t = THEMES[p.theme] || THEMES['papel'];
+      html.setAttribute('data-theme', t.attr);
+      html.style.colorScheme = t.cs;
+
+      var font = (p.font === 'sans' || p.font === 'hyperlegible') ? p.font : 'serif';
+      html.setAttribute('data-font', font);
+
+      var s = html.style;
+
+      var scale = (+p.fontScale || 100);
+      s.setProperty('--fontscale', scale + '%');
+      html.setAttribute('data-fontscale', String(scale));
+
+      var lw = (+p.lineWidth || 66);
+      s.setProperty('--measure', lw + 'ch');
+      html.setAttribute('data-line-width', lw <= 62 ? 'estreito' : (lw >= 70 ? 'largo' : 'medio'));
+
+      var lh = (+p.leading || 1.66);
+      s.setProperty('--leading', lh.toString());
+      html.setAttribute('data-leading', lh <= 1.66 ? 'compacto' : 'confortavel');
+
+      var DISP = {
+        serif: '"Spectral", Georgia, "Times New Roman", serif',
+        sans: 'ui-sans-serif, system-ui, -apple-system, "Segoe UI", Roboto, sans-serif',
+        hyperlegible: '"Atkinson Hyperlegible", system-ui, -apple-system, sans-serif'
+      };
+      var BODY = {
+        serif: '"Source Serif 4", Georgia, "Times New Roman", serif',
+        sans: 'ui-sans-serif, system-ui, -apple-system, "Segoe UI", Roboto, sans-serif',
+        hyperlegible: '"Atkinson Hyperlegible", system-ui, -apple-system, sans-serif'
+      };
+      s.setProperty('--font-disp', DISP[font] || DISP.serif);
+      s.setProperty('--font-body', BODY[font] || BODY.serif);
+    } catch (err) {
+      try {
+        document.documentElement.setAttribute('data-theme', 'papel');
+        document.documentElement.style.colorScheme = 'light';
+      } catch (e) {}
+    }
+  })();
+  </script>
+
+  <!-- 2) Identidade do curso + manifesto (courseId estavel + estrutura completa) -->
+  <meta name="inema-course" content="inema-ncia" />
+  <script type="application/json" data-inema-manifest>
+  {
+    "course": "inema-ncia",
+    "tracks": [
+      { "n":"1","title":"Neurociencia da Atencao","modules":[{"id":"1","title":"Neurociencia da Atencao & do Foco","topics":6,"href":"t/t1.html"}]},
+      { "n":"2","title":"Percepcao & Autoconhecimento","modules":[{"id":"2","title":"Percepcao & Autoconhecimento","topics":5,"href":"t/t2.html"}]},
+      { "n":"3","title":"Habitos & Determinacao","modules":[{"id":"3","title":"Habitos, Motivacao & Determinacao","topics":5,"href":"t/t3.html"}]},
+      { "n":"4","title":"Habilidades & Talentos","modules":[{"id":"4","title":"Habilidades & Talentos do Futuro","topics":3,"href":"t/t4.html"}]},
+      { "n":"5","title":"Persuasao & Viral","modules":[{"id":"5","title":"Persuasao & Psicologia Viral","topics":5,"href":"t/t5.html"}]},
+      { "n":"6","title":"Recursos do Canal","modules":[{"id":"6","title":"Recursos do Canal","topics":3,"href":"t/t6.html"}]}
+    ]
+  }
+  </script>
+
+  <title>Trilha 3 — Habitos, Motivacao &amp; Determinacao | INEMA.NCIA</title>
+
+  <!-- 3) Fontes (DEPOIS do anti-FOUC) -->
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Spectral:ital,wght@0,300;0,400;0,500;0,600;0,700;1,400;1,500&family=Source+Serif+4:ital,opsz,wght@0,8..60,400;0,8..60,500;0,8..60,600;1,8..60,400;1,8..60,500&family=IBM+Plex+Mono:wght@400;500&family=Atkinson+Hyperlegible:ital,wght@0,400;0,700;1,400&display=swap" rel="stylesheet" />
+
+  <!-- 4) Folha de estilos da camada de aprendizagem v3 (caminho RELATIVO) -->
+  <link rel="stylesheet" href="../assets/learn.css" />
+</head>
+
+<body>
+
+  <!-- SKIP LINK (primeiro focavel) -->
+  <a class="skip" href="#reading">Pular para o conteudo</a>
+
+  <!-- ===================== READER BAR — controles minimos ===================== -->
+  <div class="reader-bar">
+    <div class="reader-inner">
+      <a class="wordmark" href="../index.html">INEMA<span class="dot">.</span><span class="club">NCIA</span></a>
+      <div class="reader-controls" data-inema-appearance>
+        <span class="rc-read"><span data-inema-meter="modulo:3"><span data-inema-meter-frac><strong>0</strong> de 5</span></span> lidas</span>
+        <div class="rc-group" role="group" aria-label="Tema de leitura">
+          <button type="button" class="rc-btn" data-inema-set-theme="papel" aria-pressed="true">Papel</button>
+          <button type="button" class="rc-btn" data-inema-set-theme="sepia" aria-pressed="false">Sepia</button>
+          <button type="button" class="rc-btn" data-inema-set-theme="escuro" aria-pressed="false">Escuro</button>
+        </div>
+        <div class="rc-group" role="group" aria-label="Fonte de leitura">
+          <button type="button" class="rc-btn" data-inema-set-font="serif" aria-pressed="true">Serif</button>
+          <button type="button" class="rc-btn" data-inema-set-font="sans" aria-pressed="false">Sans</button>
+          <button type="button" class="rc-btn" data-inema-set-font="hyperlegible" aria-pressed="false" title="Atkinson Hyperlegible — legibilidade maxima">Aa&#8633;</button>
+        </div>
+        <div class="rc-group" role="group" aria-label="Tamanho do texto">
+          <button type="button" class="rc-btn" data-inema-set-fontscale="100" aria-pressed="true">A</button>
+          <button type="button" class="rc-btn" data-inema-set-fontscale="112" aria-pressed="false">A+</button>
+          <button type="button" class="rc-btn" data-inema-set-fontscale="125" aria-pressed="false">A++</button>
+        </div>
+        <div class="rc-group" role="group" aria-label="Largura da linha">
+          <button type="button" class="rc-btn" data-inema-set-linewidth="62" aria-pressed="false">Estreito</button>
+          <button type="button" class="rc-btn" data-inema-set-linewidth="66" aria-pressed="true">Medio</button>
+          <button type="button" class="rc-btn" data-inema-set-linewidth="70" aria-pressed="false">Largo</button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ===================== MASTHEAD + WAYFINDING ===================== -->
+  <header class="masthead">
+    <nav class="wayfind" aria-label="Onde voce esta">
+      <span><a href="../index.html" style="text-decoration:none">INEMA.NCIA</a></span>
+      <span class="sep">&middot;</span>
+      <span>Trilha <b>3</b> Habitos &amp; Determinacao</span>
+      <span class="sep">&middot;</span>
+      <span data-inema-section-counter>Secao 1 de 5</span>
+      <span class="sep">&middot;</span>
+      <button type="button" data-inema-journey-open>
+        Minha jornada <span class="inema-journey-badge" data-inema-journey-badge data-count="0">0</span>
+      </button>
+    </nav>
+  </header>
+
+  <!-- ===================== SPREAD: coluna de leitura + trilho de margem ===================== -->
+  <main class="spread">
+    <div class="leaf">
+
+      <!-- ============================= COLUNA DE LEITURA ============================= -->
+      <article class="reading" id="reading">
+
+        <!-- abertura da trilha -->
+        <p class="kicker">Trilha 3 &middot; INEMA.NCIA</p>
+        <h1 class="module">Habitos, Motivacao &amp; <em>Determinacao</em></h1>
+        <p class="deck">Motivacao e clima; determinacao e estrutura. A diferenca entre as duas, a permissao
+          interna para vencer, e as rotinas que sustentam o jogo longo quando o animo acaba.</p>
+        <p class="read-meta">
+          <span class="here">Lendo agora</span>
+          <span>~22 min &middot; trilha inteira</span>
+          <span>5 secoes</span>
+        </p>
+
+        <!-- objetivos: o que voce vai entender -->
+        <section class="aims" aria-label="O que voce vai entender">
+          <h2>O que voce vai entender</h2>
+          <ul>
+            <li>Por que a <b>motivacao</b> e passageira e a <b>determinacao</b> e o que sustenta o resultado.</li>
+            <li>Como a <b>permissao</b> interna decide o que voce aceita conquistar &mdash; mesmo com capacidade.</li>
+            <li>Por que a <b>primeira hora</b> e quimicamente o melhor momento para aprender e por onde comecar.</li>
+            <li>Como transformar tudo isso em <b>rotina</b>: cinco horas semanais e dez poderes que viram sistema.</li>
+          </ul>
+        </section>
+
+        <!-- SUMARIO -->
+        <nav class="toc" aria-label="Sumario da trilha" data-inema-toc>
+          <p class="toc-head">Sumario &mdash; cinco movimentos</p>
+          <ol>
+            <li class="current"><span class="dot-now"></span><span class="n">1</span>
+              <a href="#topico-1"><span class="t">Motivacao x determinacao</span></a></li>
+            <li><span class="n">2</span><a href="#topico-2"><span class="t">Permissao para ter sucesso</span></a><span class="leader"></span></li>
+            <li><span class="n">3</span><a href="#topico-3"><span class="t">A regra da primeira hora da manha</span></a><span class="leader"></span></li>
+            <li><span class="n">4</span><a href="#topico-4"><span class="t">As cinco horas semanais</span></a><span class="leader"></span></li>
+            <li><span class="n">5</span><a href="#topico-5"><span class="t">Os dez poderes do sabio</span></a><span class="leader"></span></li>
+          </ol>
+        </nav>
+
+        <!-- ============================= SECAO 1 ============================= -->
+        <section id="topico-1"
+                 data-inema-topic="modulo-3#topico-1"
+                 data-inema-module="3"
+                 data-inema-track="3">
+          <div class="section-mark">
+            <span class="where">Secao 1 de 5</span><span>&middot;</span><span>Motivacao x determinacao</span>
+          </div>
+          <h2 class="head"><span class="num">1.</span>Motivacao x determinacao</h2>
+
+          <div class="prose">
+            <p class="lede dropcap" data-inema-block="m3-t1-p1">O grande erro de quem nao avanca quase nunca e a
+              falta de vontade &mdash; e o tipo de combustivel em que aposta. <span class="sidenote-ref">1</span>A
+              motivacao vem de fora: o video inspirador, a frase de efeito, a opiniao alheia. Ela e como um foguete
+              sem combustivel: sobe rapido e cai logo, porque tudo o que vem de fora e temporario. Quando o brilho da
+              inspiracao acaba, sobra a tarefa intacta &mdash; e nenhum animo para fazer.</p>
+
+            <p data-inema-block="m3-t1-p2">A <em>determinacao</em> e de outra natureza. Ela nao nasce de palavras
+              de terceiros: nasce dentro de voce, construida sobre um proposito claro, metas solidas e um plano de
+              acao. Nao depende de aplausos nem de humor. Ela cresce no instante em que voce decide, de verdade, que
+              vai fazer acontecer &mdash; e segue firme quando ninguem esta olhando, no dia chuvoso, com sono, antes
+              de qualquer resultado aparecer.</p>
+
+            <h3 class="sub">Dois conceitos diferentes, mas complementares</h3>
+
+            <p data-inema-block="m3-t1-p3">Nao se trata de escolher um e descartar o outro. A motivacao e o
+              <strong>impulso inicial</strong>: o &ldquo;porque&rdquo; que faz comecar &mdash; flutuante,
+              emocional, dependente de fatores internos e externos. A determinacao e a <strong>continuidade</strong>:
+              o compromisso com o objetivo apesar dos obstaculos &mdash; solida, racional, feita de disciplina e
+              habito. Motivacao e decidir correr a maratona; determinacao e treinar todos os dias, mesmo sob
+              chuva.<span class="sidenote-ref">2</span></p>
+          </div>
+
+          <!-- recall ativo: pare e preveja -->
+          <div class="predict">
+            <p class="lbl">Pare e preveja</p>
+            <p>Voce comecou um curso empolgado e parou na terceira semana. O entusiasmo era real &mdash; entao o que
+              faltou para chegar ao fim?</p>
+            <details>
+              <summary>Ver uma resposta possivel</summary>
+              <p class="answer">Faltou <strong>determinacao</strong>, nao motivacao. O entusiasmo cumpriu o papel
+                dele &mdash; te fez comecar. Mas ele e fogo de palha: acende rapido e se apaga na primeira
+                dificuldade. O que leva ao fim e fazer mesmo sem vontade, sustentado por disciplina, objetivos
+                claros e um plano para quando o animo acabar.</p>
+            </details>
+          </div>
+
+          <div class="prose">
+            <p data-inema-block="m3-t1-p4">Ha uma armadilha sutil aqui: para muita gente, a motivacao funciona como
+              <em>autoengano</em>. Assistir a algo inspirador libera dopamina e da a sensacao de progresso &mdash;
+              mesmo sem nada concreto ter sido feito. E uma satisfacao ilusoria que paralisa a acao, porque e mais
+              confortavel buscar a proxima inspiracao do que enfrentar a dureza do processo. A verdadeira
+              satisfacao vem de fazer, nao de sentir.</p>
+          </div>
+
+          <!-- indo mais fundo: divulgacao progressiva -->
+          <details class="go-deeper">
+            <summary><span class="chev">&#9656;</span> Indo mais fundo: as quatro pernas da determinacao
+              <span class="opt">opcional</span></summary>
+            <div class="inner">
+              <p>O caminho-feliz acima ja basta para usar a ideia. Esta camada detalha o que sustenta a
+                determinacao quando a motivacao se ausenta &mdash; e pode ser pulada sem perda.</p>
+              <p>A determinacao forte costuma se apoiar em quatro pernas. <b>Clareza de proposito</b>: saber, de
+                forma honesta, por que voce esta fazendo isso. <b>Disciplina</b>: a capacidade de seguir mesmo
+                nos dias dificeis. <b>Compromisso</b>: fazer o que precisa ser feito, independentemente das
+                circunstancias. E <b>resiliencia</b>: a forca de continuar diante do fracasso. Repare que nenhuma
+                delas depende de estar inspirado &mdash; sao estruturas, nao estados de animo.</p>
+              <p>Por isso a pratica e: cultive a motivacao para renovar o entusiasmo (visualize o proposito,
+                celebre pequenos avancos) e fortaleca a determinacao para sustentar o trabalho (crie rotinas,
+                foque nos avancos minimos). Uma acende; a outra mantem acesa.</p>
+            </div>
+          </details>
+        </section>
+
+        <!-- ============================= SECAO 2 ============================= -->
+        <section id="topico-2"
+                 data-inema-topic="modulo-3#topico-2"
+                 data-inema-module="3"
+                 data-inema-track="3">
+          <div class="section-mark">
+            <span class="where">Secao 2 de 5</span><span>&middot;</span><span>Permissao</span>
+          </div>
+          <h2 class="head"><span class="num">2.</span>Permissao para ter sucesso</h2>
+
+          <div class="prose">
+            <p class="lede" data-inema-block="m3-t2-p1">Voce pode ter <em>capacidade</em> &mdash; conhecimento e
+              habilidade &mdash; e <em>disposicao</em> &mdash; energia e esforco &mdash; e ainda assim nao avancar.
+              Falta uma terceira peca, quase sempre invisivel: a <strong>permissao</strong>.<span class="sidenote-ref">3</span>
+              Permissao e o nivel de aceitacao, interna e externa, que voce tem para alcancar um resultado. E o que
+              voce acredita que pode ter, conquistar ou viver sem culpa, sem medo e sem autossabotagem.</p>
+
+            <p data-inema-block="m3-t2-p2">Sem permissao, voce encontra sempre um jeito de voltar ao
+              &ldquo;ponto de conforto&rdquo;. Se, no fundo, ganhar mais dinheiro parece perigoso, ou capaz de te
+              afastar da familia, ou de te tornar &ldquo;uma pessoa diferente&rdquo;, voce vai se sabotar &mdash;
+              recusando a promocao, cobrando menos do que vale, gastando tudo assim que cresce. Nao por falta de
+              competencia, mas porque o cerebro ainda nao aceitou a nova realidade. Por isso pessoas extremamente
+              qualificadas as vezes ganham menos que pessoas com metade da qualificacao.</p>
+
+            <h3 class="sub">Onde o bloqueio se esconde</h3>
+
+            <p data-inema-block="m3-t2-p3">Permissao nao e so sobre dinheiro: ela atravessa todas as areas. O
+              profissional que nao se candidata a promocao &ldquo;porque ainda nao esta pronto&rdquo;. A pessoa que
+              sabota um relacionamento saudavel porque &ldquo;e bom demais para ser verdade&rdquo;. Quem associa
+              descanso a preguica e nunca tira ferias. O jovem que esconde a propria vocacao por medo da
+              desaprovacao. Em todos, a frase muda, mas a raiz e a mesma: um limite invisivel sobre o que se aceita
+              para si.<span class="sidenote-ref">4</span></p>
+          </div>
+
+          <div class="predict">
+            <p class="lbl">Pare e preveja</p>
+            <p>Uma pessoa quer muito avancar, sabe exatamente o que fazer, mas nao age &mdash; e acaba desistindo.
+              Como saber se o problema e falta de permissao ou so falta de prioridade?</p>
+            <details>
+              <summary>Ver uma resposta possivel</summary>
+              <p class="answer">Pela emocao ao desistir. Se ao parar a pessoa sente <strong>alivio</strong>, era uma
+                escolha consciente &mdash; ela simplesmente nao queria pagar o preco. Se sente
+                <strong>frustracao e arrependimento</strong>, era falta de permissao: ela queria, mas um bloqueio
+                interno a impediu de se autorizar a seguir.</p>
+            </details>
+          </div>
+
+          <!-- indo mais fundo -->
+          <details class="go-deeper">
+            <summary><span class="chev">&#9656;</span> Indo mais fundo: querer o topo, recusar o caminho
+              <span class="opt">opcional</span></summary>
+            <div class="inner">
+              <p>Camada opcional. Nem todo bloqueio e permissao &mdash; e importante nao confundir.</p>
+              <p>Ha quem queira o topo da montanha mas nao queira enfrentar a subida: fascinio pelo sucesso,
+                rejeicao ao esforco. Essa pessoa olha so o resultado de quem chegou la e ignora os anos de jornada
+                que vieram antes &mdash; compara bastidor com palco final, busca atalhos que nao existem e desanima
+                quando a realidade do processo aparece. Aqui o travamento nao e permissao: e a ilusao de que existe
+                um caminho facil.</p>
+              <p>A saida pratica e a mesma em qualquer caso: aceitar que todo sucesso tem um preco, parar de
+                comparar o seu comeco com o auge do outro, ajustar expectativas e focar no <em>primeiro passo</em>
+                &mdash; porque quem so olha para o topo se assusta e desiste antes de comecar. E quando o bloqueio
+                for de fato permissao, ela pode ser expandida: o primeiro passo e reconhecer onde estao os limites
+                invisiveis.</p>
+            </div>
+          </details>
+        </section>
+
+        <!-- ============================= SECAO 3 ============================= -->
+        <section id="topico-3"
+                 data-inema-topic="modulo-3#topico-3"
+                 data-inema-module="3"
+                 data-inema-track="3">
+          <div class="section-mark">
+            <span class="where">Secao 3 de 5</span><span>&middot;</span><span>1a hora</span>
+          </div>
+          <h2 class="head"><span class="num">3.</span>A regra da primeira hora da manha</h2>
+
+          <div class="prose">
+            <p class="lede" data-inema-block="m3-t3-p1">A regra e simples: use a <em>primeira hora do dia</em> de
+              forma intencional &mdash; para aprender, ler e refletir &mdash; sem estimulos digitais excessivos.
+              Cafe, leitura, pensamento; nada de redes sociais. E a regra atribuida a Jeff Bezos, que reserva esse
+              tempo para ler e pensar, nao para checar o celular.<span class="sidenote-ref">5</span> O ponto nao e
+              acordar as cinco da manha, e sim proteger a primeira hora, qualquer que seja o horario em que voce
+              acorda.</p>
+
+            <p data-inema-block="m3-t3-p2">Por que a primeira hora, e nao qualquer outra? Porque o cerebro recem
+              desperto e quimicamente um terreno fertil para aprender. Ainda sob o efeito do ciclo de sono, ele
+              opera com niveis altos de dopamina, noradrenalina e acetilcolina &mdash; o que eleva a
+              <em>plasticidade sinaptica</em>, a capacidade de formar e fortalecer conexoes. Ler quinze minutos ao
+              acordar tende a gerar mais retencao do que ler a noite, depois de um dia inteiro de decisoes.</p>
+
+            <h3 class="sub">Carga cognitiva baixa, memoria que consolida</h3>
+
+            <p data-inema-block="m3-t3-p3">Somam-se dois fatores. Primeiro, a <strong>carga cognitiva baixa</strong>:
+              de manha o cortex pre-frontal &mdash; sede do raciocinio e da decisao &mdash; esta descansado, e
+              entende um conceito dificil com mais facilidade do que no fim do expediente. Segundo, a
+              <strong>consolidacao da memoria</strong>: ela acontece no hipocampo durante o sono e se reforca com
+              revisao logo apos acordar. Aprender algo cedo e revisita-lo ao longo do dia ajuda a transferir o
+              conteudo para a memoria de longo prazo.<span class="sidenote-ref">6</span></p>
+          </div>
+
+          <div class="predict">
+            <p class="lbl">Pare e preveja</p>
+            <p>Antes de continuar: por que substituir a rolagem matinal de feed por quinze minutos de leitura
+              focada muda tanto o resto do dia &mdash; e nao so a primeira hora?</p>
+            <details>
+              <summary>Ver uma resposta possivel</summary>
+              <p class="answer">Porque a primeira hora preserva (ou desperdica) a energia mental e o foco que voce
+                vai gastar nas horas seguintes. Trocar o doom-scrolling por aprendizado direcionado aproveita a
+                janela de maior plasticidade e carga cognitiva baixa &mdash; e ainda evita comecar o dia ja
+                fragmentando a atencao com estimulos rapidos.</p>
+            </details>
+          </div>
+        </section>
+
+        <!-- ============================= SECAO 4 ============================= -->
+        <section id="topico-4"
+                 data-inema-topic="modulo-3#topico-4"
+                 data-inema-module="3"
+                 data-inema-track="3">
+          <div class="section-mark">
+            <span class="where">Secao 4 de 5</span><span>&middot;</span><span>5 horas</span>
+          </div>
+          <h2 class="head"><span class="num">4.</span>As cinco horas semanais</h2>
+
+          <div class="prose">
+            <p class="lede" data-inema-block="m3-t4-p1">A <em>regra das cinco horas</em> &mdash; popularizada por
+              Michael Simmons ao observar habitos de Benjamin Franklin, Elon Musk, Oprah Winfrey e Bill Gates
+              &mdash; significa dedicar, de proposito, ao menos cinco horas por semana ao <strong>aprendizado
+              deliberado</strong>. Cerca de uma hora por dia util. Nao e &ldquo;aprender no caminho&rdquo; conforme
+              os problemas surgem: e reservar tempo para estudar, praticar e refletir com um objetivo
+              claro.<span class="sidenote-ref">7</span></p>
+
+            <p data-inema-block="m3-t4-p2">O diferencial nao esta nas horas em si, mas em tres condicoes:
+              <strong>constancia</strong> (todos os dias uteis, sem deixar para &ldquo;quando sobrar tempo&rdquo;),
+              <strong>foco deliberado</strong> (escolher o que aprender e definir metas, em vez de consumir
+              conteudo de forma passiva) e <strong>mensuracao</strong> (registrar avancos e pontos de melhoria).
+              Espacar o aprendizado ao longo da semana, em vez de acumular tudo de uma vez, contraria a curva do
+              esquecimento de Ebbinghaus e fixa mais conteudo.</p>
+
+            <h3 class="sub">O efeito cumulativo e o que assusta</h3>
+
+            <p data-inema-block="m3-t4-p3">Cinco horas por semana parecem pouco &mdash; ate voce somar. Sao
+              <strong>260 horas por ano</strong>, mais de trinta dias inteiros de estudo. Em tres anos, 780 horas,
+              o equivalente a uma pos-graduacao pratica. Em dez anos, 2.600 horas: quase um doutorado em experiencia
+              aplicada. E poucos mantem a rotina, justamente porque o urgente devora o importante, o objetivo fica
+              vago e, sem medir o progresso, parece que nada mudou.<span class="sidenote-ref">8</span></p>
+          </div>
+
+          <!-- indo mais fundo -->
+          <details class="go-deeper">
+            <summary><span class="chev">&#9656;</span> Indo mais fundo: um ciclo semanal de cinco blocos
+              <span class="opt">opcional</span></summary>
+            <div class="inner">
+              <p>Camada opcional &mdash; uma forma concreta de distribuir as cinco horas pela semana, seguindo o
+                ritmo <em>ler &rarr; praticar &rarr; revisar &rarr; aplicar &rarr; planejar</em>.</p>
+              <div class="codeblock"><span class="c"># Um bloco de ~1h por dia util</span>
+<span class="k">Segunda:</span> leitura e estudo      &mdash; absorver conceitos novos
+<span class="k">Terca:</span>   pratica guiada         &mdash; transformar teoria em acao
+<span class="k">Quarta:</span>  revisao e anotacoes    &mdash; consolidar o aprendido
+<span class="k">Quinta:</span>  aplicacao real         &mdash; gerar resultado tangivel
+<span class="k">Sexta:</span>   reflexao e planejamento &mdash; preparar o proximo ciclo</div>
+              <p>Misturar formatos &mdash; leitura, pratica, cursos, debate, analise critica &mdash; reforca areas
+                diferentes do cerebro. E o registro num diario de aprendizado, somado a feedback de mentores ou de
+                uma comunidade, e o que acelera a evolucao e impede a sensacao de estagnacao.</p>
+            </div>
+          </details>
+        </section>
+
+        <!-- ============================= SECAO 5 ============================= -->
+        <section id="topico-5"
+                 data-inema-topic="modulo-3#topico-5"
+                 data-inema-module="3"
+                 data-inema-track="3">
+          <div class="section-mark">
+            <span class="where">Secao 5 de 5</span><span>&middot;</span><span>10 poderes</span>
+          </div>
+          <h2 class="head"><span class="num">5.</span>Os dez poderes do sabio</h2>
+
+          <div class="prose">
+            <p class="lede" data-inema-block="m3-t5-p1">Reuna dez livros nao ficcionais que se completam e voce
+              tera um &ldquo;guia de vida condensado&rdquo;. Cada obra carrega um <em>poder</em> &mdash; uma virtude
+              pratica &mdash; e juntos formam uma base para crescimento, produtividade e bem-estar. A ideia desta
+              secao nao e resumir cada livro, e mostrar como esses poderes viram um <strong>sistema</strong> de dia
+              a dia.<span class="sidenote-ref">9</span></p>
+
+            <p data-inema-block="m3-t5-p2">Os dez poderes, com a obra-base de cada um: <em>Constancia</em>
+              (Atomic Habits), <em>Disciplina</em> (The 5 AM Club), <em>Gratidao</em> (The Gap and the Gain),
+              <em>Clareza</em> (Thinking, Fast and Slow), <em>Aprendizado</em> (Limitless), <em>Resiliencia</em>
+              (13 Things Mentally Strong People Don&rsquo;t Do), <em>Principios</em> (The 7 Habits of Highly
+              Effective People), <em>Consciencia</em> (Sapiens), <em>Prosperidade</em> (Rich Dad, Poor Dad) e
+              <em>Visao</em> (A Brief History of Time).</p>
+
+            <h3 class="sub">De lista de livros a rotina integrada</h3>
+
+            <p data-inema-block="m3-t5-p3">Em pratica, isso vira um dia simples. Comece pequeno: mude
+              <strong>1% por dia</strong> e foque em <em>quem voce quer ser</em> &mdash; nao &ldquo;quero ler
+              mais&rdquo;, mas &ldquo;sou uma pessoa que le todos os dias&rdquo;. Estruture a primeira hora no
+              formato <strong>20/20/20</strong>: vinte minutos de movimento, vinte de reflexao, vinte de
+              aprendizado. Ao longo do dia, ative o <em>pensamento lento</em> para decisoes que importam e corte,
+              um de cada vez, os comportamentos de autossabotagem. A noite, anote tres conquistas &mdash; olhar o
+              ganho, nao a lacuna &mdash; e planeje o amanha.<span class="sidenote-ref">10</span></p>
+          </div>
+
+          <div class="predict">
+            <p class="lbl">Pare e preveja</p>
+            <p>De todos esses poderes, qual deles &mdash; se cultivado primeiro &mdash; tende a destravar todos os
+              outros, dado tudo o que esta trilha discutiu ate aqui?</p>
+            <details>
+              <summary>Ver uma resposta possivel</summary>
+              <p class="answer">A <strong>constancia</strong> &mdash; o poder dos habitos atomicos. E ela que
+                transforma motivacao passageira em determinacao estavel (Secao 1), sustenta a primeira hora (Secao
+                3) e torna possivel as cinco horas semanais (Secao 4). Sem constancia, os outros nove poderes viram
+                so boas intencoes.</p>
+            </details>
+          </div>
+
+          <div class="prose">
+            <p data-inema-block="m3-t5-p4">Guarde esta trilha como uma unica frase: <em>a motivacao acende, a
+              determinacao mantem, a permissao autoriza &mdash; e o habito, repetido na primeira hora e ao longo da
+              semana, e o que torna tudo isso inevitavel.</em> Nenhum dos poderes age sozinho; o valor esta em
+              roda-los como sistema, um passo minimo de cada vez.</p>
+          </div>
+        </section>
+
+        <!-- ============================= KNOWLEDGE CHECK ============================= -->
+        <section class="check" aria-label="Auto-checagem">
+          <h2>Antes de seguir: quatro checagens rapidas</h2>
+          <p class="intro">Sem nota, sem placar. Responda de cabeca, depois revele para comparar.</p>
+
+          <details class="q-item">
+            <summary><span class="qn">01</span><span>Por que confiar so na motivacao costuma falhar a medio prazo?</span><span class="reveal">Revelar</span></summary>
+            <div class="ans"><p>Porque a motivacao vem de fora e e temporaria &mdash; acende rapido e se apaga na
+              primeira dificuldade. O que sustenta o resultado e a <em>determinacao</em>: proposito claro,
+              disciplina, compromisso e resiliencia, que nao dependem de estar inspirado.</p></div>
+          </details>
+          <details class="q-item">
+            <summary><span class="qn">02</span><span>Como distinguir falta de permissao de simples falta de prioridade?</span><span class="reveal">Revelar</span></summary>
+            <div class="ans"><p>Pela emocao ao desistir. <em>Alivio</em> indica escolha consciente (prioridade);
+              <em>frustracao e arrependimento</em> indicam bloqueio interno &mdash; falta de permissao para se
+              autorizar a seguir.</p></div>
+          </details>
+          <details class="q-item">
+            <summary><span class="qn">03</span><span>Por que a primeira hora do dia e a melhor janela para aprender?</span><span class="reveal">Revelar</span></summary>
+            <div class="ans"><p>Plasticidade sinaptica elevada (dopamina, noradrenalina, acetilcolina altas ao
+              acordar), carga cognitiva baixa (cortex pre-frontal descansado) e consolidacao da memoria reforcada
+              pela revisao logo apos o sono.</p></div>
+          </details>
+          <details class="q-item">
+            <summary><span class="qn">04</span><span>O que torna as cinco horas semanais tao potentes no longo prazo?</span><span class="reveal">Revelar</span></summary>
+            <div class="ans"><p>O efeito cumulativo somado a constancia, foco deliberado e mensuracao: 260 horas por
+              ano, 780 em tres anos, 2.600 em dez &mdash; aprendizado intencional e espacado, nao casual.</p></div>
+          </details>
+        </section>
+
+        <!-- ============================= MINHA JORNADA (painel consolidado) ============================= -->
+        <section class="journey" aria-label="Minha jornada — progresso consolidado">
+          <div class="journey-top">
+            <h2><span class="ico">&#10087;</span> Minha jornada</h2>
+            <button class="journey-cta" type="button" data-inema-journey-open>Abrir caderno &rarr;</button>
+          </div>
+          <div class="journey-body">
+            <div class="jstat">
+              <div class="k">Nesta trilha</div>
+              <div class="v" data-inema-meter="modulo:3">
+                <span data-inema-meter-frac><strong>0</strong> de 5</span> <span class="nm">secoes lidas</span>
+                <div class="progress-line"><span class="progress-line__fill" data-inema-meter-fill></span></div>
+              </div>
+            </div>
+            <div class="jstat">
+              <div class="k">Na trilha 3</div>
+              <div class="v" data-inema-meter="trilha:3">
+                <span data-inema-meter-frac><strong>0</strong> de 5</span> <span class="nm">topicos</span>
+                <div class="progress-line"><span class="progress-line__fill" data-inema-meter-fill></span></div>
+              </div>
+            </div>
+            <div class="jstat">
+              <div class="k">No curso</div>
+              <div class="v" data-inema-meter="curso">
+                <span data-inema-meter-frac><strong>0</strong> de 27</span> <span class="nm">percorrido</span>
+                <div class="progress-line"><span class="progress-line__fill" data-inema-meter-fill></span></div>
+              </div>
+            </div>
+          </div>
+        </section>
+
+        <!-- proxima acao (UMA clara) -->
+        <div class="nextup">
+          <div class="txt">
+            <div class="k">Continuar</div>
+            <div class="t">Trilha 4 &mdash; Habilidades &amp; Talentos do Futuro</div>
+          </div>
+          <a class="go" href="t4.html">Proximo &rarr;</a>
+        </div>
+
+      </article>
+
+      <!-- ============================= TRILHO DE MARGEM ============================= -->
+      <aside class="margin-rail" aria-label="Margem: notas de autor, definicoes e seu painel de aprendizado">
+
+        <!-- ---- SECAO 1: painel do aluno (vazio; learn.js preenche) + sidenotes de autor ---- -->
+        <aside data-inema-rail="modulo-3#topico-1"></aside>
+
+        <aside class="sidenote" data-kind="definicao">
+          <div class="tag">Definicao</div>
+          <b>Determinacao.</b> Compromisso continuo com um objetivo, apesar de obstaculos. Diferente da motivacao,
+          nao depende de humor nem de estimulo externo: e solida, racional, feita de disciplina e habito.
+        </aside>
+        <aside class="sidenote" data-kind="fundo">
+          <div class="tag">Indo mais fundo</div>
+          Motivacao como <i>autoengano</i>: assistir a algo inspirador libera dopamina e da sensacao de progresso
+          sem nada concreto feito &mdash; uma satisfacao ilusoria que paralisa a acao real.
+        </aside>
+        <aside class="sidenote" data-kind="fonte">
+          <div class="tag">Fonte</div>
+          A distincao entre impulso e constancia dialoga com <i>Poder Sem Limites</i>, de Anthony Robbins, que
+          trata controle emocional, foco e habitos positivos como estrategias treinaveis &mdash; nao sorte.
+        </aside>
+
+        <!-- ---- SECAO 2 ---- -->
+        <aside data-inema-rail="modulo-3#topico-2"></aside>
+
+        <aside class="sidenote" data-kind="definicao">
+          <div class="tag">Definicao</div>
+          <b>Permissao.</b> O nivel de aceitacao, interna e externa, para alcancar um resultado sem culpa, medo ou
+          autossabotagem. A equacao do sucesso e <i>capacidade + disposicao + permissao</i> &mdash; faltando a
+          ultima, o esforco se perde.
+        </aside>
+        <aside class="sidenote" data-kind="fundo">
+          <div class="tag">Indo mais fundo</div>
+          Quatro padroes que travam a prosperidade: a vitima natural, a vitima intencional, o vingador (acha que
+          dinheiro corrompe) e o narcisista. Reconhece-los e o primeiro passo para expandir a permissao.
+        </aside>
+
+        <!-- ---- SECAO 3 ---- -->
+        <aside data-inema-rail="modulo-3#topico-3"></aside>
+
+        <aside class="sidenote" data-kind="definicao">
+          <div class="tag">Definicao</div>
+          <b>Plasticidade sinaptica.</b> A capacidade do cerebro de formar e fortalecer conexoes neurais. Ela esta
+          elevada logo ao acordar, sob niveis altos de dopamina, noradrenalina e acetilcolina &mdash; por isso a
+          manha favorece o aprendizado.
+        </aside>
+        <aside class="sidenote" data-kind="fundo">
+          <div class="tag">Indo mais fundo</div>
+          A consolidacao da memoria acontece no hipocampo durante o sono e se reforca com revisao logo apos
+          acordar. Aprender cedo e revisitar a ideia ao longo do dia leva o conteudo a memoria de longo prazo.
+        </aside>
+
+        <!-- ---- SECAO 4 ---- -->
+        <aside data-inema-rail="modulo-3#topico-4"></aside>
+
+        <aside class="sidenote" data-kind="definicao">
+          <div class="tag">Definicao</div>
+          <b>Aprendizado deliberado.</b> Estudar com objetivo claro, metas e plano &mdash; oposto de consumir
+          conteudo passivamente. A regra das 5h vive de constancia, foco deliberado e mensuracao do progresso.
+        </aside>
+        <aside class="sidenote" data-kind="fundo">
+          <div class="tag">Indo mais fundo</div>
+          A <i>pratica deliberada</i> (Anders Ericsson) nao e repetir: e se desafiar um nivel acima do conforto,
+          receber feedback e corrigir. Espacar na semana contraria a curva do esquecimento de Ebbinghaus.
+        </aside>
+
+        <!-- ---- SECAO 5 ---- -->
+        <aside data-inema-rail="modulo-3#topico-5"></aside>
+
+        <aside class="sidenote" data-kind="definicao">
+          <div class="tag">Definicao</div>
+          <b>20/20/20.</b> A estrutura da primeira hora proposta em <i>The 5 AM Club</i>: vinte minutos de
+          movimento, vinte de reflexao e vinte de aprendizado &mdash; energia fisica, clareza mental e conhecimento
+          logo cedo.
+        </aside>
+        <aside class="sidenote" data-kind="fonte" style="margin-bottom:0">
+          <div class="tag">Fonte</div>
+          Os dez poderes vem de obras como <i>Atomic Habits</i> (Clear), <i>The Gap and the Gain</i> (Sullivan
+          &amp; Hardy), <i>Thinking, Fast and Slow</i> (Kahneman) e <i>Limitless</i> (Kwik) &mdash; cada uma
+          condensada em uma virtude pratica.
+        </aside>
+
+      </aside>
+
+    </div>
+  </main>
+
+  <!-- COLOFAO -->
+  <footer class="colophon">
+    <span>INEMA.CLUB &middot; Caderno do aluno</span>
+    <span class="pg">Trilha 3 &mdash; folio iii</span>
+    <span>Composto em Spectral &amp; Source Serif 4</span>
+  </footer>
+
+  <!-- ===================================================================
+       FIM DO <body>: carrega + inicializa learn.js (caminho RELATIVO).
+       Idempotente: chamar init() mais de uma vez nao duplica listeners.
+       =================================================================== -->
+  <script src="../assets/learn.js"></script>
+  <script>
+    if (window.INEMA && typeof window.INEMA.init === 'function') {
+      window.INEMA.init();
+    }
+  </script>
+</body>
+</html>

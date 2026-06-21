@@ -1,0 +1,13 @@
+# Conteúdo bruto do canal de Telegram INEMA.NCIA — NÃO publicar.
+# Traz nomes reais de autores das mensagens (privacidade). Fica só local.
+raw/
+contextos/
+INEMA.NCIA-completo.md
+
+# Artefatos de desenvolvimento (não fazem parte do site)
+curso/SPEC-SUBAGENTE.md
+curso/verify-ncia.cjs
+
+# Diversos
+*.log
+.DS_Store

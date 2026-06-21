@@ -1,0 +1,711 @@
+<!DOCTYPE html>
+<html lang="pt-BR" data-theme="papel">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+
+  <!-- ===================================================================
+       1) ANTI-FOUC — script BLOQUEANTE, PRIMEIRO no <head>, ANTES das fontes
+          e do learn.css. Le inema.prefs (global, cross-curso) e aplica
+          data-theme + color-scheme + --measure/--leading/--fontscale +
+          data-font/--font-disp/--font-body ANTES do primeiro paint.
+          try/catch total => default papel no erro (preserva a marca INEMA).
+       =================================================================== -->
+  <script>
+  (function () {
+    try {
+      var html = document.documentElement;
+      var DEF = { theme: 'papel', font: 'serif', fontScale: 100, lineWidth: 66, leading: 1.66 };
+      function clone(o) { var r = {}; for (var x in o) r[x] = o[x]; return r; }
+      var p = clone(DEF);
+      try {
+        var raw = localStorage.getItem('inema.prefs');
+        if (raw) {
+          var parsed = JSON.parse(raw);
+          if (parsed && typeof parsed === 'object') {
+            for (var k in DEF) if (parsed[k] != null) p[k] = parsed[k];
+          }
+        }
+      } catch (e) { p = clone(DEF); }
+
+      var THEMES = {
+        'papel':  { attr: 'papel',  cs: 'light' },
+        'sepia':  { attr: 'sepia',  cs: 'light' },
+        'escuro': { attr: 'escuro', cs: 'dark'  }
+      };
+      var t = THEMES[p.theme] || THEMES['papel'];
+      html.setAttribute('data-theme', t.attr);
+      html.style.colorScheme = t.cs;
+
+      var font = (p.font === 'sans' || p.font === 'hyperlegible') ? p.font : 'serif';
+      html.setAttribute('data-font', font);
+
+      var s = html.style;
+
+      var scale = (+p.fontScale || 100);
+      s.setProperty('--fontscale', scale + '%');
+      html.setAttribute('data-fontscale', String(scale));
+
+      var lw = (+p.lineWidth || 66);
+      s.setProperty('--measure', lw + 'ch');
+      html.setAttribute('data-line-width', lw <= 62 ? 'estreito' : (lw >= 70 ? 'largo' : 'medio'));
+
+      var lh = (+p.leading || 1.66);
+      s.setProperty('--leading', lh.toString());
+      html.setAttribute('data-leading', lh <= 1.66 ? 'compacto' : 'confortavel');
+
+      var DISP = {
+        serif: '"Spectral", Georgia, "Times New Roman", serif',
+        sans: 'ui-sans-serif, system-ui, -apple-system, "Segoe UI", Roboto, sans-serif',
+        hyperlegible: '"Atkinson Hyperlegible", system-ui, -apple-system, sans-serif'
+      };
+      var BODY = {
+        serif: '"Source Serif 4", Georgia, "Times New Roman", serif',
+        sans: 'ui-sans-serif, system-ui, -apple-system, "Segoe UI", Roboto, sans-serif',
+        hyperlegible: '"Atkinson Hyperlegible", system-ui, -apple-system, sans-serif'
+      };
+      s.setProperty('--font-disp', DISP[font] || DISP.serif);
+      s.setProperty('--font-body', BODY[font] || BODY.serif);
+    } catch (err) {
+      try {
+        document.documentElement.setAttribute('data-theme', 'papel');
+        document.documentElement.style.colorScheme = 'light';
+      } catch (e) {}
+    }
+  })();
+  </script>
+
+  <!-- 2) Identidade do curso + manifesto (courseId estavel + estrutura completa) -->
+  <meta name="inema-course" content="inema-ncia" />
+  <script type="application/json" data-inema-manifest>
+  {
+    "course": "inema-ncia",
+    "tracks": [
+      { "n":"1","title":"Neurociencia da Atencao","modules":[{"id":"1","title":"Neurociencia da Atencao & do Foco","topics":6,"href":"t/t1.html"}]},
+      { "n":"2","title":"Percepcao & Autoconhecimento","modules":[{"id":"2","title":"Percepcao & Autoconhecimento","topics":5,"href":"t/t2.html"}]},
+      { "n":"3","title":"Habitos & Determinacao","modules":[{"id":"3","title":"Habitos, Motivacao & Determinacao","topics":5,"href":"t/t3.html"}]},
+      { "n":"4","title":"Habilidades & Talentos","modules":[{"id":"4","title":"Habilidades & Talentos do Futuro","topics":3,"href":"t/t4.html"}]},
+      { "n":"5","title":"Persuasao & Viral","modules":[{"id":"5","title":"Persuasao & Psicologia Viral","topics":5,"href":"t/t5.html"}]},
+      { "n":"6","title":"Recursos do Canal","modules":[{"id":"6","title":"Recursos do Canal","topics":3,"href":"t/t6.html"}]}
+    ]
+  }
+  </script>
+
+  <title>Trilha 5 — Persuasao & Psicologia Viral | INEMA.NCIA</title>
+
+  <!-- 3) Fontes (DEPOIS do anti-FOUC) -->
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Spectral:ital,wght@0,300;0,400;0,500;0,600;0,700;1,400;1,500&family=Source+Serif+4:ital,opsz,wght@0,8..60,400;0,8..60,500;0,8..60,600;1,8..60,400;1,8..60,500&family=IBM+Plex+Mono:wght@400;500&family=Atkinson+Hyperlegible:ital,wght@0,400;0,700;1,400&display=swap" rel="stylesheet" />
+
+  <!-- 4) Folha de estilos da camada de aprendizagem v3 (caminho RELATIVO) -->
+  <link rel="stylesheet" href="../assets/learn.css" />
+</head>
+
+<body>
+
+  <!-- SKIP LINK (primeiro focavel) -->
+  <a class="skip" href="#reading">Pular para o conteudo</a>
+
+  <!-- ===================== READER BAR — controles minimos ===================== -->
+  <div class="reader-bar">
+    <div class="reader-inner">
+      <a class="wordmark" href="../index.html">INEMA<span class="dot">.</span><span class="club">NCIA</span></a>
+      <div class="reader-controls" data-inema-appearance>
+        <span class="rc-read"><span data-inema-meter="modulo:5"><span data-inema-meter-frac><strong>0</strong> de 5</span></span> lidas</span>
+        <div class="rc-group" role="group" aria-label="Tema de leitura">
+          <button type="button" class="rc-btn" data-inema-set-theme="papel" aria-pressed="true">Papel</button>
+          <button type="button" class="rc-btn" data-inema-set-theme="sepia" aria-pressed="false">Sepia</button>
+          <button type="button" class="rc-btn" data-inema-set-theme="escuro" aria-pressed="false">Escuro</button>
+        </div>
+        <div class="rc-group" role="group" aria-label="Fonte de leitura">
+          <button type="button" class="rc-btn" data-inema-set-font="serif" aria-pressed="true">Serif</button>
+          <button type="button" class="rc-btn" data-inema-set-font="sans" aria-pressed="false">Sans</button>
+          <button type="button" class="rc-btn" data-inema-set-font="hyperlegible" aria-pressed="false" title="Atkinson Hyperlegible — legibilidade maxima">Aa&#8633;</button>
+        </div>
+        <div class="rc-group" role="group" aria-label="Tamanho do texto">
+          <button type="button" class="rc-btn" data-inema-set-fontscale="100" aria-pressed="true">A</button>
+          <button type="button" class="rc-btn" data-inema-set-fontscale="112" aria-pressed="false">A+</button>
+          <button type="button" class="rc-btn" data-inema-set-fontscale="125" aria-pressed="false">A++</button>
+        </div>
+        <div class="rc-group" role="group" aria-label="Largura da linha">
+          <button type="button" class="rc-btn" data-inema-set-linewidth="62" aria-pressed="false">Estreito</button>
+          <button type="button" class="rc-btn" data-inema-set-linewidth="66" aria-pressed="true">Medio</button>
+          <button type="button" class="rc-btn" data-inema-set-linewidth="70" aria-pressed="false">Largo</button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ===================== MASTHEAD + WAYFINDING ===================== -->
+  <header class="masthead">
+    <nav class="wayfind" aria-label="Onde voce esta">
+      <span><a href="../index.html" style="text-decoration:none">INEMA.NCIA</a></span>
+      <span class="sep">&middot;</span>
+      <span>Trilha <b>5</b> Persuasao &amp; Viral</span>
+      <span class="sep">&middot;</span>
+      <span data-inema-section-counter>Secao 1 de 5</span>
+      <span class="sep">&middot;</span>
+      <button type="button" data-inema-journey-open>
+        Minha jornada <span class="inema-journey-badge" data-inema-journey-badge data-count="0">0</span>
+      </button>
+    </nav>
+  </header>
+
+  <!-- ===================== SPREAD: coluna de leitura + trilho de margem ===================== -->
+  <main class="spread">
+    <div class="leaf">
+
+      <!-- ============================= COLUNA DE LEITURA ============================= -->
+      <article class="reading" id="reading">
+
+        <!-- abertura da trilha -->
+        <p class="kicker">Trilha 5 &middot; INEMA.NCIA</p>
+        <h1 class="module">Persuasao &amp; <em>Psicologia Viral</em></h1>
+        <p class="deck">Por que uma estoria gruda e outra escorrega. Tecnicas simples de persuasao, a anatomia
+          da estoria viral, o modo VIRALST em vendas, os gatilhos no digital e um estudo de caso aplicado.</p>
+        <p class="read-meta">
+          <span class="here">Lendo agora</span>
+          <span>~18 min &middot; trilha inteira</span>
+          <span>5 secoes</span>
+        </p>
+
+        <!-- objetivos: o que voce vai entender -->
+        <section class="aims" aria-label="O que voce vai entender">
+          <h2>O que voce vai entender</h2>
+          <ul>
+            <li>Por que a persuasao real fala dos <b>desejos, medos e crencas</b> do outro &mdash; nao de quem fala.</li>
+            <li>Como uma estoria de 30 segundos prende a atencao usando <b>quatro batidas</b> e um ciclo de dopamina.</li>
+            <li>Como adaptar a mesma estrutura para <b>vendas</b> &mdash; e como sao os prompts que a operacionalizam.</li>
+            <li>O mapa dos <b>dez gatilhos no digital</b>, ordenados pela funcao no cerebro, e um caso concreto.</li>
+          </ul>
+        </section>
+
+        <!-- SUMARIO -->
+        <nav class="toc" aria-label="Sumario da trilha" data-inema-toc>
+          <p class="toc-head">Sumario &mdash; cinco secoes</p>
+          <ol>
+            <li class="current"><span class="dot-now"></span><span class="n">1</span>
+              <a href="#topico-1"><span class="t">Persuasao: tecnicas simples</span></a></li>
+            <li><span class="n">2</span><a href="#topico-2"><span class="t">A anatomia da estoria viral (VIRAL ST)</span></a><span class="leader"></span></li>
+            <li><span class="n">3</span><a href="#topico-3"><span class="t">VIRALST em modo vendas</span></a><span class="leader"></span></li>
+            <li><span class="n">4</span><a href="#topico-4"><span class="t">FGMD: os dez gatilhos no digital</span></a><span class="leader"></span></li>
+            <li><span class="n">5</span><a href="#topico-5"><span class="t">Estudo de caso: o projeto NCIAFlux</span></a><span class="leader"></span></li>
+          </ol>
+        </nav>
+
+        <!-- ============================= SECAO 1 ============================= -->
+        <section id="topico-1"
+                 data-inema-topic="modulo-5#topico-1"
+                 data-inema-module="5"
+                 data-inema-track="5">
+          <div class="section-mark">
+            <span class="where">Secao 1 de 5</span><span>&middot;</span><span>Persuasao</span>
+          </div>
+          <h2 class="head"><span class="num">1.</span>Persuasao: tecnicas simples</h2>
+
+          <div class="prose">
+            <p class="lede dropcap" data-inema-block="m5-t1-p1">Quase toda mensagem que tenta convencer comete o
+              mesmo erro: fala de quem <span class="sidenote-ref">1</span>escreve. Fala do produto, da empresa, da
+              competencia de quem vende. A persuasao de verdade faz o oposto &mdash; ela parte do <em>outro</em>.
+              As pessoas respondem emocionalmente a mensagens que tocam seus desejos, seus medos e suas crencas;
+              quando voce escreve a partir desse lugar, deixa de empurrar e passa a ser ouvido.</p>
+
+            <p data-inema-block="m5-t1-p2">A estrutura mais simples que captura isso cabe em cinco gatilhos.
+              <strong>Incentivar os sonhos</strong> da pessoa &mdash; apoiar o que ela ja quer para si
+              (&ldquo;voce nasceu para isso&rdquo;). <strong>Justificar os fracassos</strong> &mdash; aliviar a
+              culpa apontando uma causa externa (&ldquo;voce nao teve as oportunidades certas&rdquo;).
+              <strong>Reduzir os medos</strong> &mdash; reconhecer o receio e oferecer um caminho (&ldquo;e normal
+              sentir isso no inicio, e aqui esta o que fazer&rdquo;). <strong>Confirmar as suspeitas</strong>
+              &mdash; validar o que ela ja desconfia (&ldquo;voce estava certo em duvidar disso&rdquo;). E
+              <strong>ajudar a atacar os inimigos</strong> &mdash; criar conexao ao assumir um adversario comum.<span class="sidenote-ref">2</span></p>
+
+            <h3 class="sub">O teste que muda tudo: para quem voce esta olhando?</h3>
+
+            <p data-inema-block="m5-t1-p3">Repare que nenhum dos cinco descreve o autor. Todos descrevem o estado
+              interno de quem le. Esse e o ponto: a maioria das mensagens foca em quem fala, mas a persuasao
+              verdadeira acontece quando voce foca nas emocoes e necessidades do outro. Depois que voce enxerga a
+              estrutura, comeca a reconhece-la em todo tipo de conteudo que funciona &mdash; do email de venda ao
+              discurso politico, do post que viraliza a conversa que convence.</p>
+          </div>
+
+          <!-- recall ativo: pare e preveja -->
+          <div class="predict">
+            <p class="lbl">Pare e preveja</p>
+            <p>Voce vai responder a alguem que diz: &ldquo;ja tentei vender online, mas nada da certo&rdquo;.
+              Dos cinco gatilhos, qual voce usaria <em>primeiro</em> &mdash; e por que?</p>
+            <details>
+              <summary>Ver uma resposta possivel</summary>
+              <p class="answer">Provavelmente <strong>justificar o fracasso</strong>: tirar o peso da culpa
+                (&ldquo;faltava o conhecimento certo, nao foi voce&rdquo;) abre a pessoa para ouvir o resto. So
+                depois entram <em>incentivar o sonho</em> e <em>reduzir o medo</em>. A ordem importa: alivio antes
+                de promessa.</p>
+            </details>
+          </div>
+
+          <!-- indo mais fundo: divulgacao progressiva -->
+          <details class="go-deeper">
+            <summary><span class="chev">&#9656;</span> Indo mais fundo: os cinco gatilhos virando um prompt de atendimento
+              <span class="opt">opcional</span></summary>
+            <div class="inner">
+              <p>Os cinco gatilhos nao servem so para escrever a mao. Eles cabem dentro de um prompt mestre que
+                orienta um atendente inteligente a ler a mensagem do usuario, identificar o conteudo emocional
+                (sonhos, medos, frustracoes, crencas, inimigos percebidos) e responder usando pelo menos tres dos
+                gatilhos &mdash; sempre fechando com um proximo passo pratico.</p>
+              <div class="codeblock"><span class="c"># Prompt mestre — Atendimento inteligente persuasivo</span>
+Aja como um assistente de atendimento ao cliente, preciso, empatico e persuasivo.
+Ao receber a mensagem do usuario:
+<span class="k">1.</span> Analise o conteudo emocional e racional (sonhos, medos, frustracoes, crencas, inimigos).
+<span class="k">2.</span> Busque dados, exemplos ou instrucoes claras para a necessidade real.
+<span class="k">3.</span> Use pelo menos 3 dos gatilhos: incentivar sonhos, justificar fracassos,
+   reduzir medos, confirmar suspeitas, ajudar a atacar inimigos.
+<span class="k">4.</span> Escreva em linguagem natural, acolhedora e confiante.
+<span class="k">5.</span> Finalize com uma orientacao pratica ou um proximo passo claro.</div>
+              <p>O mesmo molde pode ser convertido para fluxos de WhatsApp, chatbots ou um atendimento humano que
+                usa a IA como copiloto &mdash; o que muda e o canal, nao a estrutura emocional.</p>
+            </div>
+          </details>
+        </section>
+
+        <!-- ============================= SECAO 2 ============================= -->
+        <section id="topico-2"
+                 data-inema-topic="modulo-5#topico-2"
+                 data-inema-module="5"
+                 data-inema-track="5">
+          <div class="section-mark">
+            <span class="where">Secao 2 de 5</span><span>&middot;</span><span>Estoria viral</span>
+          </div>
+          <h2 class="head"><span class="num">2.</span>A anatomia da estoria viral (VIRAL ST)</h2>
+
+          <div class="prose">
+            <p class="lede" data-inema-block="m5-t2-p1">Uma estoria que gruda nao depende de sorte. Ela percorre,
+              na ordem, um circuito que o cerebro reconhece &mdash; e cada etapa ativa uma regiao diferente. O
+              modelo VIRALST organiza esse circuito em quatro batidas: <em>hook</em>, identificacao, conflito e
+              fechamento. Cada uma resolve uma pergunta que a anterior abriu, e e essa cadeia que segura a atencao
+              ate o fim.</p>
+
+            <p data-inema-block="m5-t2-p2">O <strong>hook</strong> ativa o sistema de alerta &mdash; o
+              <span class="dfn"><details class="dfn"><summary>SRAA</summary><span class="body"><b>SRAA</b> e o Sistema Reticular Ativador Ascendente: o filtro do cerebro que detecta novidade e ameaca em meio ao ruido. E ele que decide o que vale a atencao consciente.</span></details></span>
+              que detecta novidade no meio do ruido &mdash; com uma pergunta provocativa ou uma afirmacao que
+              quebra o padrao mental. A <strong>identificacao</strong> aciona os neuronios-espelho: linguagem
+              natural e situacoes cotidianas fazem a pessoa sentir &ldquo;isso e sobre mim&rdquo;. O
+              <strong>conflito</strong> cria tensao &mdash; uma pequena dissonancia, um contraste emocional &mdash;
+              que mantem o interesse pela expectativa de resolucao. E o <strong>fechamento</strong> entrega a
+              virada: o insight que faz o cerebro liberar dopamina e oxitocina, marcando o conteudo na memoria.<span class="sidenote-ref">3</span></p>
+
+            <h3 class="sub">O ciclo de recompensa, fechado de proposito</h3>
+
+            <p data-inema-block="m5-t2-p3">As quatro batidas nao sao independentes: elas fecham um <em>loop de
+              dopamina</em>. Curiosidade na abertura, empatia na identificacao, tensao no conflito, recompensa
+              cognitiva no fim &mdash; o mesmo mecanismo que torna series e videos curtos viciantes, aqui usado de
+              forma consciente. O ritmo importa tanto quanto o conteudo: seis a dez linhas curtas, frases de poucas
+              palavras, sem conectivos logicos. O texto e lido como fala, nao como prosa &mdash; e e isso que mantem
+              o fluxo emocional, e nao racional.</p>
+          </div>
+
+          <div class="predict">
+            <p class="lbl">Pare e preveja</p>
+            <p>Das quatro batidas, qual costuma ser a mais negligenciada por quem escreve roteiro &mdash; e qual o
+              custo de pula-la?</p>
+            <details>
+              <summary>Ver uma resposta possivel</summary>
+              <p class="answer">A <strong>identificacao</strong>. Muita gente vai direto do hook para o conteudo,
+                e o espectador nunca sente que &ldquo;e sobre ele&rdquo;. Sem esse espelho emocional nao ha
+                conexao &mdash; e o cerebro, que decide continuar assistindo justamente nessa etapa, simplesmente
+                rola para o proximo video.</p>
+            </details>
+          </div>
+
+          <details class="go-deeper">
+            <summary><span class="chev">&#9656;</span> Indo mais fundo: por que o ritmo oral retem mais
+              <span class="opt">opcional</span></summary>
+            <div class="inner">
+              <p>Camada opcional, para quem quer o porque mecanico. Frases curtas reduzem a carga cognitiva &mdash;
+                o cortex temporal esquerdo processa cada linha sem esforco. A ausencia de conectivos formais
+                imita o ritmo natural da fala, mantendo a sincronia entre audicao e emocao. E as pausas (as quebras
+                de linha) simulam a respiracao do discurso humano, o que reforca a percepcao de autenticidade.</p>
+              <p>Ha tambem um limite de atencao em jogo: o cerebro processa estimulos em janelas curtas, e seis a
+                dez linhas respeitam esse intervalo. Estourar isso nao deixa o texto mais informativo &mdash;
+                deixa-o mais cansativo, e o espectador desiste antes do fechamento, que era justamente onde estava
+                a recompensa.</p>
+            </div>
+          </details>
+        </section>
+
+        <!-- ============================= SECAO 3 ============================= -->
+        <section id="topico-3"
+                 data-inema-topic="modulo-5#topico-3"
+                 data-inema-module="5"
+                 data-inema-track="5">
+          <div class="section-mark">
+            <span class="where">Secao 3 de 5</span><span>&middot;</span><span>VIRALST vendas</span>
+          </div>
+          <h2 class="head"><span class="num">3.</span>VIRALST em modo vendas</h2>
+
+          <div class="prose">
+            <p class="lede" data-inema-block="m5-t3-p1">A mesma estrutura de quatro batidas serve para vender
+              &mdash; mas com um ajuste de tonalidade. Em vez de provocar reflexao, o modo vendas provoca
+              <em>desejo, urgencia e acao</em>. O hook deixa de ser so curiosidade e vira um gancho de dor ou de
+              desejo imediato. A identificacao vira empatia comercial: &ldquo;isso resolve o meu problema&rdquo;.
+              O conflito mostra o obstaculo e a descoberta da solucao. E o fechamento soma ao insight uma chamada
+              a acao.<span class="sidenote-ref">4</span></p>
+
+            <p data-inema-block="m5-t3-p2">Cada ajuste tem uma logica neurocientifica simples: o gancho de dor
+              ativa a amigdala (atencao e urgencia); a empatia pratica recruta os neuronios-espelho; o obstaculo
+              seguido da solucao dispara dopamina pela busca de recompensa; e o insight com CTA reforca a decisao.
+              O segredo e manter a emocao acima da logica &mdash; frases curtas, ritmo de fala, sem jargao.</p>
+          </div>
+
+          <div class="prose">
+            <p data-inema-block="m5-t3-p3">O prompt abaixo operacionaliza essa adaptacao. Ele e o molde que gera
+              o roteiro pronto para gravacao, com titulo e variacoes de hook:</p>
+            <div class="codeblock"><span class="c">[VIRALST SALES MODE ON]</span>
+
+Voce e um especialista em storytelling viral e persuasao emocional.
+Crie um roteiro curto (30 a 60 segundos) pronto para gravacao (Reels, TikTok ou Shorts),
+usando a tecnica VIRALST adaptada para VENDAS, com 4 elementos:
+
+<span class="k">1. HOOK</span> (3 a 5s iniciais)
+   - Comece com um dilema, dor ou desejo imediato do publico.
+   - Use perguntas provocativas, contrastes de perda/ganho ou promessas audaciosas.
+   - Gere urgencia e curiosidade ("isso pode mudar meu resultado").
+
+<span class="k">2. IDENTIFICACAO</span>
+   - Mostre empatia pela dor ou pelo cenario atual do publico.
+   - Use situacoes reais e linguagem natural.
+   - Faca o espectador pensar "sou eu" ou "e exatamente isso que vivo".
+
+<span class="k">3. CONFLITO</span>
+   - Mostre o erro, o desperdicio ou a limitacao atual.
+   - Apresente a descoberta ou o momento de virada — quando a solucao aparece.
+   - Gere contraste entre o antes (frustracao) e o depois (transformacao).
+
+<span class="k">4. FECHAMENTO</span>
+   - Entregue a virada e a promessa de resultado.
+   - Inclua uma chamada a acao sutil e emocional ("descubra", "testa agora", "entra no link").
+   - Termine com uma frase que desperte o desejo de agir.
+
+<span class="k">ESTILO:</span> linguagem humana e persuasiva; frases curtas com ritmo de fala;
+   emocao acima da logica; quebras de linha indicam pausas.
+
+<span class="k">SAIDA:</span> 1) roteiro completo; 2) titulo curto (max. 6 palavras);
+   3) tres variacoes de HOOK orientadas para vendas.
+
+<span class="k">TEMA:</span> [produto, servico ou transformacao a ser vendida]</div>
+          </div>
+
+          <div class="predict">
+            <p class="lbl">Pare e preveja</p>
+            <p>Comparando o VIRALST &ldquo;reflexivo&rdquo; da secao anterior com este modo vendas: qual e a unica
+              batida que ganha um elemento <em>novo</em>, e que elemento e esse?</p>
+            <details>
+              <summary>Ver uma resposta possivel</summary>
+              <p class="answer">O <strong>fechamento</strong>. No modo reflexivo ele entrega so o insight; no modo
+                vendas ele acrescenta a <em>chamada a acao</em> &mdash; um convite emocional e de baixo atrito
+                (&ldquo;testa agora&rdquo;, &ldquo;entra no link&rdquo;) que transforma o entendimento em decisao.</p>
+            </details>
+          </div>
+        </section>
+
+        <!-- ============================= SECAO 4 ============================= -->
+        <section id="topico-4"
+                 data-inema-topic="modulo-5#topico-4"
+                 data-inema-module="5"
+                 data-inema-track="5">
+          <div class="section-mark">
+            <span class="where">Secao 4 de 5</span><span>&middot;</span><span>Gatilhos (FGMD)</span>
+          </div>
+          <h2 class="head"><span class="num">4.</span>FGMD: os dez gatilhos no digital</h2>
+
+          <div class="prose">
+            <p class="lede" data-inema-block="m5-t4-p1">As quatro batidas da estoria viral se desdobram, no
+              digital, num mapa mais fino &mdash; o FGMD. A diferenca de organizacao e crucial: os gatilhos aqui
+              estao ordenados <em>por funcao no cerebro</em>, nao por jargao de marketing. Cada um responde a uma
+              pergunta mental que o espectador faz, em sequencia, do primeiro segundo ate a acao final.</p>
+
+            <p data-inema-block="m5-t4-p2">A ordem e: <strong>atencao</strong> (parar &mdash; &ldquo;o que e
+              isso?&rdquo;), <strong>retencao</strong> (segurar &mdash; &ldquo;para onde isso vai?&rdquo;),
+              <strong>compreensao</strong> (clarear &mdash; &ldquo;eu estou entendendo?&rdquo;),
+              <strong>identificacao</strong> (conectar &mdash; &ldquo;isso e sobre mim?&rdquo;),
+              <strong>engajamento</strong> (ativar &mdash; &ldquo;o que eu penso sobre isso?&rdquo;),
+              <strong>autoridade</strong> (legitimar &mdash; &ldquo;por que eu deveria ouvir voce?&rdquo;),
+              <strong>consciencia</strong> (despertar &mdash; &ldquo;nunca tinha pensado assim&rdquo;),
+              <strong>pertencimento</strong> (reter no longo prazo &mdash; &ldquo;onde eu me encaixo?&rdquo;),
+              <strong>transformacao</strong> (mostrar caminho &mdash; &ldquo;eu consigo chegar la?&rdquo;) e,
+              so entao, <strong>CTA</strong> (mover &mdash; &ldquo;o que eu faco agora?&rdquo;).<span class="sidenote-ref">5</span></p>
+
+            <h3 class="sub">O gatilho mais ignorado &mdash; e o que sustenta a autoridade</h3>
+
+            <p data-inema-block="m5-t4-p3">A compreensao costuma ser pulada, e e um erro caro: se a pessoa se
+              sente burra, ela sai &mdash; mesmo interessada. Simplificar, usar metafora, traduzir o jargao,
+              oferecer um exemplo concreto &mdash; e isso que constroi autoridade real. E note onde o CTA aparece:
+              por ultimo, depois de despertar consciencia e mostrar um caminho. Um CTA forte nao pede; ele continua
+              o processo. A frase-sintese resume a logica inteira: conteudo forte nao leva do clique a venda &mdash;
+              leva da interrupcao a consciencia.</p>
+          </div>
+
+          <details class="go-deeper">
+            <summary><span class="chev">&#9656;</span> Indo mais fundo: o prompt mestre aplicador dos dez gatilhos
+              <span class="opt">opcional</span></summary>
+            <div class="inner">
+              <p>Camada opcional. O FGMD vira um prompt unico que recebe um assunto e produz um conteudo aplicando
+                os dez gatilhos na ordem cognitiva, com uma regra firme: nada de hype, nada de promessa irreal,
+                nada de termo tecnico sem traducao. O conteudo deve parecer consciencia, nao propaganda.</p>
+              <div class="codeblock"><span class="c"># Prompt mestre — Aplicador de gatilhos completos</span>
+Voce e um estrategista de comunicacao digital especialista em gatilhos mentais profundos.
+Vou te passar UM ASSUNTO. Crie um conteudo que aplique, de forma integrada e progressiva,
+TODOS os gatilhos a seguir, respeitando a ordem cognitiva do cerebro:
+
+<span class="k">1. Atencao</span> — abrir com ruptura ou traicao de expectativa que pare o scroll.
+<span class="k">2. Retencao</span> — promessa aberta e tensao cognitiva para manter assistindo.
+<span class="k">3. Compreensao</span> — traduzir para linguagem simples, com metafora ou exemplo.
+<span class="k">4. Identificacao</span> — fazer a pessoa se reconhecer no problema.
+<span class="k">5. Engajamento</span> — provocar uma reacao mental ou pergunta implicita.
+<span class="k">6. Autoridade</span> — mostrar dominio do processo, sem autopromocao.
+<span class="k">7. Consciencia</span> — gerar uma mudanca de percepcao (algo que nao da para "desver").
+<span class="k">8. Pertencimento</span> — deixar claro que existe um espaco ou caminho continuo.
+<span class="k">9. Transformacao</span> — apresentar um percurso possivel e acessivel.
+<span class="k">10. CTA</span> — indicar um proximo passo claro e de baixo atrito.
+
+<span class="c"># Regras: sem hype, sem promessa irreal, sem jargao sem traducao.</span>
+<span class="c"># Saida: titulo forte; blocos curtos; CTA final coerente.</span>
+<span class="k">Assunto:</span> [COLE AQUI O ASSUNTO]</div>
+              <p>Ha tambem uma versao curta de uma linha so, util para um pedido rapido: &ldquo;crie um conteudo
+                sobre [assunto] aplicando, na ordem, os dez gatilhos, com linguagem humana, sem hype e focado em
+                despertar consciencia&rdquo;. O modelo de referencia esta publicado em
+                <span style="white-space:nowrap">inematds.github.io/FGMD</span>.</p>
+            </div>
+          </details>
+        </section>
+
+        <!-- ============================= SECAO 5 ============================= -->
+        <section id="topico-5"
+                 data-inema-topic="modulo-5#topico-5"
+                 data-inema-module="5"
+                 data-inema-track="5">
+          <div class="section-mark">
+            <span class="where">Secao 5 de 5</span><span>&middot;</span><span>NCIAFlux</span>
+          </div>
+          <h2 class="head"><span class="num">5.</span>Estudo de caso: o projeto NCIAFlux</h2>
+
+          <div class="prose">
+            <p class="lede" data-inema-block="m5-t5-p1">Toda a persuasao desta trilha precisa de algo para
+              persuadir <em>a favor</em>. O NCIAFlux serve de caso porque mostra como uma promessa se torna clara
+              o bastante para caber numa frase. E um sistema de <em>NeuroFluxo</em> para pessoas com TDAH &mdash;
+              o nome junta NCIA (de neurociencia) com Flux (estado de fluxo, adaptacao, movimento). O conceito
+              explicado ao usuario e simples: o fluxo do cerebro no dia a dia.<span class="sidenote-ref">6</span></p>
+
+            <p data-inema-block="m5-t5-p2">A promessa cabe numa unica linha porque inverte a expectativa: &ldquo;no
+              NCIAFlux, voce nao se adapta ao metodo &mdash; o metodo se adapta ao seu NeuroFluxo&rdquo;. Em vez de
+              exigir disciplina, o sistema entende como o cerebro da pessoa funciona, cria um plano possivel e
+              ajusta o fluxo conforme a energia e a rotina mudam. E uma promessa que nao soa clinica, nao soa
+              produtivista, tem base cientifica &mdash; e e facil de explicar em uma frase.</p>
+
+            <h3 class="sub">Tres fases, e um diferencial que e quase todo emocional</h3>
+
+            <p data-inema-block="m5-t5-p3">O produto se organiza em tres fases. A <strong>Descoberta</strong>
+              (cinco a sete minutos) faz perguntas simples e devolve feedback imediato, gerando um perfil inicial
+              &mdash; e o uso continuo e opcional. O <strong>Plano</strong> nasce desse perfil: uma prioridade por
+              dia, poucas tarefas leves, rotinas condicionais. O <strong>Acompanhamento</strong> e gentil &mdash;
+              painel visual, chat opcional por texto ou voz, notificacoes no ritmo da pessoa. O diferencial, no
+              entanto, e quase todo definido por negacao: nao cobra, nao compara, nao pune. Repare como isso ecoa a
+              persuasao da Secao 1 &mdash; o produto inteiro fala dos medos e das frustracoes do usuario, nao das
+              proprias funcionalidades.</p>
+          </div>
+
+          <div class="predict">
+            <p class="lbl">Pare e preveja</p>
+            <p>Olhando o diferencial &mdash; &ldquo;nao cobra, nao compara, nao pune&rdquo; &mdash; qual gatilho
+              de persuasao da Secao 1 ele aciona com mais forca?</p>
+            <details>
+              <summary>Ver uma resposta possivel</summary>
+              <p class="answer">Sobretudo <strong>reduzir os medos</strong> e <strong>justificar os
+                fracassos</strong>: quem tem TDAH carrega a culpa de planners abandonados e metas nao cumpridas.
+                Dizer &ldquo;voce nao se adapta ao metodo&rdquo; tira esse peso &mdash; o fracasso era do metodo
+                rigido, nao da pessoa.</p>
+            </details>
+          </div>
+
+          <details class="go-deeper">
+            <summary><span class="chev">&#9656;</span> Indo mais fundo: por que uma marca curta + conceito explicado funciona
+              <span class="opt">opcional</span></summary>
+            <div class="inner">
+              <p>Camada opcional. O projeto separa de proposito a <em>marca</em> do <em>conceito</em>: NCIAFlux e o
+                nome curto e forte que se fixa na memoria; NeuroFluxo e a explicacao de uma frase que qualquer
+                pessoa entende. Essa dupla resolve um dilema comum &mdash; nomes descritivos sao claros mas longos;
+                nomes curtos sao memoraveis mas opacos. Usar os dois em camadas da o melhor dos dois.</p>
+              <p>O codigo e a evolucao do projeto ficam abertos no repositorio:
+                <a href="https://github.com/inematds/NCIAFlux">github.com/inematds/NCIAFlux</a>. Vale como
+                exercicio fechar a trilha aqui: pegue o NCIAFlux e escreva, voce mesmo, um roteiro VIRALST modo
+                vendas para ele &mdash; usando os cinco gatilhos da Secao 1 e a ordem do FGMD da Secao 4.</p>
+            </div>
+          </details>
+        </section>
+
+        <!-- ============================= KNOWLEDGE CHECK ============================= -->
+        <section class="check" aria-label="Auto-checagem">
+          <h2>Antes de seguir: quatro checagens rapidas</h2>
+          <p class="intro">Sem nota, sem placar. Responda de cabeca, depois revele para comparar.</p>
+
+          <details class="q-item">
+            <summary><span class="qn">01</span><span>Por que a maioria das mensagens persuasivas falha?</span><span class="reveal">Revelar</span></summary>
+            <div class="ans"><p>Porque falam de quem escreve &mdash; do produto, da empresa, da competencia. A
+              persuasao real parte do outro: dos seus desejos, medos e crencas.</p></div>
+          </details>
+          <details class="q-item">
+            <summary><span class="qn">02</span><span>Quais sao as quatro batidas da estoria viral, na ordem?</span><span class="reveal">Revelar</span></summary>
+            <div class="ans"><p>Hook (alerta/curiosidade), identificacao (espelho emocional), conflito (tensao) e
+              fechamento (insight com recompensa). Juntas fecham um loop de dopamina.</p></div>
+          </details>
+          <details class="q-item">
+            <summary><span class="qn">03</span><span>No FGMD, qual gatilho costuma ser ignorado &mdash; e por que custa caro?</span><span class="reveal">Revelar</span></summary>
+            <div class="ans"><p>A <em>compreensao</em>. Se a pessoa se sente burra, ela sai mesmo interessada.
+              Simplificar e traduzir o jargao e o que constroi autoridade real.</p></div>
+          </details>
+          <details class="q-item">
+            <summary><span class="qn">04</span><span>O que torna a promessa do NCIAFlux facil de explicar em uma frase?</span><span class="reveal">Revelar</span></summary>
+            <div class="ans"><p>Ela inverte a expectativa: &ldquo;voce nao se adapta ao metodo &mdash; o metodo
+              se adapta ao seu NeuroFluxo&rdquo;. Fala do medo do usuario, nao das funcionalidades.</p></div>
+          </details>
+        </section>
+
+        <!-- ============================= MINHA JORNADA (painel consolidado) ============================= -->
+        <section class="journey" aria-label="Minha jornada — progresso consolidado">
+          <div class="journey-top">
+            <h2><span class="ico">&#10087;</span> Minha jornada</h2>
+            <button class="journey-cta" type="button" data-inema-journey-open>Abrir caderno &rarr;</button>
+          </div>
+          <div class="journey-body">
+            <div class="jstat">
+              <div class="k">Neste modulo</div>
+              <div class="v" data-inema-meter="modulo:5">
+                <span data-inema-meter-frac><strong>0</strong> de 5</span> <span class="nm">secoes lidas</span>
+                <div class="progress-line"><span class="progress-line__fill" data-inema-meter-fill></span></div>
+              </div>
+            </div>
+            <div class="jstat">
+              <div class="k">Na trilha 5</div>
+              <div class="v" data-inema-meter="trilha:5">
+                <span data-inema-meter-frac><strong>0</strong> de 5</span> <span class="nm">topicos</span>
+                <div class="progress-line"><span class="progress-line__fill" data-inema-meter-fill></span></div>
+              </div>
+            </div>
+            <div class="jstat">
+              <div class="k">No curso</div>
+              <div class="v" data-inema-meter="curso">
+                <span data-inema-meter-frac><strong>0</strong> de 27</span> <span class="nm">percorrido</span>
+                <div class="progress-line"><span class="progress-line__fill" data-inema-meter-fill></span></div>
+              </div>
+            </div>
+          </div>
+        </section>
+
+        <!-- proxima acao (UMA clara) -->
+        <div class="nextup">
+          <div class="txt">
+            <div class="k">Continuar</div>
+            <div class="t">Trilha 6 &mdash; Recursos do Canal</div>
+          </div>
+          <a class="go" href="t6.html">Proximo &rarr;</a>
+        </div>
+
+      </article>
+
+      <!-- ============================= TRILHO DE MARGEM ============================= -->
+      <aside class="margin-rail" aria-label="Margem: notas de autor, definicoes e seu painel de aprendizado">
+
+        <!-- ---- SECAO 1: painel do aluno (vazio; learn.js preenche) + sidenotes de autor ---- -->
+        <aside data-inema-rail="modulo-5#topico-1"></aside>
+
+        <aside class="sidenote" data-kind="fundo">
+          <div class="tag">Indo mais fundo</div>
+          A regra-mae da persuasao: a mensagem que convence descreve o <i>estado interno de quem le</i> &mdash;
+          sonhos, medos, crencas &mdash; e nunca a competencia de quem fala.
+        </aside>
+        <aside class="sidenote" data-kind="fonte">
+          <div class="tag">Fonte</div>
+          Os cinco gatilhos sintetizam <i>One Sentence Persuasion</i>, de Blair Warren &mdash; o material-base
+          deste topico.
+          <div class="src-line">breakthroughmarketingsecrets.com &middot; Blair Warren</div>
+        </aside>
+
+        <!-- ---- SECAO 2 ---- -->
+        <aside data-inema-rail="modulo-5#topico-2"></aside>
+
+        <aside class="sidenote" data-kind="definicao">
+          <div class="tag">Definicao</div>
+          <b>Loop de dopamina.</b> O ciclo curiosidade &rarr; empatia &rarr; tensao &rarr; recompensa que VIRALST
+          fecha de proposito &mdash; o mesmo mecanismo de series e videos curtos viciantes, aqui consciente.
+        </aside>
+        <aside class="sidenote" data-kind="fundo">
+          <div class="tag">Indo mais fundo</div>
+          Seis a dez linhas curtas, frases de poucas palavras, sem conectivos logicos: o texto e lido como
+          <i>fala</i>, mantendo o fluxo emocional &mdash; nao racional.
+        </aside>
+
+        <!-- ---- SECAO 3 ---- -->
+        <aside data-inema-rail="modulo-5#topico-3"></aside>
+
+        <aside class="sidenote" data-kind="definicao">
+          <div class="tag">Definicao</div>
+          <b>Empatia comercial.</b> A identificacao ajustada para vendas: nao &ldquo;isso e sobre mim&rdquo; e sim
+          &ldquo;isso resolve o meu problema&rdquo; &mdash; recrutando neuronios-espelho com foco em solucao.
+        </aside>
+        <aside class="sidenote" data-kind="fonte">
+          <div class="tag">Fonte</div>
+          O prompt VIRALST MODE VENDAS reproduzido no corpo vem do material-base do topico, preservado na forma
+          original para uso direto.
+        </aside>
+
+        <!-- ---- SECAO 4 ---- -->
+        <aside data-inema-rail="modulo-5#topico-4"></aside>
+
+        <aside class="sidenote" data-kind="fundo">
+          <div class="tag">Indo mais fundo</div>
+          A frase-sintese do FGMD: <i>conteudo forte nao leva do clique a venda &mdash; leva da interrupcao a
+          consciencia.</i> O CTA fica por ultimo, depois de despertar e mostrar caminho.
+        </aside>
+        <aside class="sidenote" data-kind="fonte">
+          <div class="tag">Fonte</div>
+          O modelo completo dos dez gatilhos esta publicado em inematds.github.io/FGMD.
+          <div class="src-line">inematds.github.io/FGMD</div>
+        </aside>
+
+        <!-- ---- SECAO 5 ---- -->
+        <aside data-inema-rail="modulo-5#topico-5"></aside>
+
+        <aside class="sidenote" data-kind="definicao">
+          <div class="tag">Definicao</div>
+          <b>NeuroFluxo.</b> O conceito que o NCIAFlux explica ao usuario: o fluxo do cerebro no dia a dia. A
+          promessa &mdash; ajustar rotina, foco e energia ao fluxo real &mdash; cabe em uma frase.
+        </aside>
+        <aside class="sidenote" data-kind="fonte" style="margin-bottom:0">
+          <div class="tag">Fonte</div>
+          Codigo e evolucao do projeto NCIAFlux ficam abertos no repositorio.
+          <div class="src-line">github.com/inematds/NCIAFlux</div>
+        </aside>
+
+      </aside>
+
+    </div>
+  </main>
+
+  <!-- COLOFAO -->
+  <footer class="colophon">
+    <span>INEMA.NCIA &middot; Caderno do aluno</span>
+    <span class="pg">Trilha 5 &mdash; folio v</span>
+    <span>Composto em Spectral &amp; Source Serif 4</span>
+  </footer>
+
+  <!-- ===================================================================
+       FIM DO <body>: carrega + inicializa learn.js (caminho RELATIVO).
+       Idempotente: chamar init() mais de uma vez nao duplica listeners.
+       =================================================================== -->
+  <script src="../assets/learn.js"></script>
+  <script>
+    if (window.INEMA && typeof window.INEMA.init === 'function') {
+      window.INEMA.init();
+    }
+  </script>
+</body>
+</html>
