@@ -11,3 +11,5 @@ curso/verify-ncia.cjs
 # Diversos
 *.log
 .DS_Store
+curso/_build3.py
+curso/_build_landing.py

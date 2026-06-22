@@ -1,0 +1,478 @@
+<!DOCTYPE html>
+<html lang="pt-BR" data-theme="papel">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+
+  <!-- ===================================================================
+       1) ANTI-FOUC — script BLOQUEANTE, PRIMEIRO no <head>, ANTES das fontes
+          e do learn.css. Le inema.prefs (global, cross-curso) e aplica
+          data-theme + color-scheme + --measure/--leading/--fontscale +
+          data-font/--font-disp/--font-body ANTES do primeiro paint.
+          try/catch total => default papel no erro (preserva a marca INEMA).
+       =================================================================== -->
+  <script>
+  (function () {
+    try {
+      var html = document.documentElement;
+      var DEF = { theme: 'papel', font: 'serif', fontScale: 100, lineWidth: 66, leading: 1.66 };
+      function clone(o) { var r = {}; for (var x in o) r[x] = o[x]; return r; }
+      var p = clone(DEF);
+      try {
+        var raw = localStorage.getItem('inema.prefs');
+        if (raw) {
+          var parsed = JSON.parse(raw);
+          if (parsed && typeof parsed === 'object') {
+            for (var k in DEF) if (parsed[k] != null) p[k] = parsed[k];
+          }
+        }
+      } catch (e) { p = clone(DEF); }
+
+      var THEMES = {
+        'papel':  { attr: 'papel',  cs: 'light' },
+        'sepia':  { attr: 'sepia',  cs: 'light' },
+        'escuro': { attr: 'escuro', cs: 'dark'  }
+      };
+      var t = THEMES[p.theme] || THEMES['papel'];
+      html.setAttribute('data-theme', t.attr);
+      html.style.colorScheme = t.cs;
+
+      var font = (p.font === 'sans' || p.font === 'hyperlegible') ? p.font : 'serif';
+      html.setAttribute('data-font', font);
+
+      var s = html.style;
+
+      var scale = (+p.fontScale || 100);
+      s.setProperty('--fontscale', scale + '%');
+      html.setAttribute('data-fontscale', String(scale));
+
+      var lw = (+p.lineWidth || 66);
+      s.setProperty('--measure', lw + 'ch');
+      html.setAttribute('data-line-width', lw <= 62 ? 'estreito' : (lw >= 70 ? 'largo' : 'medio'));
+
+      var lh = (+p.leading || 1.66);
+      s.setProperty('--leading', lh.toString());
+      html.setAttribute('data-leading', lh <= 1.66 ? 'compacto' : 'confortavel');
+
+      var DISP = {
+        serif: '"Spectral", Georgia, "Times New Roman", serif',
+        sans: 'ui-sans-serif, system-ui, -apple-system, "Segoe UI", Roboto, sans-serif',
+        hyperlegible: '"Atkinson Hyperlegible", system-ui, -apple-system, sans-serif'
+      };
+      var BODY = {
+        serif: '"Source Serif 4", Georgia, "Times New Roman", serif',
+        sans: 'ui-sans-serif, system-ui, -apple-system, "Segoe UI", Roboto, sans-serif',
+        hyperlegible: '"Atkinson Hyperlegible", system-ui, -apple-system, sans-serif'
+      };
+      s.setProperty('--font-disp', DISP[font] || DISP.serif);
+      s.setProperty('--font-body', BODY[font] || BODY.serif);
+    } catch (err) {
+      try {
+        document.documentElement.setAttribute('data-theme', 'papel');
+        document.documentElement.style.colorScheme = 'light';
+      } catch (e) {}
+    }
+  })();
+  </script>
+
+  <meta name="inema-course" content="inema-ncia" />
+  <script type="application/json" data-inema-manifest>
+{
+  "course": "inema-ncia",
+  "tracks": [
+    {
+      "n": "1",
+      "title": "Atenção",
+      "modules": [
+        {
+          "id": "1-1",
+          "title": "Necessidades & Atencao",
+          "topics": 3,
+          "href": "t1-1.html"
+        },
+        {
+          "id": "1-2",
+          "title": "A economia da distracao",
+          "topics": 3,
+          "href": "t1-2.html"
+        }
+      ]
+    },
+    {
+      "n": "2",
+      "title": "Percepção",
+      "modules": [
+        {
+          "id": "2-1",
+          "title": "Percepcao & valor",
+          "topics": 3,
+          "href": "t2-1.html"
+        },
+        {
+          "id": "2-2",
+          "title": "Como aprendemos",
+          "topics": 2,
+          "href": "t2-2.html"
+        }
+      ]
+    },
+    {
+      "n": "3",
+      "title": "Hábitos",
+      "modules": [
+        {
+          "id": "3-1",
+          "title": "Motivacao & determinacao",
+          "topics": 2,
+          "href": "t3-1.html"
+        },
+        {
+          "id": "3-2",
+          "title": "Rotinas que sustentam",
+          "topics": 3,
+          "href": "t3-2.html"
+        }
+      ]
+    },
+    {
+      "n": "4",
+      "title": "Habilidades",
+      "modules": [
+        {
+          "id": "4-1",
+          "title": "Habilidades & talentos do futuro",
+          "topics": 3,
+          "href": "t4-1.html"
+        }
+      ]
+    },
+    {
+      "n": "5",
+      "title": "Persuasão",
+      "modules": [
+        {
+          "id": "5-1",
+          "title": "Persuasao & estoria",
+          "topics": 2,
+          "href": "t5-1.html"
+        },
+        {
+          "id": "5-2",
+          "title": "Aplicacao",
+          "topics": 3,
+          "href": "t5-2.html"
+        }
+      ]
+    },
+    {
+      "n": "6",
+      "title": "Recursos",
+      "modules": [
+        {
+          "id": "6-1",
+          "title": "Recursos do Canal",
+          "topics": 3,
+          "href": "t6-1.html"
+        }
+      ]
+    }
+  ]
+}
+  </script>
+
+  <title>Modulo 1-1 &mdash; Necessidades & Atencao | INEMA.NCIA</title>
+
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Spectral:ital,wght@0,300;0,400;0,500;0,600;0,700;1,400;1,500&family=Source+Serif+4:ital,opsz,wght@0,8..60,400;0,8..60,500;0,8..60,600;1,8..60,400;1,8..60,500&family=IBM+Plex+Mono:wght@400;500&family=Atkinson+Hyperlegible:ital,wght@0,400;0,700;1,400&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="./assets/learn.css" />
+</head>
+<body>
+  <a class="skip" href="#reading">Pular para o conteudo</a>
+  <div class="reader-bar">
+    <div class="reader-inner">
+      <a class="wordmark" href="https://inema.club">INEMA<span class="dot">.</span><span class="club">CLUB</span></a>
+      <div class="reader-controls" data-inema-appearance>
+        <span class="rc-read"><span data-inema-meter="modulo:1-1"><span data-inema-meter-frac><strong>0</strong> de 3</span></span> lidas</span>
+        <div class="rc-group" role="group" aria-label="Tema de leitura">
+          <button type="button" class="rc-btn" data-inema-set-theme="papel" aria-pressed="true">Papel</button>
+          <button type="button" class="rc-btn" data-inema-set-theme="sepia" aria-pressed="false">Sepia</button>
+          <button type="button" class="rc-btn" data-inema-set-theme="escuro" aria-pressed="false">Escuro</button>
+        </div>
+        <div class="rc-group" role="group" aria-label="Fonte de leitura">
+          <button type="button" class="rc-btn" data-inema-set-font="serif" aria-pressed="true">Serif</button>
+          <button type="button" class="rc-btn" data-inema-set-font="sans" aria-pressed="false">Sans</button>
+          <button type="button" class="rc-btn" data-inema-set-font="hyperlegible" aria-pressed="false" title="Atkinson Hyperlegible">Aa&#8633;</button>
+        </div>
+        <div class="rc-group" role="group" aria-label="Tamanho do texto">
+          <button type="button" class="rc-btn" data-inema-set-fontscale="100" aria-pressed="true">A</button>
+          <button type="button" class="rc-btn" data-inema-set-fontscale="112" aria-pressed="false">A+</button>
+          <button type="button" class="rc-btn" data-inema-set-fontscale="125" aria-pressed="false">A++</button>
+        </div>
+        <div class="rc-group" role="group" aria-label="Largura da linha">
+          <button type="button" class="rc-btn" data-inema-set-linewidth="62" aria-pressed="false">Estreito</button>
+          <button type="button" class="rc-btn" data-inema-set-linewidth="66" aria-pressed="true">Medio</button>
+          <button type="button" class="rc-btn" data-inema-set-linewidth="70" aria-pressed="false">Largo</button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <header class="masthead">
+    <nav class="wayfind" aria-label="Onde voce esta">
+      <span><a href="index.html" style="text-decoration:none">INEMA.NCIA</a></span><span class="sep">&middot;</span>
+      <span><a href="t1.html" style="text-decoration:none">Trilha <b>1</b></a></span><span class="sep">&middot;</span>
+      <span>Modulo <b>1-1</b></span><span class="sep">&middot;</span>
+      <span data-inema-section-counter>Secao 1 de 3</span><span class="sep">&middot;</span>
+      <button type="button" data-inema-journey-open>Minha jornada <span class="inema-journey-badge" data-inema-journey-badge data-count="0">0</span></button>
+    </nav>
+  <nav class="course-nav" aria-label="Trilhas do curso" data-course-nav>
+    <a class="cn-home" href="index.html">Início</a>
+    <span class="cn-sep">&middot;</span>
+    <a href="t1.html" class="active" aria-current="page"><b>1</b>&nbsp;Atenção</a>
+    <a href="t2.html"><b>2</b>&nbsp;Percepção</a>
+    <a href="t3.html"><b>3</b>&nbsp;Hábitos</a>
+    <a href="t4.html"><b>4</b>&nbsp;Habilidades</a>
+    <a href="t5.html"><b>5</b>&nbsp;Persuasão</a>
+    <a href="t6.html"><b>6</b>&nbsp;Recursos</a>
+  </nav>
+  </header>
+
+  <main class="spread"><div class="leaf">
+      <article class="reading" id="reading">
+        <p class="kicker">Modulo 1-1 &middot; Trilha 1 &middot; INEMA.NCIA</p>
+        <h1 class="module">Necessidades &amp; Atencao</h1>
+        <p class="deck">O que move o comportamento e como a atencao e capturada — necessidades, atencao seletiva e o circuito do vicio.</p>
+        <p class="read-meta"><span class="here">Lendo agora</span><span>3 secoes</span><span><a href="t1.html" style="color:inherit">&larr; indice da trilha</a></span></p>
+        <section class="aims" aria-label="O que este modulo cobre"><h2>O que este modulo cobre</h2><ul><li>Necessidades Humanas</li><li>Atencao Seletiva e o SRAA</li><li>A Neurociencia do Vicio</li></ul></section>
+          <nav class="toc" aria-label="Sumario do modulo" data-inema-toc>
+            <p class="toc-head">Sumario do modulo</p>
+            <ol>
+            <li class="current"><span class="dot-now"></span><span class="n">1</span><a href="#topico-1"><span class="t">Necessidades Humanas</span></a></li>
+            <li><span class="n">2</span><a href="#topico-2"><span class="t">Atencao Seletiva e o SRAA</span></a><span class="leader"></span></li>
+            <li><span class="n">3</span><a href="#topico-3"><span class="t">A Neurociencia do Vicio</span></a><span class="leader"></span></li>
+            </ol>
+          </nav>
+
+<section id="topico-1"
+                 data-inema-topic="modulo-1-1#topico-1"
+                 data-inema-module="1-1"
+                 data-inema-track="1">
+          <div class="section-mark">
+            <span class="where">Secao 1 de 3</span><span>&middot;</span><span>Necessidades</span>
+          </div>
+          <h2 class="head"><span class="num">1.</span>Necessidades Humanas</h2>
+
+          <div class="prose">
+            <p class="lede dropcap" data-inema-block="m1-t1-p1">Antes de falar de foco, vale uma pergunta mais
+              antiga: <em>o que move uma pessoa?</em> Ao longo do seculo XX, varias teorias tentaram mapear as
+              necessidades e a motivacao humana. Nenhuma e a resposta final &mdash; cada uma ilumina um angulo e
+              deixa outro na sombra.<span class="sidenote-ref">1</span> Conhece-las e ganhar vocabulario para
+              entender o terreno em que a atencao depois sera disputada.</p>
+
+            <p data-inema-block="m1-t1-p2">A mais conhecida e a <strong>Piramide de Maslow</strong>, que organiza
+              as necessidades em cinco niveis &mdash; fisiologicas, seguranca, sociais, estima e auto-realizacao.
+              Sua forca e a clareza; sua fraqueza, supor que percorremos a piramide em ordem, quando na pratica
+              buscamos varios niveis ao mesmo tempo. A <strong>Teoria ERG, de Alderfer</strong>, reorganiza isso
+              em existencia, relacionamento e crescimento, e admite justamente o que falta a Maslow: que as
+              pessoas perseguem necessidades em paralelo, nao em fila.</p>
+
+            <h3 class="sub">Da motivacao no trabalho ao estado de fluxo</h3>
+
+            <p data-inema-block="m1-t1-p3">Outras teorias miram contextos especificos. A <strong>dos Dois
+              Fatores, de Herzberg</strong>, separa o que motiva de fato do que apenas evita a insatisfacao. A
+              <strong>da Autodeterminacao</strong> aposta na motivacao intrinseca e em tres necessidades
+              &mdash; autonomia, competencia e relacionamento. <strong>McClelland</strong> fala em afiliacao,
+              poder e realizacao; <strong>Vroom</strong>, em expectativa, instrumentalidade e valencia &mdash; a
+              motivacao como calculo entre esforco, desempenho e recompensa.</p>
+
+            <p data-inema-block="m1-t1-p4">Vale destacar a <strong>Teoria do Fluxo</strong>: o estado de imersao
+              total numa atividade que une prazer e produtividade. Ela aparece quando o desafio se equilibra com a
+              habilidade &mdash; e e <em>dificil de atingir em ambientes cheios de distracoes</em>. Guarde essa
+              ultima frase: ela e a ponte para tudo o que vem nesta trilha.</p>
+          </div>
+
+          <details class="go-deeper">
+            <summary><span class="chev">&#9656;</span> Indo mais fundo: por que nenhuma teoria fecha sozinha
+              <span class="opt">opcional</span></summary>
+            <div class="inner">
+              <p>O caminho-feliz acima ja basta para seguir. Esta camada e para quem quer entender por que ha
+                tantas teorias concorrentes &mdash; e pode ser pulada sem perda.</p>
+              <p>Cada modelo nasceu de uma pergunta diferente. Maslow e Alderfer perguntam <em>quais</em>
+                necessidades existem e como se ordenam. Herzberg e a Autodeterminacao perguntam <em>o que</em>
+                motiva no ambiente de trabalho. Vroom pergunta <em>como</em> a recompensa percebida vira esforco.
+                Por isso elas nao se anulam: respondem coisas distintas. A limitacao comum &mdash; apontada em
+                varias delas &mdash; e a base empirica fragil e a dificuldade de medir necessidades subjetivas em
+                contextos diversos. A leitura util nao e escolher a teoria "certa", e saber qual lente serve a
+                qual situacao.</p>
+            </div>
+          </details>
+        </section>
+<section id="topico-2"
+                 data-inema-topic="modulo-1-1#topico-2"
+                 data-inema-module="1-1"
+                 data-inema-track="1">
+          <div class="section-mark">
+            <span class="where">Secao 2 de 3</span><span>&middot;</span><span>Atencao seletiva</span>
+          </div>
+          <h2 class="head"><span class="num">2.</span>Atencao Seletiva e o SRAA</h2>
+
+          <div class="prose">
+            <p class="lede" data-inema-block="m1-t2-p1">Seu cerebro recebe muito mais do que consegue notar. Por
+              isso existe um porteiro: o <strong>Sistema Reticular Ativador Ascendente</strong>, ou
+              <strong>SRAA</strong> &mdash; uma estrutura que regula o estado de vigilia e filtra quais estimulos
+              chegam ao cortex, decidindo, a cada instante, o que sobe a consciencia e o que fica de fora.<span class="sidenote-ref">2</span></p>
+
+            <p data-inema-block="m1-t2-p2">A escala da filtragem impressiona. Estima-se que o cerebro processe
+              cerca de 400 bilhoes de bytes de informacao por segundo, mas apenas algo na ordem de 2 mil bytes
+              alcance a consciencia. O resto fica abaixo da linha d'agua. Sem esse filtro, a sobrecarga seria
+              total &mdash; e o criterio que ele usa para decidir o que passa e, em boa parte, a
+              <em>relevancia percebida</em>.</p>
+
+            <h3 class="sub">O carro vermelho e o que voce "programa"</h3>
+
+            <p data-inema-block="m1-t2-p3">Dai vem o exemplo classico: ao desejar um carro vermelho, voce passa a
+              notar carros vermelhos por toda parte. A quantidade no mundo nao mudou &mdash; o que mudou foi o seu
+              foco. A repeticao de pensamentos, palavras e intencoes sinaliza ao SRAA que aquilo importa, e ele
+              passa a destacar no ambiente tudo que se correlaciona. O lado sombrio e simetrico: repetir
+              "nao vai dar certo" ensina o filtro a confirmar o pessimismo, varrendo o bom de cena.</p>
+
+            <p data-inema-block="m1-t2-p4">Convem uma ressalva honesta. A ideia popular de que repetir uma frase
+              exatamente 21 vezes a torna de "vital interesse" para o sistema <em>carece de respaldo
+              cientifico</em>. A formacao de habitos e a percepcao seletiva sao processos complexos, que envolvem
+              emocao, contexto e frequencia &mdash; e os mecanismos exatos ainda sao tema de estudo em
+              neurociencia. O efeito do foco e real; o numero magico, nao.</p>
+          </div>
+
+          <div class="predict">
+            <p class="lbl">Pare e preveja</p>
+            <p>Se o SRAA destaca aquilo em que voce repara com frequencia, o que acontece quando voce passa horas
+              por dia rolando um feed projetado para prender a atencao?</p>
+            <details>
+              <summary>Ver uma resposta possivel</summary>
+              <p class="answer">Voce treina o filtro para priorizar exatamente esses estimulos &mdash; e a notar
+                cada vez mais do mesmo. O que voce escolhe repetir, o cerebro aprende a destacar. E o tema da
+                proxima secao: como esse mecanismo e explorado de proposito.</p>
+            </details>
+          </div>
+        </section>
+<section id="topico-3"
+                 data-inema-topic="modulo-1-1#topico-3"
+                 data-inema-module="1-1"
+                 data-inema-track="1">
+          <div class="section-mark">
+            <span class="where">Secao 3 de 3</span><span>&middot;</span><span>Vicio</span>
+          </div>
+          <h2 class="head"><span class="num">3.</span>A Neurociencia do Vicio</h2>
+
+          <div class="prose">
+            <p class="lede" data-inema-block="m1-t3-p1">Vicio nao e falta de forca de vontade &mdash; tem base
+              biologica. A neurociencia do vicio estuda como certas substancias e comportamentos sequestram os
+              circuitos cerebrais ligados a recompensa, a motivacao e ao autocontrole. E vale tanto para drogas
+              quanto para comportamentos: jogo, compras, comida e, cada vez mais, redes sociais.<span class="sidenote-ref">3</span></p>
+
+            <p data-inema-block="m1-t3-p2">Tres pecas do cerebro entram em cena. O <strong>sistema de
+              recompensa</strong> &mdash; nucleo accumbens e <strong>dopamina</strong> &mdash; dispara quando algo
+              da prazer. O <strong>cortex pre-frontal</strong>, centro do planejamento e do controle de impulsos,
+              tem sua atividade reduzida no vicio, o que enfraquece a capacidade de resistir. E a
+              <strong>amigdala</strong> com o <strong>hipocampo</strong> guardam memorias emocionais fortes
+              &mdash; os gatilhos que reacendem o desejo muito depois.</p>
+
+            <h3 class="sub">Por que a rede social funciona como cassino</h3>
+
+            <p data-inema-block="m1-t3-p3">As plataformas foram desenhadas para acionar esse sistema sem parar. O
+              motor central e a <strong>recompensa variavel intermitente</strong>: como uma maquina caca-niqueis,
+              as vezes vem o premio &mdash; like, comentario, notificacao &mdash; e as vezes nao. A incerteza e
+              justamente o que prende, mantendo voce no ciclo a espera da proxima dose de dopamina. Some a isso o
+              <strong>FOMO</strong> dos stories que somem em 24 horas e a <strong>validacao social</strong> que
+              transforma curtidas em necessidade.</p>
+
+            <p data-inema-block="m1-t3-p4">O custo aparece com o tempo. O excesso de estimulo causa
+              <em>dessensibilizacao</em>: conteudos comuns ficam entediantes, e o cerebro pede doses cada vez mais
+              intensas &mdash; a mesma tolerancia que o vicio quimico produz. Longe do celular, vem a abstinencia
+              em forma de ansiedade. O problema, conclui o campo, nao esta so no usuario: esta em como as
+              plataformas exploram vulnerabilidades reais do cerebro para maximizar o engajamento.</p>
+          </div>
+
+          <details class="go-deeper">
+            <summary><span class="chev">&#9656;</span> Indo mais fundo: como recalibrar o sistema de recompensa
+              <span class="opt">opcional</span></summary>
+            <div class="inner">
+              <p>Camada opcional &mdash; o que a propria literatura sugere para sair da prisao sem demonizar a
+                ferramenta.</p>
+              <p>Quase toda estrategia ataca o <em>gatilho</em> ou a <em>dose</em>. Reduzir notificacoes corta os
+                sinais que disparam o ciclo. Criar barreiras fisicas &mdash; o celular longe da cama, horarios
+                definidos &mdash; quebra o comportamento automatico. Substituir estimulos por atividades que
+                exigem esforco real e presenca (exercicio, por exemplo) ajuda a recalibrar a dopamina. Usar a rede
+                de forma intencional, criando em vez de so consumir, reduz o impacto; e periodos de detox digital
+                dao folego ao sistema de recompensa para voltar ao equilibrio. O objetivo nao e abstinencia
+                total, e uma relacao em que a tecnologia volta a ser ferramenta.</p>
+            </div>
+          </details>
+        </section>
+                <section class="journey" aria-label="Minha jornada">
+          <div class="journey-top"><h2><span class="ico">&#10087;</span> Minha jornada</h2><button class="journey-cta" type="button" data-inema-journey-open>Abrir caderno &rarr;</button></div>
+          <div class="journey-body">
+            <div class="jstat"><div class="k">Neste modulo</div><div class="v" data-inema-meter="modulo:1-1"><span data-inema-meter-frac><strong>0</strong> de 3</span> <span class="nm">secoes lidas</span><div class="progress-line"><span class="progress-line__fill" data-inema-meter-fill></span></div></div></div>
+            <div class="jstat"><div class="k">Na trilha 1</div><div class="v" data-inema-meter="trilha:1"><span data-inema-meter-frac><strong>0</strong> de 6</span> <span class="nm">topicos</span><div class="progress-line"><span class="progress-line__fill" data-inema-meter-fill></span></div></div></div>
+            <div class="jstat"><div class="k">No curso</div><div class="v" data-inema-meter="curso"><span data-inema-meter-frac><strong>0</strong> de 27</span> <span class="nm">percorrido</span><div class="progress-line"><span class="progress-line__fill" data-inema-meter-fill></span></div></div></div>
+          </div>
+        </section>
+
+        <div class="nextup"><div class="txt"><div class="k">Continuar</div><div class="t">Modulo 1-2 &mdash; A economia da distracao</div></div><a class="go" href="t1-2.html">Proximo &rarr;</a></div>
+      </article>
+      <aside class="margin-rail" aria-label="Margem: notas e seu painel">
+        <aside data-inema-rail="modulo-1-1#topico-1"></aside>
+
+        <aside class="sidenote" data-kind="definicao">
+          <div class="tag">Definicao</div>
+          <b>Motivacao intrinseca.</b> O impulso que vem da propria atividade &mdash; nao de premio ou punicao
+          externos. E o coracao da Teoria da Autodeterminacao: autonomia, competencia e relacionamento.
+        </aside>
+        <aside class="sidenote" data-kind="fundo">
+          <div class="tag">Indo mais fundo</div>
+          O <i>estado de fluxo</i> exige equilibrio entre desafio e habilidade &mdash; e some quando o ambiente
+          esta cheio de distracoes. Por isso esta secao abre a trilha: e a ponte para o tema do foco.
+        </aside>
+
+        <!-- ---- SECAO 2 ---- -->
+        
+        <aside data-inema-rail="modulo-1-1#topico-2"></aside>
+
+        <aside class="sidenote" data-kind="definicao">
+          <div class="tag">Definicao</div>
+          <b>SRAA.</b> Sistema Reticular Ativador Ascendente: estrutura que regula a vigilia e filtra quais
+          estimulos sensoriais chegam ao cortex &mdash; o porteiro da sua atencao.
+        </aside>
+        <aside class="sidenote" data-kind="fonte">
+          <div class="tag">Fonte</div>
+          O numero "21 vezes" para fixar uma frase na atencao circula em conteudos populares, mas <i>carece de
+          respaldo cientifico</i>. O efeito do foco e real; a quantidade exata, nao.
+        </aside>
+
+        <!-- ---- SECAO 3 ---- -->
+        
+        <aside data-inema-rail="modulo-1-1#topico-3"></aside>
+
+        <aside class="sidenote" data-kind="definicao">
+          <div class="tag">Definicao</div>
+          <b>Recompensa variavel intermitente.</b> Premio que chega de forma imprevisivel &mdash; as vezes sim,
+          as vezes nao. E o mecanismo da maquina caca-niqueis, e o motor do feed.
+        </aside>
+        <aside class="sidenote" data-kind="fundo">
+          <div class="tag">Indo mais fundo</div>
+          <i>Dessensibilizacao:</i> o excesso de estimulo cria tolerancia neural; o comum fica entediante e o
+          cerebro pede doses mais intensas &mdash; a mesma logica do vicio quimico.
+        </aside>
+
+        <!-- ---- SECAO 4 ---- -->
+        
+      </aside>
+  </div></main>
+  <footer class="colophon"><span>INEMA.CLUB &middot; Caderno do aluno</span><span class="pg">Modulo 1-1</span><span>Composto em Spectral &amp; Source Serif 4</span></footer>
+  <script src="./assets/learn.js"></script>
+  <script>
+    if (window.INEMA && typeof window.INEMA.init === "function") { window.INEMA.init(); }
+  </script>
+</body>
+</html>

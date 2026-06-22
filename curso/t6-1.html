@@ -75,44 +75,125 @@
   })();
   </script>
 
-  <!-- 2) Identidade do curso + manifesto (courseId estavel + estrutura completa) -->
   <meta name="inema-course" content="inema-ncia" />
   <script type="application/json" data-inema-manifest>
-  {
-    "course": "inema-ncia",
-    "tracks": [
-      { "n":"1","title":"Neurociencia da Atencao","modules":[{"id":"1","title":"Neurociencia da Atencao & do Foco","topics":6,"href":"t/t1.html"}]},
-      { "n":"2","title":"Percepcao & Autoconhecimento","modules":[{"id":"2","title":"Percepcao & Autoconhecimento","topics":5,"href":"t/t2.html"}]},
-      { "n":"3","title":"Habitos & Determinacao","modules":[{"id":"3","title":"Habitos, Motivacao & Determinacao","topics":5,"href":"t/t3.html"}]},
-      { "n":"4","title":"Habilidades & Talentos","modules":[{"id":"4","title":"Habilidades & Talentos do Futuro","topics":3,"href":"t/t4.html"}]},
-      { "n":"5","title":"Persuasao & Viral","modules":[{"id":"5","title":"Persuasao & Psicologia Viral","topics":5,"href":"t/t5.html"}]},
-      { "n":"6","title":"Recursos do Canal","modules":[{"id":"6","title":"Recursos do Canal","topics":3,"href":"t/t6.html"}]}
-    ]
-  }
+{
+  "course": "inema-ncia",
+  "tracks": [
+    {
+      "n": "1",
+      "title": "Atenção",
+      "modules": [
+        {
+          "id": "1-1",
+          "title": "Necessidades & Atencao",
+          "topics": 3,
+          "href": "t1-1.html"
+        },
+        {
+          "id": "1-2",
+          "title": "A economia da distracao",
+          "topics": 3,
+          "href": "t1-2.html"
+        }
+      ]
+    },
+    {
+      "n": "2",
+      "title": "Percepção",
+      "modules": [
+        {
+          "id": "2-1",
+          "title": "Percepcao & valor",
+          "topics": 3,
+          "href": "t2-1.html"
+        },
+        {
+          "id": "2-2",
+          "title": "Como aprendemos",
+          "topics": 2,
+          "href": "t2-2.html"
+        }
+      ]
+    },
+    {
+      "n": "3",
+      "title": "Hábitos",
+      "modules": [
+        {
+          "id": "3-1",
+          "title": "Motivacao & determinacao",
+          "topics": 2,
+          "href": "t3-1.html"
+        },
+        {
+          "id": "3-2",
+          "title": "Rotinas que sustentam",
+          "topics": 3,
+          "href": "t3-2.html"
+        }
+      ]
+    },
+    {
+      "n": "4",
+      "title": "Habilidades",
+      "modules": [
+        {
+          "id": "4-1",
+          "title": "Habilidades & talentos do futuro",
+          "topics": 3,
+          "href": "t4-1.html"
+        }
+      ]
+    },
+    {
+      "n": "5",
+      "title": "Persuasão",
+      "modules": [
+        {
+          "id": "5-1",
+          "title": "Persuasao & estoria",
+          "topics": 2,
+          "href": "t5-1.html"
+        },
+        {
+          "id": "5-2",
+          "title": "Aplicacao",
+          "topics": 3,
+          "href": "t5-2.html"
+        }
+      ]
+    },
+    {
+      "n": "6",
+      "title": "Recursos",
+      "modules": [
+        {
+          "id": "6-1",
+          "title": "Recursos do Canal",
+          "topics": 3,
+          "href": "t6-1.html"
+        }
+      ]
+    }
+  ]
+}
   </script>
 
-  <title>Trilha 6 — Recursos do Canal | INEMA.NCIA</title>
+  <title>Modulo 6-1 &mdash; Recursos do Canal | INEMA.NCIA</title>
 
-  <!-- 3) Fontes (DEPOIS do anti-FOUC) -->
   <link rel="preconnect" href="https://fonts.googleapis.com" />
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
   <link href="https://fonts.googleapis.com/css2?family=Spectral:ital,wght@0,300;0,400;0,500;0,600;0,700;1,400;1,500&family=Source+Serif+4:ital,opsz,wght@0,8..60,400;0,8..60,500;0,8..60,600;1,8..60,400;1,8..60,500&family=IBM+Plex+Mono:wght@400;500&family=Atkinson+Hyperlegible:ital,wght@0,400;0,700;1,400&display=swap" rel="stylesheet" />
-
-  <!-- 4) Folha de estilos da camada de aprendizagem v3 (caminho RELATIVO) -->
-  <link rel="stylesheet" href="../assets/learn.css" />
+  <link rel="stylesheet" href="./assets/learn.css" />
 </head>
-
 <body>
-
-  <!-- SKIP LINK (primeiro focavel) -->
   <a class="skip" href="#reading">Pular para o conteudo</a>
-
-  <!-- ===================== READER BAR — controles minimos ===================== -->
   <div class="reader-bar">
     <div class="reader-inner">
       <a class="wordmark" href="https://inema.club">INEMA<span class="dot">.</span><span class="club">CLUB</span></a>
       <div class="reader-controls" data-inema-appearance>
-        <span class="rc-read"><span data-inema-meter="modulo:6"><span data-inema-meter-frac><strong>0</strong> de 3</span></span> lidas</span>
+        <span class="rc-read"><span data-inema-meter="modulo:6-1"><span data-inema-meter-frac><strong>0</strong> de 3</span></span> lidas</span>
         <div class="rc-group" role="group" aria-label="Tema de leitura">
           <button type="button" class="rc-btn" data-inema-set-theme="papel" aria-pressed="true">Papel</button>
           <button type="button" class="rc-btn" data-inema-set-theme="sepia" aria-pressed="false">Sepia</button>
@@ -121,7 +202,7 @@
         <div class="rc-group" role="group" aria-label="Fonte de leitura">
           <button type="button" class="rc-btn" data-inema-set-font="serif" aria-pressed="true">Serif</button>
           <button type="button" class="rc-btn" data-inema-set-font="sans" aria-pressed="false">Sans</button>
-          <button type="button" class="rc-btn" data-inema-set-font="hyperlegible" aria-pressed="false" title="Atkinson Hyperlegible — legibilidade maxima">Aa&#8633;</button>
+          <button type="button" class="rc-btn" data-inema-set-font="hyperlegible" aria-pressed="false" title="Atkinson Hyperlegible">Aa&#8633;</button>
         </div>
         <div class="rc-group" role="group" aria-label="Tamanho do texto">
           <button type="button" class="rc-btn" data-inema-set-fontscale="100" aria-pressed="true">A</button>
@@ -137,21 +218,16 @@
     </div>
   </div>
 
-  <!-- ===================== MASTHEAD + WAYFINDING ===================== -->
   <header class="masthead">
     <nav class="wayfind" aria-label="Onde voce esta">
-      <span><a href="../index.html" style="text-decoration:none">INEMA.NCIA</a></span>
-      <span class="sep">&middot;</span>
-      <span>Trilha <b>6</b> Recursos do Canal</span>
-      <span class="sep">&middot;</span>
-      <span data-inema-section-counter>Secao 1 de 3</span>
-      <span class="sep">&middot;</span>
-      <button type="button" data-inema-journey-open>
-        Minha jornada <span class="inema-journey-badge" data-inema-journey-badge data-count="0">0</span>
-      </button>
+      <span><a href="index.html" style="text-decoration:none">INEMA.NCIA</a></span><span class="sep">&middot;</span>
+      <span><a href="t6.html" style="text-decoration:none">Trilha <b>6</b></a></span><span class="sep">&middot;</span>
+      <span>Modulo <b>6-1</b></span><span class="sep">&middot;</span>
+      <span data-inema-section-counter>Secao 1 de 3</span><span class="sep">&middot;</span>
+      <button type="button" data-inema-journey-open>Minha jornada <span class="inema-journey-badge" data-inema-journey-badge data-count="0">0</span></button>
     </nav>
-    <nav class="course-nav" aria-label="Trilhas do curso" data-course-nav>
-    <a class="cn-home" href="../index.html">Início</a>
+  <nav class="course-nav" aria-label="Trilhas do curso" data-course-nav>
+    <a class="cn-home" href="index.html">Início</a>
     <span class="cn-sep">&middot;</span>
     <a href="t1.html"><b>1</b>&nbsp;Atenção</a>
     <a href="t2.html"><b>2</b>&nbsp;Percepção</a>
@@ -160,51 +236,27 @@
     <a href="t5.html"><b>5</b>&nbsp;Persuasão</a>
     <a href="t6.html" class="active" aria-current="page"><b>6</b>&nbsp;Recursos</a>
   </nav>
-</header>
+  </header>
 
-  <!-- ===================== SPREAD: coluna de leitura + trilho de margem ===================== -->
-  <main class="spread">
-    <div class="leaf">
-
-      <!-- ============================= COLUNA DE LEITURA ============================= -->
+  <main class="spread"><div class="leaf">
       <article class="reading" id="reading">
-
-        <!-- abertura da trilha -->
-        <p class="kicker">Trilha 6 &middot; INEMA.NCIA</p>
-        <h1 class="module">Recursos do <em>Canal</em></h1>
-        <p class="deck">O apendice vivo do INEMA.NCIA: as boas-vindas, a biblioteca de videos e o indice
-          completo dos topicos, com link de volta para cada conversa original no Telegram.</p>
-        <p class="read-meta">
-          <span class="here">Lendo agora</span>
-          <span>~6 min &middot; apendice</span>
-          <span>3 secoes</span>
-        </p>
-
-        <!-- objetivos: o que voce vai entender -->
-        <section class="aims" aria-label="O que voce vai encontrar">
-          <h2>O que voce vai encontrar</h2>
-          <ul>
-            <li>O <b>espirito do canal</b> em poucas palavras &mdash; e como este curso recolheu seus topicos.</li>
-            <li>A <b>biblioteca de videos</b>, com os links de cada material em video reunidos num so lugar.</li>
-            <li>O <b>indice completo dos topicos</b>, com o link <code>t.me</code> que leva a conversa original.</li>
-          </ul>
-        </section>
-
-        <!-- SUMARIO -->
-        <nav class="toc" aria-label="Sumario da trilha" data-inema-toc>
-          <p class="toc-head">Sumario &mdash; tres recursos</p>
-          <ol>
-            <li class="current"><span class="dot-now"></span><span class="n">1</span>
-              <a href="#topico-1"><span class="t">Boas-vindas ao INEMA.NCIA</span></a></li>
+        <p class="kicker">Modulo 6-1 &middot; Trilha 6 &middot; INEMA.NCIA</p>
+        <h1 class="module">Recursos do Canal</h1>
+        <p class="deck">Boas-vindas, biblioteca de videos e o indice dos topicos originais, com link de volta para o Telegram.</p>
+        <p class="read-meta"><span class="here">Lendo agora</span><span>3 secoes</span><span><a href="t6.html" style="color:inherit">&larr; indice da trilha</a></span></p>
+        <section class="aims" aria-label="O que este modulo cobre"><h2>O que este modulo cobre</h2><ul><li>Boas-vindas ao INEMA.NCIA</li><li>Biblioteca de Videos</li><li>Indice de Topicos do Canal</li></ul></section>
+          <nav class="toc" aria-label="Sumario do modulo" data-inema-toc>
+            <p class="toc-head">Sumario do modulo</p>
+            <ol>
+            <li class="current"><span class="dot-now"></span><span class="n">1</span><a href="#topico-1"><span class="t">Boas-vindas ao INEMA.NCIA</span></a></li>
             <li><span class="n">2</span><a href="#topico-2"><span class="t">Biblioteca de Videos</span></a><span class="leader"></span></li>
             <li><span class="n">3</span><a href="#topico-3"><span class="t">Indice de Topicos do Canal</span></a><span class="leader"></span></li>
-          </ol>
-        </nav>
+            </ol>
+          </nav>
 
-        <!-- ============================= SECAO 1 ============================= -->
-        <section id="topico-1"
-                 data-inema-topic="modulo-6#topico-1"
-                 data-inema-module="6"
+<section id="topico-1"
+                 data-inema-topic="modulo-6-1#topico-1"
+                 data-inema-module="6-1"
                  data-inema-track="6">
           <div class="section-mark">
             <span class="where">Secao 1 de 3</span><span>&middot;</span><span>Boas-vindas</span>
@@ -251,11 +303,9 @@
             </div>
           </details>
         </section>
-
-        <!-- ============================= SECAO 2 ============================= -->
-        <section id="topico-2"
-                 data-inema-topic="modulo-6#topico-2"
-                 data-inema-module="6"
+<section id="topico-2"
+                 data-inema-topic="modulo-6-1#topico-2"
+                 data-inema-module="6-1"
                  data-inema-track="6">
           <div class="section-mark">
             <span class="where">Secao 2 de 3</span><span>&middot;</span><span>Videos</span>
@@ -278,11 +328,9 @@
               <em>Indo mais fundo</em> da Secao 1, que preserva os links diretos do YouTube.</p>
           </div>
         </section>
-
-        <!-- ============================= SECAO 3 ============================= -->
-        <section id="topico-3"
-                 data-inema-topic="modulo-6#topico-3"
-                 data-inema-module="6"
+<section id="topico-3"
+                 data-inema-topic="modulo-6-1#topico-3"
+                 data-inema-module="6-1"
                  data-inema-track="6">
           <div class="section-mark">
             <span class="where">Secao 3 de 3</span><span>&middot;</span><span>Indice</span>
@@ -335,77 +383,19 @@
               <code>t.me</code> leva a conversa original.</p>
           </div>
         </section>
-
-        <!-- ============================= KNOWLEDGE CHECK ============================= -->
-        <section class="check" aria-label="Onde encontrar as coisas">
-          <h2>Onde encontrar as coisas</h2>
-          <p class="intro">Apendice e mapa: sem nota, sem placar. Confira se voce sabe a que recurso recorrer.</p>
-
-          <details class="q-item">
-            <summary><span class="qn">01</span><span>Quero rever os videos do canal. Para onde vou?</span><span class="reveal">Revelar</span></summary>
-            <div class="ans"><p>Para a <strong>Secao 2 &mdash; Biblioteca de Videos</strong>, e dali para o
-              topico <a href="https://t.me/c/2414677686/223" rel="noopener">t.me/c/2414677686/223</a>. Os
-              videos da abertura ficam no <em>Indo mais fundo</em> da Secao 1.</p></div>
-          </details>
-          <details class="q-item">
-            <summary><span class="qn">02</span><span>Quero abrir a conversa original de um topico no Telegram. Onde acho o link?</span><span class="reveal">Revelar</span></summary>
-            <div class="ans"><p>No <strong>Indice de Topicos do Canal</strong> (Secao 3): cada item traz o
-              titulo e o link <code>t.me</code> direto da conversa original.</p></div>
-          </details>
-          <details class="q-item">
-            <summary><span class="qn">03</span><span>Prefiro ler a versao trabalhada de um topico em vez de abrir o Telegram. Por onde?</span><span class="reveal">Revelar</span></summary>
-            <div class="ans"><p>Pelas <strong>Trilhas 1 a 5</strong> deste curso, linkadas ao fim da Secao 3 &mdash;
-              a versao lida e reorganizada dos topicos do canal.</p></div>
-          </details>
-        </section>
-
-        <!-- ============================= MINHA JORNADA (painel consolidado) ============================= -->
-        <section class="journey" aria-label="Minha jornada — progresso consolidado">
-          <div class="journey-top">
-            <h2><span class="ico">&#10087;</span> Minha jornada</h2>
-            <button class="journey-cta" type="button" data-inema-journey-open>Abrir caderno &rarr;</button>
-          </div>
+                <section class="journey" aria-label="Minha jornada">
+          <div class="journey-top"><h2><span class="ico">&#10087;</span> Minha jornada</h2><button class="journey-cta" type="button" data-inema-journey-open>Abrir caderno &rarr;</button></div>
           <div class="journey-body">
-            <div class="jstat">
-              <div class="k">Nesta trilha</div>
-              <div class="v" data-inema-meter="modulo:6">
-                <span data-inema-meter-frac><strong>0</strong> de 3</span> <span class="nm">secoes lidas</span>
-                <div class="progress-line"><span class="progress-line__fill" data-inema-meter-fill></span></div>
-              </div>
-            </div>
-            <div class="jstat">
-              <div class="k">Na trilha 6</div>
-              <div class="v" data-inema-meter="trilha:6">
-                <span data-inema-meter-frac><strong>0</strong> de 3</span> <span class="nm">topicos</span>
-                <div class="progress-line"><span class="progress-line__fill" data-inema-meter-fill></span></div>
-              </div>
-            </div>
-            <div class="jstat">
-              <div class="k">No curso</div>
-              <div class="v" data-inema-meter="curso">
-                <span data-inema-meter-frac><strong>0</strong> de 27</span> <span class="nm">percorrido</span>
-                <div class="progress-line"><span class="progress-line__fill" data-inema-meter-fill></span></div>
-              </div>
-            </div>
+            <div class="jstat"><div class="k">Neste modulo</div><div class="v" data-inema-meter="modulo:6-1"><span data-inema-meter-frac><strong>0</strong> de 3</span> <span class="nm">secoes lidas</span><div class="progress-line"><span class="progress-line__fill" data-inema-meter-fill></span></div></div></div>
+            <div class="jstat"><div class="k">Na trilha 6</div><div class="v" data-inema-meter="trilha:6"><span data-inema-meter-frac><strong>0</strong> de 3</span> <span class="nm">topicos</span><div class="progress-line"><span class="progress-line__fill" data-inema-meter-fill></span></div></div></div>
+            <div class="jstat"><div class="k">No curso</div><div class="v" data-inema-meter="curso"><span data-inema-meter-frac><strong>0</strong> de 27</span> <span class="nm">percorrido</span><div class="progress-line"><span class="progress-line__fill" data-inema-meter-fill></span></div></div></div>
           </div>
         </section>
 
-        <!-- proxima acao (UMA clara) -->
-        <div class="nextup">
-          <div class="txt">
-            <div class="k">Continuar</div>
-            <div class="t">Voltar ao inicio do curso</div>
-          </div>
-          <a class="go" href="../index.html">Proximo &rarr;</a>
-        </div>
-
+        <div class="nextup"><div class="txt"><div class="k">Continuar</div><div class="t">Voltar ao inicio do curso</div></div><a class="go" href="index.html">Proximo &rarr;</a></div>
       </article>
-
-      <!-- ============================= TRILHO DE MARGEM ============================= -->
-      <aside class="margin-rail" aria-label="Margem: notas de autor, definicoes e seu painel de aprendizado">
-
-        <!-- ---- SECAO 1: painel do aluno (vazio; learn.js preenche) + sidenotes de autor ---- -->
-        <aside data-inema-rail="modulo-6#topico-1"></aside>
+      <aside class="margin-rail" aria-label="Margem: notas e seu painel">
+        <aside data-inema-rail="modulo-6-1#topico-1"></aside>
 
         <aside class="sidenote" data-kind="definicao">
           <div class="tag">Definicao</div>
@@ -424,7 +414,8 @@
         </aside>
 
         <!-- ---- SECAO 2 ---- -->
-        <aside data-inema-rail="modulo-6#topico-2"></aside>
+        
+        <aside data-inema-rail="modulo-6-1#topico-2"></aside>
 
         <aside class="sidenote" data-kind="fonte">
           <div class="tag">Fonte</div>
@@ -434,7 +425,8 @@
         </aside>
 
         <!-- ---- SECAO 3 ---- -->
-        <aside data-inema-rail="modulo-6#topico-3"></aside>
+        
+        <aside data-inema-rail="modulo-6-1#topico-3"></aside>
 
         <aside class="sidenote" data-kind="definicao">
           <div class="tag">Definicao</div>
@@ -447,27 +439,13 @@
           versao reescrita e organizada do mesmo material.
         </aside>
 
+      
       </aside>
-
-    </div>
-  </main>
-
-  <!-- COLOFAO -->
-  <footer class="colophon">
-    <span>INEMA.CLUB &middot; Caderno do aluno</span>
-    <span class="pg">Trilha 6 &mdash; folio vi</span>
-    <span>Composto em Spectral &amp; Source Serif 4</span>
-  </footer>
-
-  <!-- ===================================================================
-       FIM DO <body>: carrega + inicializa learn.js (caminho RELATIVO).
-       Idempotente: chamar init() mais de uma vez nao duplica listeners.
-       =================================================================== -->
-  <script src="../assets/learn.js"></script>
+  </div></main>
+  <footer class="colophon"><span>INEMA.CLUB &middot; Caderno do aluno</span><span class="pg">Modulo 6-1</span><span>Composto em Spectral &amp; Source Serif 4</span></footer>
+  <script src="./assets/learn.js"></script>
   <script>
-    if (window.INEMA && typeof window.INEMA.init === 'function') {
-      window.INEMA.init();
-    }
+    if (window.INEMA && typeof window.INEMA.init === "function") { window.INEMA.init(); }
   </script>
 </body>
 </html>

@@ -1,0 +1,452 @@
+<!DOCTYPE html>
+<html lang="pt-BR" data-theme="papel">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+
+  <!-- ===================================================================
+       1) ANTI-FOUC — script BLOQUEANTE, PRIMEIRO no <head>, ANTES das fontes
+          e do learn.css. Le inema.prefs (global, cross-curso) e aplica
+          data-theme + color-scheme + --measure/--leading/--fontscale +
+          data-font/--font-disp/--font-body ANTES do primeiro paint.
+          try/catch total => default papel no erro (preserva a marca INEMA).
+       =================================================================== -->
+  <script>
+  (function () {
+    try {
+      var html = document.documentElement;
+      var DEF = { theme: 'papel', font: 'serif', fontScale: 100, lineWidth: 66, leading: 1.66 };
+      function clone(o) { var r = {}; for (var x in o) r[x] = o[x]; return r; }
+      var p = clone(DEF);
+      try {
+        var raw = localStorage.getItem('inema.prefs');
+        if (raw) {
+          var parsed = JSON.parse(raw);
+          if (parsed && typeof parsed === 'object') {
+            for (var k in DEF) if (parsed[k] != null) p[k] = parsed[k];
+          }
+        }
+      } catch (e) { p = clone(DEF); }
+
+      var THEMES = {
+        'papel':  { attr: 'papel',  cs: 'light' },
+        'sepia':  { attr: 'sepia',  cs: 'light' },
+        'escuro': { attr: 'escuro', cs: 'dark'  }
+      };
+      var t = THEMES[p.theme] || THEMES['papel'];
+      html.setAttribute('data-theme', t.attr);
+      html.style.colorScheme = t.cs;
+
+      var font = (p.font === 'sans' || p.font === 'hyperlegible') ? p.font : 'serif';
+      html.setAttribute('data-font', font);
+
+      var s = html.style;
+
+      var scale = (+p.fontScale || 100);
+      s.setProperty('--fontscale', scale + '%');
+      html.setAttribute('data-fontscale', String(scale));
+
+      var lw = (+p.lineWidth || 66);
+      s.setProperty('--measure', lw + 'ch');
+      html.setAttribute('data-line-width', lw <= 62 ? 'estreito' : (lw >= 70 ? 'largo' : 'medio'));
+
+      var lh = (+p.leading || 1.66);
+      s.setProperty('--leading', lh.toString());
+      html.setAttribute('data-leading', lh <= 1.66 ? 'compacto' : 'confortavel');
+
+      var DISP = {
+        serif: '"Spectral", Georgia, "Times New Roman", serif',
+        sans: 'ui-sans-serif, system-ui, -apple-system, "Segoe UI", Roboto, sans-serif',
+        hyperlegible: '"Atkinson Hyperlegible", system-ui, -apple-system, sans-serif'
+      };
+      var BODY = {
+        serif: '"Source Serif 4", Georgia, "Times New Roman", serif',
+        sans: 'ui-sans-serif, system-ui, -apple-system, "Segoe UI", Roboto, sans-serif',
+        hyperlegible: '"Atkinson Hyperlegible", system-ui, -apple-system, sans-serif'
+      };
+      s.setProperty('--font-disp', DISP[font] || DISP.serif);
+      s.setProperty('--font-body', BODY[font] || BODY.serif);
+    } catch (err) {
+      try {
+        document.documentElement.setAttribute('data-theme', 'papel');
+        document.documentElement.style.colorScheme = 'light';
+      } catch (e) {}
+    }
+  })();
+  </script>
+
+  <meta name="inema-course" content="inema-ncia" />
+  <script type="application/json" data-inema-manifest>
+{
+  "course": "inema-ncia",
+  "tracks": [
+    {
+      "n": "1",
+      "title": "Atenção",
+      "modules": [
+        {
+          "id": "1-1",
+          "title": "Necessidades & Atencao",
+          "topics": 3,
+          "href": "t1-1.html"
+        },
+        {
+          "id": "1-2",
+          "title": "A economia da distracao",
+          "topics": 3,
+          "href": "t1-2.html"
+        }
+      ]
+    },
+    {
+      "n": "2",
+      "title": "Percepção",
+      "modules": [
+        {
+          "id": "2-1",
+          "title": "Percepcao & valor",
+          "topics": 3,
+          "href": "t2-1.html"
+        },
+        {
+          "id": "2-2",
+          "title": "Como aprendemos",
+          "topics": 2,
+          "href": "t2-2.html"
+        }
+      ]
+    },
+    {
+      "n": "3",
+      "title": "Hábitos",
+      "modules": [
+        {
+          "id": "3-1",
+          "title": "Motivacao & determinacao",
+          "topics": 2,
+          "href": "t3-1.html"
+        },
+        {
+          "id": "3-2",
+          "title": "Rotinas que sustentam",
+          "topics": 3,
+          "href": "t3-2.html"
+        }
+      ]
+    },
+    {
+      "n": "4",
+      "title": "Habilidades",
+      "modules": [
+        {
+          "id": "4-1",
+          "title": "Habilidades & talentos do futuro",
+          "topics": 3,
+          "href": "t4-1.html"
+        }
+      ]
+    },
+    {
+      "n": "5",
+      "title": "Persuasão",
+      "modules": [
+        {
+          "id": "5-1",
+          "title": "Persuasao & estoria",
+          "topics": 2,
+          "href": "t5-1.html"
+        },
+        {
+          "id": "5-2",
+          "title": "Aplicacao",
+          "topics": 3,
+          "href": "t5-2.html"
+        }
+      ]
+    },
+    {
+      "n": "6",
+      "title": "Recursos",
+      "modules": [
+        {
+          "id": "6-1",
+          "title": "Recursos do Canal",
+          "topics": 3,
+          "href": "t6-1.html"
+        }
+      ]
+    }
+  ]
+}
+  </script>
+
+  <title>Modulo 1-2 &mdash; A economia da distracao | INEMA.NCIA</title>
+
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Spectral:ital,wght@0,300;0,400;0,500;0,600;0,700;1,400;1,500&family=Source+Serif+4:ital,opsz,wght@0,8..60,400;0,8..60,500;0,8..60,600;1,8..60,400;1,8..60,500&family=IBM+Plex+Mono:wght@400;500&family=Atkinson+Hyperlegible:ital,wght@0,400;0,700;1,400&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="./assets/learn.css" />
+</head>
+<body>
+  <a class="skip" href="#reading">Pular para o conteudo</a>
+  <div class="reader-bar">
+    <div class="reader-inner">
+      <a class="wordmark" href="https://inema.club">INEMA<span class="dot">.</span><span class="club">CLUB</span></a>
+      <div class="reader-controls" data-inema-appearance>
+        <span class="rc-read"><span data-inema-meter="modulo:1-2"><span data-inema-meter-frac><strong>0</strong> de 3</span></span> lidas</span>
+        <div class="rc-group" role="group" aria-label="Tema de leitura">
+          <button type="button" class="rc-btn" data-inema-set-theme="papel" aria-pressed="true">Papel</button>
+          <button type="button" class="rc-btn" data-inema-set-theme="sepia" aria-pressed="false">Sepia</button>
+          <button type="button" class="rc-btn" data-inema-set-theme="escuro" aria-pressed="false">Escuro</button>
+        </div>
+        <div class="rc-group" role="group" aria-label="Fonte de leitura">
+          <button type="button" class="rc-btn" data-inema-set-font="serif" aria-pressed="true">Serif</button>
+          <button type="button" class="rc-btn" data-inema-set-font="sans" aria-pressed="false">Sans</button>
+          <button type="button" class="rc-btn" data-inema-set-font="hyperlegible" aria-pressed="false" title="Atkinson Hyperlegible">Aa&#8633;</button>
+        </div>
+        <div class="rc-group" role="group" aria-label="Tamanho do texto">
+          <button type="button" class="rc-btn" data-inema-set-fontscale="100" aria-pressed="true">A</button>
+          <button type="button" class="rc-btn" data-inema-set-fontscale="112" aria-pressed="false">A+</button>
+          <button type="button" class="rc-btn" data-inema-set-fontscale="125" aria-pressed="false">A++</button>
+        </div>
+        <div class="rc-group" role="group" aria-label="Largura da linha">
+          <button type="button" class="rc-btn" data-inema-set-linewidth="62" aria-pressed="false">Estreito</button>
+          <button type="button" class="rc-btn" data-inema-set-linewidth="66" aria-pressed="true">Medio</button>
+          <button type="button" class="rc-btn" data-inema-set-linewidth="70" aria-pressed="false">Largo</button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <header class="masthead">
+    <nav class="wayfind" aria-label="Onde voce esta">
+      <span><a href="index.html" style="text-decoration:none">INEMA.NCIA</a></span><span class="sep">&middot;</span>
+      <span><a href="t1.html" style="text-decoration:none">Trilha <b>1</b></a></span><span class="sep">&middot;</span>
+      <span>Modulo <b>1-2</b></span><span class="sep">&middot;</span>
+      <span data-inema-section-counter>Secao 1 de 3</span><span class="sep">&middot;</span>
+      <button type="button" data-inema-journey-open>Minha jornada <span class="inema-journey-badge" data-inema-journey-badge data-count="0">0</span></button>
+    </nav>
+  <nav class="course-nav" aria-label="Trilhas do curso" data-course-nav>
+    <a class="cn-home" href="index.html">Início</a>
+    <span class="cn-sep">&middot;</span>
+    <a href="t1.html" class="active" aria-current="page"><b>1</b>&nbsp;Atenção</a>
+    <a href="t2.html"><b>2</b>&nbsp;Percepção</a>
+    <a href="t3.html"><b>3</b>&nbsp;Hábitos</a>
+    <a href="t4.html"><b>4</b>&nbsp;Habilidades</a>
+    <a href="t5.html"><b>5</b>&nbsp;Persuasão</a>
+    <a href="t6.html"><b>6</b>&nbsp;Recursos</a>
+  </nav>
+  </header>
+
+  <main class="spread"><div class="leaf">
+      <article class="reading" id="reading">
+        <p class="kicker">Modulo 1-2 &middot; Trilha 1 &middot; INEMA.NCIA</p>
+        <h1 class="module">A economia da distracao</h1>
+        <p class="deck">Quando o ambiente vira armadilha: o objeto brilhante, o custo real da distracao e a vulnerabilidade do nosso tempo.</p>
+        <p class="read-meta"><span class="here">Lendo agora</span><span>3 secoes</span><span><a href="t1.html" style="color:inherit">&larr; indice da trilha</a></span></p>
+        <section class="aims" aria-label="O que este modulo cobre"><h2>O que este modulo cobre</h2><ul><li>A Sindrome do Objeto Brilhante (SOS)</li><li>Eficiencia x Distracao</li><li>2025: a Principal Vulnerabilidade</li></ul></section>
+          <nav class="toc" aria-label="Sumario do modulo" data-inema-toc>
+            <p class="toc-head">Sumario do modulo</p>
+            <ol>
+            <li class="current"><span class="dot-now"></span><span class="n">1</span><a href="#topico-1"><span class="t">A Sindrome do Objeto Brilhante (SOS)</span></a></li>
+            <li><span class="n">2</span><a href="#topico-2"><span class="t">Eficiencia x Distracao</span></a><span class="leader"></span></li>
+            <li><span class="n">3</span><a href="#topico-3"><span class="t">2025: a Principal Vulnerabilidade</span></a><span class="leader"></span></li>
+            </ol>
+          </nav>
+
+<section id="topico-1"
+                 data-inema-topic="modulo-1-2#topico-1"
+                 data-inema-module="1-2"
+                 data-inema-track="1">
+          <div class="section-mark">
+            <span class="where">Secao 1 de 3</span><span>&middot;</span><span>Objeto brilhante</span>
+          </div>
+          <h2 class="head"><span class="num">1.</span>A Sindrome do Objeto Brilhante (SOS)</h2>
+
+          <div class="prose">
+            <p class="lede" data-inema-block="m1-t4-p1">Se a secao anterior foi sobre distracao consumida, esta e
+              sobre distracao <em>produzida</em>. A <strong>Sindrome do Objeto Brilhante</strong> e a tendencia a
+              largar o que esta em andamento sempre que surge uma nova ideia, ferramenta ou projeto mais
+              empolgante. Cada novidade brilha &mdash; e o foco escorre para ela, deixando para tras o que ja
+              estava perto de dar fruto.<span class="sidenote-ref">4</span></p>
+
+            <p data-inema-block="m1-t4-p2">O preco e concreto. Trocar de projeto antes de terminar desperdica
+              recursos &mdash; tempo, dinheiro, equipe &mdash; sem retorno real. Abandonar uma ideia que daria
+              certo se concluida custa oportunidades. E ha o custo invisivel do tempo de <em>ramp-up</em>: cada
+              comeco exige um periodo ate alcancar eficiencia, e quem pula de uma coisa para outra nunca colhe os
+              frutos desse aprendizado. Muitos projetos comecam; quase nenhum termina.</p>
+
+            <h3 class="sub">A disciplina de filtrar ideias</h3>
+
+            <p data-inema-block="m1-t4-p3">A defesa nao e parar de ter ideias &mdash; e filtrar. Comeca com
+              <strong>clareza de objetivos</strong>: quanto mais nitido o destino, mais facil perceber quando uma
+              novidade puxa para o lado errado. Vem entao a pergunta-filtro diante de cada tentacao: <em>isso
+              contribui de forma significativa para o meu objetivo principal?</em> Se nao resolve um problema real
+              nem se alinha as metas, talvez nao seja a hora. E a regra de ouro: so comece algo novo quando tiver
+              fechado ou sistematizado o que estava em andamento.</p>
+          </div>
+
+          <div class="predict">
+            <p class="lbl">Pare e preveja</p>
+            <p>Progresso lento nao e o mesmo que projeto ruim. Antes de pular para a proxima ideia brilhante, o
+              que voce olharia para decidir entre <em>continuar</em> ou <em>abandonar</em>?</p>
+            <details>
+              <summary>Ver uma resposta possivel</summary>
+              <p class="answer">Tendencias, nao apenas o numero do dia. Crescimento pequeno mas constante,
+                retencao subindo, feedback melhorando &mdash; sinais de progresso sustentavel pedem paciencia.
+                Estagnacao prolongada, custo de aquisicao sempre acima do valor do cliente ou tendencia de mercado
+                virando contra sao os sinais de que talvez seja hora de mudar o foco &mdash; por dado, nao por
+                tedio.</p>
+            </details>
+          </div>
+        </section>
+<section id="topico-2"
+                 data-inema-topic="modulo-1-2#topico-2"
+                 data-inema-module="1-2"
+                 data-inema-track="1">
+          <div class="section-mark">
+            <span class="where">Secao 2 de 3</span><span>&middot;</span><span>Eficiencia</span>
+          </div>
+          <h2 class="head"><span class="num">2.</span>Eficiencia x Distracao</h2>
+
+          <div class="prose">
+            <p class="lede" data-inema-block="m1-t5-p1">Ha quem trate o foco como esporte de alto rendimento. O
+              investidor Kevin O'Leary, do programa <i>Shark Tank</i>, descreve assim a postura de Elon Musk: se
+              voce nao esta dizendo algo valioso, ele simplesmente vai embora &mdash; no meio da conversa, sem
+              pedir desculpas. Para O'Leary, Musk e Steve Jobs operavam na mesma frequencia, onde a distracao e
+              eliminada sem piedade.<span class="sidenote-ref">5</span></p>
+
+            <p data-inema-block="m1-t5-p2">A metafora que ele usa e simples. <strong>Sinal</strong> e o tempo
+              gasto avancando seus objetivos; <strong>ruido</strong> e todo o resto &mdash; distracoes, reunioes
+              inuteis, conversa fiada. Perder tempo demais com o segundo, diz O'Leary, e fracassar. Tanto Jobs
+              quanto Musk teriam dominado esse equilibrio. Nao e pessoal: e questao de eficiencia.</p>
+
+            <h3 class="sub">Sinal sobre ruido, em numeros</h3>
+
+            <p data-inema-block="m1-t5-p3">O'Leary, que trabalhou com Jobs na Apple, lembra reunioes em que ele
+              era brutalmente focado &mdash; ao ponto de cortar na hora uma proposta de gastar milhoes em pesquisa
+              de mercado, com a frase de que "ninguem sabe o que quer ate eu dizer". Na conta de O'Leary, Jobs era
+              cerca de "85% sinal, 15% ruido": ainda deixava algumas distracoes passarem. Musk seria o caso raro
+              de "100% sinal", o homem mais focado que ele ja conheceu. A postura pode soar arrogante, mas o
+              argumento e que foi ela &mdash; ignorar distracoes e decidir com confianca &mdash; que ajudou a
+              construir empresas que mudaram o mundo.</p>
+          </div>
+
+          <details class="go-deeper">
+            <summary><span class="chev">&#9656;</span> Indo mais fundo: o que guardar e o que relativizar
+              <span class="opt">opcional</span></summary>
+            <div class="inner">
+              <p>Camada opcional. A historia e inspiradora, mas vale ler com cuidado.</p>
+              <p>O nucleo aproveitavel e a distincao <em>sinal x ruido</em>: vale a pena, de fato, perguntar a cada
+                tarefa se ela avanca um objetivo ou apenas consome tempo. Esse e o fio que conecta esta secao a
+                Sindrome do Objeto Brilhante &mdash; ambas tratam de proteger o que importa do que so parece
+                urgente. Por outro lado, o relato de O'Leary descreve um estilo pessoal, nao uma receita universal:
+                tratar pessoas com aspereza nao e o que torna o foco eficaz, e os numeros ("85%", "100%") sao uma
+                figura de linguagem, nao uma medida. Fique com o principio &mdash; menos ruido, mais sinal &mdash;
+                e descarte a parte da grosseria.</p>
+            </div>
+          </details>
+        </section>
+<section id="topico-3"
+                 data-inema-topic="modulo-1-2#topico-3"
+                 data-inema-module="1-2"
+                 data-inema-track="1">
+          <div class="section-mark">
+            <span class="where">Secao 3 de 3</span><span>&middot;</span><span>Vulnerabilidade</span>
+          </div>
+          <h2 class="head"><span class="num">3.</span>2025: a Principal Vulnerabilidade</h2>
+
+          <div class="prose">
+            <p class="lede" data-inema-block="m1-t6-p1">Aqui a trilha fecha o circulo. Em 2025, argumenta-se, a
+              principal vulnerabilidade das organizacoes deixa de ser <em>tecnica</em> e passa a ser
+              <em>humana</em>. Mesmo com firewalls, criptografia e infraestrutura reforcados, o elo mais fraco
+              continua sendo o comportamento das pessoas &mdash; o chamado <strong>algoritmo humano</strong>.<span class="sidenote-ref">6</span></p>
+
+            <p data-inema-block="m1-t6-p2">A consequencia e uma mudanca de foco da defesa. Do
+              <strong>perimetro</strong> de redes e pacotes para a <strong>defesa cognitiva</strong>: monitorar o
+              uso indevido da confianca, identificar manipulacoes sutis em mensagens &mdash; engenharia social,
+              phishing sofisticado, sobrecarga de decisao. Da simples <em>deteccao</em> para a
+              <em>previsao de padroes humanos</em>: antecipar, por exemplo, quando alguem esta sob fadiga digital
+              e mais propenso a clicar num link suspeito.</p>
+
+            <h3 class="sub">Do firewall na rede ao firewall na mente</h3>
+
+            <p data-inema-block="m1-t6-p3">Por isso a seguranca deixa de ser so tecnica e vira
+              <strong>educacional e comportamental</strong> &mdash; uma especie de <em>mindfulness digital</em>:
+              treinar equipes sobre vieses cognitivos, tecnicas de persuasao e desinformacao. E os silos dao lugar
+              a ecossistemas que integram TI, tecnologia operacional e seguranca fisica, ja que tudo esta
+              interligado. A sintese e direta: a seguranca se torna uma questao de
+              <strong>alfabetizacao cognitiva</strong>, onde o verdadeiro firewall e a mente treinada.</p>
+
+            <p data-inema-block="m1-t6-p4">Note como tudo se encaixa. As necessidades movem a pessoa; o SRAA
+              decide o que ela percebe; o vicio sequestra a recompensa; a Sindrome do Objeto Brilhante e a
+              distracao dispersam o foco. No fim, a propria seguranca passa a depender de uma atencao treinada.
+              Entender o orgao em disputa nao e curiosidade academica &mdash; e o pre-requisito de tudo o que vem
+              nas proximas trilhas.</p>
+          </div>
+        </section>
+                <section class="journey" aria-label="Minha jornada">
+          <div class="journey-top"><h2><span class="ico">&#10087;</span> Minha jornada</h2><button class="journey-cta" type="button" data-inema-journey-open>Abrir caderno &rarr;</button></div>
+          <div class="journey-body">
+            <div class="jstat"><div class="k">Neste modulo</div><div class="v" data-inema-meter="modulo:1-2"><span data-inema-meter-frac><strong>0</strong> de 3</span> <span class="nm">secoes lidas</span><div class="progress-line"><span class="progress-line__fill" data-inema-meter-fill></span></div></div></div>
+            <div class="jstat"><div class="k">Na trilha 1</div><div class="v" data-inema-meter="trilha:1"><span data-inema-meter-frac><strong>0</strong> de 6</span> <span class="nm">topicos</span><div class="progress-line"><span class="progress-line__fill" data-inema-meter-fill></span></div></div></div>
+            <div class="jstat"><div class="k">No curso</div><div class="v" data-inema-meter="curso"><span data-inema-meter-frac><strong>0</strong> de 27</span> <span class="nm">percorrido</span><div class="progress-line"><span class="progress-line__fill" data-inema-meter-fill></span></div></div></div>
+          </div>
+        </section>
+
+        <div class="nextup"><div class="txt"><div class="k">Continuar</div><div class="t">Trilha 2 &mdash; Percepcao & Autoconhecimento</div></div><a class="go" href="t2.html">Proximo &rarr;</a></div>
+      </article>
+      <aside class="margin-rail" aria-label="Margem: notas e seu painel">
+        <aside data-inema-rail="modulo-1-2#topico-1"></aside>
+
+        <aside class="sidenote" data-kind="definicao">
+          <div class="tag">Definicao</div>
+          <b>Ramp-up.</b> O tempo necessario ate alcancar eficiencia em algo novo. Quem pula de projeto em projeto
+          paga esse custo toda vez e nunca colhe o aprendizado.
+        </aside>
+        <aside class="sidenote" data-kind="fundo">
+          <div class="tag">Indo mais fundo</div>
+          A pergunta-filtro resolve quase todo caso: <i>isso contribui de forma significativa para o meu objetivo
+          principal?</i> So comece algo novo quando tiver fechado o que estava em andamento.
+        </aside>
+
+        <!-- ---- SECAO 5 ---- -->
+        
+        <aside data-inema-rail="modulo-1-2#topico-2"></aside>
+
+        <aside class="sidenote" data-kind="definicao">
+          <div class="tag">Definicao</div>
+          <b>Sinal x ruido.</b> Sinal e o tempo que avanca um objetivo; ruido e todo o resto. A metafora de Kevin
+          O'Leary para descrever o foco de Jobs e Musk.
+        </aside>
+        <aside class="sidenote" data-kind="fonte">
+          <div class="tag">Fonte</div>
+          O relato e de Kevin O'Leary, investidor do <i>Shark Tank</i>, em publicacao no X. As porcentagens
+          ("85%", "100% sinal") sao figura de linguagem, nao medida &mdash; guarde o principio, nao a grosseria.
+        </aside>
+
+        <!-- ---- SECAO 6 ---- -->
+        
+        <aside data-inema-rail="modulo-1-2#topico-3"></aside>
+
+        <aside class="sidenote" data-kind="definicao">
+          <div class="tag">Definicao</div>
+          <b>Algoritmo humano.</b> O comportamento das pessoas como elo mais fraco da seguranca &mdash; alvo de
+          engenharia social e sobrecarga cognitiva, mesmo com a infraestrutura tecnica reforcada.
+        </aside>
+        <aside class="sidenote" data-kind="fundo" style="margin-bottom:0">
+          <div class="tag">Indo mais fundo</div>
+          A trilha fecha o circulo: necessidades, filtro de atencao, vicio e distracao convergem aqui &mdash; a
+          seguranca de 2025 vira <i>alfabetizacao cognitiva</i>, e o firewall passa a ser a mente treinada.
+        </aside>
+
+      
+      </aside>
+  </div></main>
+  <footer class="colophon"><span>INEMA.CLUB &middot; Caderno do aluno</span><span class="pg">Modulo 1-2</span><span>Composto em Spectral &amp; Source Serif 4</span></footer>
+  <script src="./assets/learn.js"></script>
+  <script>
+    if (window.INEMA && typeof window.INEMA.init === "function") { window.INEMA.init(); }
+  </script>
+</body>
+</html>

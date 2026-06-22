@@ -1,0 +1,310 @@
+<!DOCTYPE html>
+<html lang="pt-BR" data-theme="papel">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+
+  <!-- ===================================================================
+       1) ANTI-FOUC — script BLOQUEANTE, PRIMEIRO no <head>, ANTES das fontes
+          e do learn.css. Le inema.prefs (global, cross-curso) e aplica
+          data-theme + color-scheme + --measure/--leading/--fontscale +
+          data-font/--font-disp/--font-body ANTES do primeiro paint.
+          try/catch total => default papel no erro (preserva a marca INEMA).
+       =================================================================== -->
+  <script>
+  (function () {
+    try {
+      var html = document.documentElement;
+      var DEF = { theme: 'papel', font: 'serif', fontScale: 100, lineWidth: 66, leading: 1.66 };
+      function clone(o) { var r = {}; for (var x in o) r[x] = o[x]; return r; }
+      var p = clone(DEF);
+      try {
+        var raw = localStorage.getItem('inema.prefs');
+        if (raw) {
+          var parsed = JSON.parse(raw);
+          if (parsed && typeof parsed === 'object') {
+            for (var k in DEF) if (parsed[k] != null) p[k] = parsed[k];
+          }
+        }
+      } catch (e) { p = clone(DEF); }
+
+      var THEMES = {
+        'papel':  { attr: 'papel',  cs: 'light' },
+        'sepia':  { attr: 'sepia',  cs: 'light' },
+        'escuro': { attr: 'escuro', cs: 'dark'  }
+      };
+      var t = THEMES[p.theme] || THEMES['papel'];
+      html.setAttribute('data-theme', t.attr);
+      html.style.colorScheme = t.cs;
+
+      var font = (p.font === 'sans' || p.font === 'hyperlegible') ? p.font : 'serif';
+      html.setAttribute('data-font', font);
+
+      var s = html.style;
+
+      var scale = (+p.fontScale || 100);
+      s.setProperty('--fontscale', scale + '%');
+      html.setAttribute('data-fontscale', String(scale));
+
+      var lw = (+p.lineWidth || 66);
+      s.setProperty('--measure', lw + 'ch');
+      html.setAttribute('data-line-width', lw <= 62 ? 'estreito' : (lw >= 70 ? 'largo' : 'medio'));
+
+      var lh = (+p.leading || 1.66);
+      s.setProperty('--leading', lh.toString());
+      html.setAttribute('data-leading', lh <= 1.66 ? 'compacto' : 'confortavel');
+
+      var DISP = {
+        serif: '"Spectral", Georgia, "Times New Roman", serif',
+        sans: 'ui-sans-serif, system-ui, -apple-system, "Segoe UI", Roboto, sans-serif',
+        hyperlegible: '"Atkinson Hyperlegible", system-ui, -apple-system, sans-serif'
+      };
+      var BODY = {
+        serif: '"Source Serif 4", Georgia, "Times New Roman", serif',
+        sans: 'ui-sans-serif, system-ui, -apple-system, "Segoe UI", Roboto, sans-serif',
+        hyperlegible: '"Atkinson Hyperlegible", system-ui, -apple-system, sans-serif'
+      };
+      s.setProperty('--font-disp', DISP[font] || DISP.serif);
+      s.setProperty('--font-body', BODY[font] || BODY.serif);
+    } catch (err) {
+      try {
+        document.documentElement.setAttribute('data-theme', 'papel');
+        document.documentElement.style.colorScheme = 'light';
+      } catch (e) {}
+    }
+  })();
+  </script>
+
+  <meta name="inema-course" content="inema-ncia" />
+  <script type="application/json" data-inema-manifest>
+{
+  "course": "inema-ncia",
+  "tracks": [
+    {
+      "n": "1",
+      "title": "Atenção",
+      "modules": [
+        {
+          "id": "1-1",
+          "title": "Necessidades & Atencao",
+          "topics": 3,
+          "href": "t1-1.html"
+        },
+        {
+          "id": "1-2",
+          "title": "A economia da distracao",
+          "topics": 3,
+          "href": "t1-2.html"
+        }
+      ]
+    },
+    {
+      "n": "2",
+      "title": "Percepção",
+      "modules": [
+        {
+          "id": "2-1",
+          "title": "Percepcao & valor",
+          "topics": 3,
+          "href": "t2-1.html"
+        },
+        {
+          "id": "2-2",
+          "title": "Como aprendemos",
+          "topics": 2,
+          "href": "t2-2.html"
+        }
+      ]
+    },
+    {
+      "n": "3",
+      "title": "Hábitos",
+      "modules": [
+        {
+          "id": "3-1",
+          "title": "Motivacao & determinacao",
+          "topics": 2,
+          "href": "t3-1.html"
+        },
+        {
+          "id": "3-2",
+          "title": "Rotinas que sustentam",
+          "topics": 3,
+          "href": "t3-2.html"
+        }
+      ]
+    },
+    {
+      "n": "4",
+      "title": "Habilidades",
+      "modules": [
+        {
+          "id": "4-1",
+          "title": "Habilidades & talentos do futuro",
+          "topics": 3,
+          "href": "t4-1.html"
+        }
+      ]
+    },
+    {
+      "n": "5",
+      "title": "Persuasão",
+      "modules": [
+        {
+          "id": "5-1",
+          "title": "Persuasao & estoria",
+          "topics": 2,
+          "href": "t5-1.html"
+        },
+        {
+          "id": "5-2",
+          "title": "Aplicacao",
+          "topics": 3,
+          "href": "t5-2.html"
+        }
+      ]
+    },
+    {
+      "n": "6",
+      "title": "Recursos",
+      "modules": [
+        {
+          "id": "6-1",
+          "title": "Recursos do Canal",
+          "topics": 3,
+          "href": "t6-1.html"
+        }
+      ]
+    }
+  ]
+}
+  </script>
+
+  <title>Trilha 5 &mdash; Persuasao & Psicologia Viral | INEMA.NCIA</title>
+
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Spectral:ital,wght@0,300;0,400;0,500;0,600;0,700;1,400;1,500&family=Source+Serif+4:ital,opsz,wght@0,8..60,400;0,8..60,500;0,8..60,600;1,8..60,400;1,8..60,500&family=IBM+Plex+Mono:wght@400;500&family=Atkinson+Hyperlegible:ital,wght@0,400;0,700;1,400&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="./assets/learn.css" />
+</head>
+<body>
+  <a class="skip" href="#reading">Pular para o conteudo</a>
+  <div class="reader-bar">
+    <div class="reader-inner">
+      <a class="wordmark" href="https://inema.club">INEMA<span class="dot">.</span><span class="club">CLUB</span></a>
+      <div class="reader-controls" data-inema-appearance>
+        <span class="rc-read"><span data-inema-meter="trilha:5"><span data-inema-meter-frac><strong>0</strong> de 5</span></span> lidas</span>
+        <div class="rc-group" role="group" aria-label="Tema de leitura">
+          <button type="button" class="rc-btn" data-inema-set-theme="papel" aria-pressed="true">Papel</button>
+          <button type="button" class="rc-btn" data-inema-set-theme="sepia" aria-pressed="false">Sepia</button>
+          <button type="button" class="rc-btn" data-inema-set-theme="escuro" aria-pressed="false">Escuro</button>
+        </div>
+        <div class="rc-group" role="group" aria-label="Fonte de leitura">
+          <button type="button" class="rc-btn" data-inema-set-font="serif" aria-pressed="true">Serif</button>
+          <button type="button" class="rc-btn" data-inema-set-font="sans" aria-pressed="false">Sans</button>
+          <button type="button" class="rc-btn" data-inema-set-font="hyperlegible" aria-pressed="false" title="Atkinson Hyperlegible">Aa&#8633;</button>
+        </div>
+        <div class="rc-group" role="group" aria-label="Tamanho do texto">
+          <button type="button" class="rc-btn" data-inema-set-fontscale="100" aria-pressed="true">A</button>
+          <button type="button" class="rc-btn" data-inema-set-fontscale="112" aria-pressed="false">A+</button>
+          <button type="button" class="rc-btn" data-inema-set-fontscale="125" aria-pressed="false">A++</button>
+        </div>
+        <div class="rc-group" role="group" aria-label="Largura da linha">
+          <button type="button" class="rc-btn" data-inema-set-linewidth="62" aria-pressed="false">Estreito</button>
+          <button type="button" class="rc-btn" data-inema-set-linewidth="66" aria-pressed="true">Medio</button>
+          <button type="button" class="rc-btn" data-inema-set-linewidth="70" aria-pressed="false">Largo</button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <header class="masthead">
+    <nav class="wayfind" aria-label="Onde voce esta">
+      <span><a href="index.html" style="text-decoration:none">INEMA.NCIA</a></span><span class="sep">&middot;</span>
+      <span>Trilha <b>5</b></span><span class="sep">&middot;</span>
+      <span>2 modulos &middot; 5 secoes</span><span class="sep">&middot;</span>
+      <button type="button" data-inema-journey-open>Minha jornada <span class="inema-journey-badge" data-inema-journey-badge data-count="0">0</span></button>
+    </nav>
+  <nav class="course-nav" aria-label="Trilhas do curso" data-course-nav>
+    <a class="cn-home" href="index.html">Início</a>
+    <span class="cn-sep">&middot;</span>
+    <a href="t1.html"><b>1</b>&nbsp;Atenção</a>
+    <a href="t2.html"><b>2</b>&nbsp;Percepção</a>
+    <a href="t3.html"><b>3</b>&nbsp;Hábitos</a>
+    <a href="t4.html"><b>4</b>&nbsp;Habilidades</a>
+    <a href="t5.html" class="active" aria-current="page"><b>5</b>&nbsp;Persuasão</a>
+    <a href="t6.html"><b>6</b>&nbsp;Recursos</a>
+  </nav>
+  </header>
+
+  <main class="spread"><div class="leaf">
+      <article class="reading" id="reading">
+        <p class="kicker">Trilha 5 &middot; INEMA.NCIA</p>
+        <h1 class="module">Persuasao &amp; Psicologia Viral</h1>
+        <p class="deck">Por que uma estoria gruda e outra escorrega. Tecnicas de persuasao, a anatomia do viral e a aplicacao em vendas.</p>
+        <p class="read-meta"><span class="here">Indice da trilha</span><span>2 modulos</span><span>5 secoes</span></p>
+
+        <section aria-label="Modulos da trilha">
+          <div class="curriculo" style="margin-top:0">
+            <article class="idx-mod">
+              <p class="idx-head"><span class="idx-num">Modulo 5-1</span><a class="idx-title" href="t5-1.html">Persuasao &amp; estoria</a></p>
+              <p class="idx-why">O que faz uma mensagem convencer e uma estoria grudar — tecnicas simples e a anatomia do viral.</p>
+              <ol class="idx-secs" aria-label="Secoes do modulo 5-1"><li><a href="t5-1.html#topico-1">Persuasao: tecnicas simples</a></li><li><a href="t5-1.html#topico-2">A anatomia da estoria viral (VIRAL ST)</a></li></ol>
+              <p class="idx-foot"><span>2 secoes</span><span class="idx-dot">&middot;</span><a class="idx-open" href="t5-1.html">Abrir o modulo &rarr;</a></p>
+            </article>
+            <article class="idx-mod">
+              <p class="idx-head"><span class="idx-num">Modulo 5-2</span><a class="idx-title" href="t5-2.html">Aplicacao</a></p>
+              <p class="idx-why">Do principio a pratica: o modo VIRALST em vendas, o modelo de gatilhos no digital e um estudo de caso.</p>
+              <ol class="idx-secs" aria-label="Secoes do modulo 5-2"><li><a href="t5-2.html#topico-1">VIRALST em modo vendas</a></li><li><a href="t5-2.html#topico-2">FGMD: os dez gatilhos no digital</a></li><li><a href="t5-2.html#topico-3">Estudo de caso: o projeto NCIAFlux</a></li></ol>
+              <p class="idx-foot"><span>3 secoes</span><span class="idx-dot">&middot;</span><a class="idx-open" href="t5-2.html">Abrir o modulo &rarr;</a></p>
+            </article>
+          </div>
+        </section>
+
+<section class="check" aria-label="Auto-checagem">
+          <h2>Antes de seguir: quatro checagens rapidas</h2>
+          <p class="intro">Sem nota, sem placar. Responda de cabeca, depois revele para comparar.</p>
+
+          <details class="q-item">
+            <summary><span class="qn">01</span><span>Por que a maioria das mensagens persuasivas falha?</span><span class="reveal">Revelar</span></summary>
+            <div class="ans"><p>Porque falam de quem escreve &mdash; do produto, da empresa, da competencia. A
+              persuasao real parte do outro: dos seus desejos, medos e crencas.</p></div>
+          </details>
+          <details class="q-item">
+            <summary><span class="qn">02</span><span>Quais sao as quatro batidas da estoria viral, na ordem?</span><span class="reveal">Revelar</span></summary>
+            <div class="ans"><p>Hook (alerta/curiosidade), identificacao (espelho emocional), conflito (tensao) e
+              fechamento (insight com recompensa). Juntas fecham um loop de dopamina.</p></div>
+          </details>
+          <details class="q-item">
+            <summary><span class="qn">03</span><span>No FGMD, qual gatilho costuma ser ignorado &mdash; e por que custa caro?</span><span class="reveal">Revelar</span></summary>
+            <div class="ans"><p>A <em>compreensao</em>. Se a pessoa se sente burra, ela sai mesmo interessada.
+              Simplificar e traduzir o jargao e o que constroi autoridade real.</p></div>
+          </details>
+          <details class="q-item">
+            <summary><span class="qn">04</span><span>O que torna a promessa do NCIAFlux facil de explicar em uma frase?</span><span class="reveal">Revelar</span></summary>
+            <div class="ans"><p>Ela inverte a expectativa: &ldquo;voce nao se adapta ao metodo &mdash; o metodo
+              se adapta ao seu NeuroFluxo&rdquo;. Fala do medo do usuario, nao das funcionalidades.</p></div>
+          </details>
+        </section>
+        <section class="journey" aria-label="Minha jornada">
+          <div class="journey-top"><h2><span class="ico">&#10087;</span> Minha jornada</h2><button class="journey-cta" type="button" data-inema-journey-open>Abrir caderno &rarr;</button></div>
+          <div class="journey-body">
+            <div class="jstat"><div class="k">Nesta trilha</div><div class="v" data-inema-meter="trilha:5"><span data-inema-meter-frac><strong>0</strong> de 5</span> <span class="nm">topicos</span><div class="progress-line"><span class="progress-line__fill" data-inema-meter-fill></span></div></div></div>
+            <div class="jstat"><div class="k">No curso</div><div class="v" data-inema-meter="curso"><span data-inema-meter-frac><strong>0</strong> de 27</span> <span class="nm">percorrido</span><div class="progress-line"><span class="progress-line__fill" data-inema-meter-fill></span></div></div></div>
+          </div>
+        </section>
+
+        <div class="nextup"><div class="txt"><div class="k">Continuar</div><div class="t">Trilha 6 &mdash; Recursos do Canal</div></div><a class="go" href="t6.html">Proximo &rarr;</a></div>
+      </article>
+      <aside class="margin-rail" aria-label="Margem">
+        <aside class="sidenote" data-kind="definicao"><div class="tag">Como ler</div> Esta e a pagina-indice da <b>Trilha 5</b>: ela lista os <b>modulos</b>. Clique em um modulo para abrir a leitura completa.</aside>
+        <aside class="sidenote" data-kind="fonte"><div class="tag">Origem</div> Conteudo do canal de Telegram INEMA.NCIA, reescrito como leitura. <div class="src-line">t.me/c/2414677686</div></aside>
+      </aside>
+  </div></main>
+  <footer class="colophon"><span>INEMA.CLUB &middot; Caderno do aluno</span><span class="pg">Trilha 5 &mdash; indice</span><span>Composto em Spectral &amp; Source Serif 4</span></footer>
+  <script src="./assets/learn.js"></script>
+  <script>
+    if (window.INEMA && typeof window.INEMA.init === "function") { window.INEMA.init(); }
+  </script>
+</body>
+</html>

@@ -1,0 +1,476 @@
+<!DOCTYPE html>
+<html lang="pt-BR" data-theme="papel">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+
+  <!-- ===================================================================
+       1) ANTI-FOUC — script BLOQUEANTE, PRIMEIRO no <head>, ANTES das fontes
+          e do learn.css. Le inema.prefs (global, cross-curso) e aplica
+          data-theme + color-scheme + --measure/--leading/--fontscale +
+          data-font/--font-disp/--font-body ANTES do primeiro paint.
+          try/catch total => default papel no erro (preserva a marca INEMA).
+       =================================================================== -->
+  <script>
+  (function () {
+    try {
+      var html = document.documentElement;
+      var DEF = { theme: 'papel', font: 'serif', fontScale: 100, lineWidth: 66, leading: 1.66 };
+      function clone(o) { var r = {}; for (var x in o) r[x] = o[x]; return r; }
+      var p = clone(DEF);
+      try {
+        var raw = localStorage.getItem('inema.prefs');
+        if (raw) {
+          var parsed = JSON.parse(raw);
+          if (parsed && typeof parsed === 'object') {
+            for (var k in DEF) if (parsed[k] != null) p[k] = parsed[k];
+          }
+        }
+      } catch (e) { p = clone(DEF); }
+
+      var THEMES = {
+        'papel':  { attr: 'papel',  cs: 'light' },
+        'sepia':  { attr: 'sepia',  cs: 'light' },
+        'escuro': { attr: 'escuro', cs: 'dark'  }
+      };
+      var t = THEMES[p.theme] || THEMES['papel'];
+      html.setAttribute('data-theme', t.attr);
+      html.style.colorScheme = t.cs;
+
+      var font = (p.font === 'sans' || p.font === 'hyperlegible') ? p.font : 'serif';
+      html.setAttribute('data-font', font);
+
+      var s = html.style;
+
+      var scale = (+p.fontScale || 100);
+      s.setProperty('--fontscale', scale + '%');
+      html.setAttribute('data-fontscale', String(scale));
+
+      var lw = (+p.lineWidth || 66);
+      s.setProperty('--measure', lw + 'ch');
+      html.setAttribute('data-line-width', lw <= 62 ? 'estreito' : (lw >= 70 ? 'largo' : 'medio'));
+
+      var lh = (+p.leading || 1.66);
+      s.setProperty('--leading', lh.toString());
+      html.setAttribute('data-leading', lh <= 1.66 ? 'compacto' : 'confortavel');
+
+      var DISP = {
+        serif: '"Spectral", Georgia, "Times New Roman", serif',
+        sans: 'ui-sans-serif, system-ui, -apple-system, "Segoe UI", Roboto, sans-serif',
+        hyperlegible: '"Atkinson Hyperlegible", system-ui, -apple-system, sans-serif'
+      };
+      var BODY = {
+        serif: '"Source Serif 4", Georgia, "Times New Roman", serif',
+        sans: 'ui-sans-serif, system-ui, -apple-system, "Segoe UI", Roboto, sans-serif',
+        hyperlegible: '"Atkinson Hyperlegible", system-ui, -apple-system, sans-serif'
+      };
+      s.setProperty('--font-disp', DISP[font] || DISP.serif);
+      s.setProperty('--font-body', BODY[font] || BODY.serif);
+    } catch (err) {
+      try {
+        document.documentElement.setAttribute('data-theme', 'papel');
+        document.documentElement.style.colorScheme = 'light';
+      } catch (e) {}
+    }
+  })();
+  </script>
+
+  <meta name="inema-course" content="inema-ncia" />
+  <script type="application/json" data-inema-manifest>
+{
+  "course": "inema-ncia",
+  "tracks": [
+    {
+      "n": "1",
+      "title": "Atenção",
+      "modules": [
+        {
+          "id": "1-1",
+          "title": "Necessidades & Atencao",
+          "topics": 3,
+          "href": "t1-1.html"
+        },
+        {
+          "id": "1-2",
+          "title": "A economia da distracao",
+          "topics": 3,
+          "href": "t1-2.html"
+        }
+      ]
+    },
+    {
+      "n": "2",
+      "title": "Percepção",
+      "modules": [
+        {
+          "id": "2-1",
+          "title": "Percepcao & valor",
+          "topics": 3,
+          "href": "t2-1.html"
+        },
+        {
+          "id": "2-2",
+          "title": "Como aprendemos",
+          "topics": 2,
+          "href": "t2-2.html"
+        }
+      ]
+    },
+    {
+      "n": "3",
+      "title": "Hábitos",
+      "modules": [
+        {
+          "id": "3-1",
+          "title": "Motivacao & determinacao",
+          "topics": 2,
+          "href": "t3-1.html"
+        },
+        {
+          "id": "3-2",
+          "title": "Rotinas que sustentam",
+          "topics": 3,
+          "href": "t3-2.html"
+        }
+      ]
+    },
+    {
+      "n": "4",
+      "title": "Habilidades",
+      "modules": [
+        {
+          "id": "4-1",
+          "title": "Habilidades & talentos do futuro",
+          "topics": 3,
+          "href": "t4-1.html"
+        }
+      ]
+    },
+    {
+      "n": "5",
+      "title": "Persuasão",
+      "modules": [
+        {
+          "id": "5-1",
+          "title": "Persuasao & estoria",
+          "topics": 2,
+          "href": "t5-1.html"
+        },
+        {
+          "id": "5-2",
+          "title": "Aplicacao",
+          "topics": 3,
+          "href": "t5-2.html"
+        }
+      ]
+    },
+    {
+      "n": "6",
+      "title": "Recursos",
+      "modules": [
+        {
+          "id": "6-1",
+          "title": "Recursos do Canal",
+          "topics": 3,
+          "href": "t6-1.html"
+        }
+      ]
+    }
+  ]
+}
+  </script>
+
+  <title>Modulo 3-2 &mdash; Rotinas que sustentam | INEMA.NCIA</title>
+
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Spectral:ital,wght@0,300;0,400;0,500;0,600;0,700;1,400;1,500&family=Source+Serif+4:ital,opsz,wght@0,8..60,400;0,8..60,500;0,8..60,600;1,8..60,400;1,8..60,500&family=IBM+Plex+Mono:wght@400;500&family=Atkinson+Hyperlegible:ital,wght@0,400;0,700;1,400&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="./assets/learn.css" />
+</head>
+<body>
+  <a class="skip" href="#reading">Pular para o conteudo</a>
+  <div class="reader-bar">
+    <div class="reader-inner">
+      <a class="wordmark" href="https://inema.club">INEMA<span class="dot">.</span><span class="club">CLUB</span></a>
+      <div class="reader-controls" data-inema-appearance>
+        <span class="rc-read"><span data-inema-meter="modulo:3-2"><span data-inema-meter-frac><strong>0</strong> de 3</span></span> lidas</span>
+        <div class="rc-group" role="group" aria-label="Tema de leitura">
+          <button type="button" class="rc-btn" data-inema-set-theme="papel" aria-pressed="true">Papel</button>
+          <button type="button" class="rc-btn" data-inema-set-theme="sepia" aria-pressed="false">Sepia</button>
+          <button type="button" class="rc-btn" data-inema-set-theme="escuro" aria-pressed="false">Escuro</button>
+        </div>
+        <div class="rc-group" role="group" aria-label="Fonte de leitura">
+          <button type="button" class="rc-btn" data-inema-set-font="serif" aria-pressed="true">Serif</button>
+          <button type="button" class="rc-btn" data-inema-set-font="sans" aria-pressed="false">Sans</button>
+          <button type="button" class="rc-btn" data-inema-set-font="hyperlegible" aria-pressed="false" title="Atkinson Hyperlegible">Aa&#8633;</button>
+        </div>
+        <div class="rc-group" role="group" aria-label="Tamanho do texto">
+          <button type="button" class="rc-btn" data-inema-set-fontscale="100" aria-pressed="true">A</button>
+          <button type="button" class="rc-btn" data-inema-set-fontscale="112" aria-pressed="false">A+</button>
+          <button type="button" class="rc-btn" data-inema-set-fontscale="125" aria-pressed="false">A++</button>
+        </div>
+        <div class="rc-group" role="group" aria-label="Largura da linha">
+          <button type="button" class="rc-btn" data-inema-set-linewidth="62" aria-pressed="false">Estreito</button>
+          <button type="button" class="rc-btn" data-inema-set-linewidth="66" aria-pressed="true">Medio</button>
+          <button type="button" class="rc-btn" data-inema-set-linewidth="70" aria-pressed="false">Largo</button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <header class="masthead">
+    <nav class="wayfind" aria-label="Onde voce esta">
+      <span><a href="index.html" style="text-decoration:none">INEMA.NCIA</a></span><span class="sep">&middot;</span>
+      <span><a href="t3.html" style="text-decoration:none">Trilha <b>3</b></a></span><span class="sep">&middot;</span>
+      <span>Modulo <b>3-2</b></span><span class="sep">&middot;</span>
+      <span data-inema-section-counter>Secao 1 de 3</span><span class="sep">&middot;</span>
+      <button type="button" data-inema-journey-open>Minha jornada <span class="inema-journey-badge" data-inema-journey-badge data-count="0">0</span></button>
+    </nav>
+  <nav class="course-nav" aria-label="Trilhas do curso" data-course-nav>
+    <a class="cn-home" href="index.html">Início</a>
+    <span class="cn-sep">&middot;</span>
+    <a href="t1.html"><b>1</b>&nbsp;Atenção</a>
+    <a href="t2.html"><b>2</b>&nbsp;Percepção</a>
+    <a href="t3.html" class="active" aria-current="page"><b>3</b>&nbsp;Hábitos</a>
+    <a href="t4.html"><b>4</b>&nbsp;Habilidades</a>
+    <a href="t5.html"><b>5</b>&nbsp;Persuasão</a>
+    <a href="t6.html"><b>6</b>&nbsp;Recursos</a>
+  </nav>
+  </header>
+
+  <main class="spread"><div class="leaf">
+      <article class="reading" id="reading">
+        <p class="kicker">Modulo 3-2 &middot; Trilha 3 &middot; INEMA.NCIA</p>
+        <h1 class="module">Rotinas que sustentam</h1>
+        <p class="deck">As rotinas que sustentam o jogo longo quando o animo acaba: a primeira hora, as cinco horas e os poderes do sabio.</p>
+        <p class="read-meta"><span class="here">Lendo agora</span><span>3 secoes</span><span><a href="t3.html" style="color:inherit">&larr; indice da trilha</a></span></p>
+        <section class="aims" aria-label="O que este modulo cobre"><h2>O que este modulo cobre</h2><ul><li>A regra da primeira hora da manha</li><li>As cinco horas semanais</li><li>Os dez poderes do sabio</li></ul></section>
+          <nav class="toc" aria-label="Sumario do modulo" data-inema-toc>
+            <p class="toc-head">Sumario do modulo</p>
+            <ol>
+            <li class="current"><span class="dot-now"></span><span class="n">1</span><a href="#topico-1"><span class="t">A regra da primeira hora da manha</span></a></li>
+            <li><span class="n">2</span><a href="#topico-2"><span class="t">As cinco horas semanais</span></a><span class="leader"></span></li>
+            <li><span class="n">3</span><a href="#topico-3"><span class="t">Os dez poderes do sabio</span></a><span class="leader"></span></li>
+            </ol>
+          </nav>
+
+<section id="topico-1"
+                 data-inema-topic="modulo-3-2#topico-1"
+                 data-inema-module="3-2"
+                 data-inema-track="3">
+          <div class="section-mark">
+            <span class="where">Secao 1 de 3</span><span>&middot;</span><span>1a hora</span>
+          </div>
+          <h2 class="head"><span class="num">1.</span>A regra da primeira hora da manha</h2>
+
+          <div class="prose">
+            <p class="lede" data-inema-block="m3-t3-p1">A regra e simples: use a <em>primeira hora do dia</em> de
+              forma intencional &mdash; para aprender, ler e refletir &mdash; sem estimulos digitais excessivos.
+              Cafe, leitura, pensamento; nada de redes sociais. E a regra atribuida a Jeff Bezos, que reserva esse
+              tempo para ler e pensar, nao para checar o celular.<span class="sidenote-ref">5</span> O ponto nao e
+              acordar as cinco da manha, e sim proteger a primeira hora, qualquer que seja o horario em que voce
+              acorda.</p>
+
+            <p data-inema-block="m3-t3-p2">Por que a primeira hora, e nao qualquer outra? Porque o cerebro recem
+              desperto e quimicamente um terreno fertil para aprender. Ainda sob o efeito do ciclo de sono, ele
+              opera com niveis altos de dopamina, noradrenalina e acetilcolina &mdash; o que eleva a
+              <em>plasticidade sinaptica</em>, a capacidade de formar e fortalecer conexoes. Ler quinze minutos ao
+              acordar tende a gerar mais retencao do que ler a noite, depois de um dia inteiro de decisoes.</p>
+
+            <h3 class="sub">Carga cognitiva baixa, memoria que consolida</h3>
+
+            <p data-inema-block="m3-t3-p3">Somam-se dois fatores. Primeiro, a <strong>carga cognitiva baixa</strong>:
+              de manha o cortex pre-frontal &mdash; sede do raciocinio e da decisao &mdash; esta descansado, e
+              entende um conceito dificil com mais facilidade do que no fim do expediente. Segundo, a
+              <strong>consolidacao da memoria</strong>: ela acontece no hipocampo durante o sono e se reforca com
+              revisao logo apos acordar. Aprender algo cedo e revisita-lo ao longo do dia ajuda a transferir o
+              conteudo para a memoria de longo prazo.<span class="sidenote-ref">6</span></p>
+          </div>
+
+          <div class="predict">
+            <p class="lbl">Pare e preveja</p>
+            <p>Antes de continuar: por que substituir a rolagem matinal de feed por quinze minutos de leitura
+              focada muda tanto o resto do dia &mdash; e nao so a primeira hora?</p>
+            <details>
+              <summary>Ver uma resposta possivel</summary>
+              <p class="answer">Porque a primeira hora preserva (ou desperdica) a energia mental e o foco que voce
+                vai gastar nas horas seguintes. Trocar o doom-scrolling por aprendizado direcionado aproveita a
+                janela de maior plasticidade e carga cognitiva baixa &mdash; e ainda evita comecar o dia ja
+                fragmentando a atencao com estimulos rapidos.</p>
+            </details>
+          </div>
+        </section>
+<section id="topico-2"
+                 data-inema-topic="modulo-3-2#topico-2"
+                 data-inema-module="3-2"
+                 data-inema-track="3">
+          <div class="section-mark">
+            <span class="where">Secao 2 de 3</span><span>&middot;</span><span>5 horas</span>
+          </div>
+          <h2 class="head"><span class="num">2.</span>As cinco horas semanais</h2>
+
+          <div class="prose">
+            <p class="lede" data-inema-block="m3-t4-p1">A <em>regra das cinco horas</em> &mdash; popularizada por
+              Michael Simmons ao observar habitos de Benjamin Franklin, Elon Musk, Oprah Winfrey e Bill Gates
+              &mdash; significa dedicar, de proposito, ao menos cinco horas por semana ao <strong>aprendizado
+              deliberado</strong>. Cerca de uma hora por dia util. Nao e &ldquo;aprender no caminho&rdquo; conforme
+              os problemas surgem: e reservar tempo para estudar, praticar e refletir com um objetivo
+              claro.<span class="sidenote-ref">7</span></p>
+
+            <p data-inema-block="m3-t4-p2">O diferencial nao esta nas horas em si, mas em tres condicoes:
+              <strong>constancia</strong> (todos os dias uteis, sem deixar para &ldquo;quando sobrar tempo&rdquo;),
+              <strong>foco deliberado</strong> (escolher o que aprender e definir metas, em vez de consumir
+              conteudo de forma passiva) e <strong>mensuracao</strong> (registrar avancos e pontos de melhoria).
+              Espacar o aprendizado ao longo da semana, em vez de acumular tudo de uma vez, contraria a curva do
+              esquecimento de Ebbinghaus e fixa mais conteudo.</p>
+
+            <h3 class="sub">O efeito cumulativo e o que assusta</h3>
+
+            <p data-inema-block="m3-t4-p3">Cinco horas por semana parecem pouco &mdash; ate voce somar. Sao
+              <strong>260 horas por ano</strong>, mais de trinta dias inteiros de estudo. Em tres anos, 780 horas,
+              o equivalente a uma pos-graduacao pratica. Em dez anos, 2.600 horas: quase um doutorado em experiencia
+              aplicada. E poucos mantem a rotina, justamente porque o urgente devora o importante, o objetivo fica
+              vago e, sem medir o progresso, parece que nada mudou.<span class="sidenote-ref">8</span></p>
+          </div>
+
+          <!-- indo mais fundo -->
+          <details class="go-deeper">
+            <summary><span class="chev">&#9656;</span> Indo mais fundo: um ciclo semanal de cinco blocos
+              <span class="opt">opcional</span></summary>
+            <div class="inner">
+              <p>Camada opcional &mdash; uma forma concreta de distribuir as cinco horas pela semana, seguindo o
+                ritmo <em>ler &rarr; praticar &rarr; revisar &rarr; aplicar &rarr; planejar</em>.</p>
+              <div class="codeblock"><span class="c"># Um bloco de ~1h por dia util</span>
+<span class="k">Segunda:</span> leitura e estudo      &mdash; absorver conceitos novos
+<span class="k">Terca:</span>   pratica guiada         &mdash; transformar teoria em acao
+<span class="k">Quarta:</span>  revisao e anotacoes    &mdash; consolidar o aprendido
+<span class="k">Quinta:</span>  aplicacao real         &mdash; gerar resultado tangivel
+<span class="k">Sexta:</span>   reflexao e planejamento &mdash; preparar o proximo ciclo</div>
+              <p>Misturar formatos &mdash; leitura, pratica, cursos, debate, analise critica &mdash; reforca areas
+                diferentes do cerebro. E o registro num diario de aprendizado, somado a feedback de mentores ou de
+                uma comunidade, e o que acelera a evolucao e impede a sensacao de estagnacao.</p>
+            </div>
+          </details>
+        </section>
+<section id="topico-3"
+                 data-inema-topic="modulo-3-2#topico-3"
+                 data-inema-module="3-2"
+                 data-inema-track="3">
+          <div class="section-mark">
+            <span class="where">Secao 3 de 3</span><span>&middot;</span><span>10 poderes</span>
+          </div>
+          <h2 class="head"><span class="num">3.</span>Os dez poderes do sabio</h2>
+
+          <div class="prose">
+            <p class="lede" data-inema-block="m3-t5-p1">Reuna dez livros nao ficcionais que se completam e voce
+              tera um &ldquo;guia de vida condensado&rdquo;. Cada obra carrega um <em>poder</em> &mdash; uma virtude
+              pratica &mdash; e juntos formam uma base para crescimento, produtividade e bem-estar. A ideia desta
+              secao nao e resumir cada livro, e mostrar como esses poderes viram um <strong>sistema</strong> de dia
+              a dia.<span class="sidenote-ref">9</span></p>
+
+            <p data-inema-block="m3-t5-p2">Os dez poderes, com a obra-base de cada um: <em>Constancia</em>
+              (Atomic Habits), <em>Disciplina</em> (The 5 AM Club), <em>Gratidao</em> (The Gap and the Gain),
+              <em>Clareza</em> (Thinking, Fast and Slow), <em>Aprendizado</em> (Limitless), <em>Resiliencia</em>
+              (13 Things Mentally Strong People Don&rsquo;t Do), <em>Principios</em> (The 7 Habits of Highly
+              Effective People), <em>Consciencia</em> (Sapiens), <em>Prosperidade</em> (Rich Dad, Poor Dad) e
+              <em>Visao</em> (A Brief History of Time).</p>
+
+            <h3 class="sub">De lista de livros a rotina integrada</h3>
+
+            <p data-inema-block="m3-t5-p3">Em pratica, isso vira um dia simples. Comece pequeno: mude
+              <strong>1% por dia</strong> e foque em <em>quem voce quer ser</em> &mdash; nao &ldquo;quero ler
+              mais&rdquo;, mas &ldquo;sou uma pessoa que le todos os dias&rdquo;. Estruture a primeira hora no
+              formato <strong>20/20/20</strong>: vinte minutos de movimento, vinte de reflexao, vinte de
+              aprendizado. Ao longo do dia, ative o <em>pensamento lento</em> para decisoes que importam e corte,
+              um de cada vez, os comportamentos de autossabotagem. A noite, anote tres conquistas &mdash; olhar o
+              ganho, nao a lacuna &mdash; e planeje o amanha.<span class="sidenote-ref">10</span></p>
+          </div>
+
+          <div class="predict">
+            <p class="lbl">Pare e preveja</p>
+            <p>De todos esses poderes, qual deles &mdash; se cultivado primeiro &mdash; tende a destravar todos os
+              outros, dado tudo o que esta trilha discutiu ate aqui?</p>
+            <details>
+              <summary>Ver uma resposta possivel</summary>
+              <p class="answer">A <strong>constancia</strong> &mdash; o poder dos habitos atomicos. E ela que
+                transforma motivacao passageira em determinacao estavel (Secao 1), sustenta a primeira hora (Secao
+                3) e torna possivel as cinco horas semanais (Secao 4). Sem constancia, os outros nove poderes viram
+                so boas intencoes.</p>
+            </details>
+          </div>
+
+          <div class="prose">
+            <p data-inema-block="m3-t5-p4">Guarde esta trilha como uma unica frase: <em>a motivacao acende, a
+              determinacao mantem, a permissao autoriza &mdash; e o habito, repetido na primeira hora e ao longo da
+              semana, e o que torna tudo isso inevitavel.</em> Nenhum dos poderes age sozinho; o valor esta em
+              roda-los como sistema, um passo minimo de cada vez.</p>
+          </div>
+        </section>
+                <section class="journey" aria-label="Minha jornada">
+          <div class="journey-top"><h2><span class="ico">&#10087;</span> Minha jornada</h2><button class="journey-cta" type="button" data-inema-journey-open>Abrir caderno &rarr;</button></div>
+          <div class="journey-body">
+            <div class="jstat"><div class="k">Neste modulo</div><div class="v" data-inema-meter="modulo:3-2"><span data-inema-meter-frac><strong>0</strong> de 3</span> <span class="nm">secoes lidas</span><div class="progress-line"><span class="progress-line__fill" data-inema-meter-fill></span></div></div></div>
+            <div class="jstat"><div class="k">Na trilha 3</div><div class="v" data-inema-meter="trilha:3"><span data-inema-meter-frac><strong>0</strong> de 5</span> <span class="nm">topicos</span><div class="progress-line"><span class="progress-line__fill" data-inema-meter-fill></span></div></div></div>
+            <div class="jstat"><div class="k">No curso</div><div class="v" data-inema-meter="curso"><span data-inema-meter-frac><strong>0</strong> de 27</span> <span class="nm">percorrido</span><div class="progress-line"><span class="progress-line__fill" data-inema-meter-fill></span></div></div></div>
+          </div>
+        </section>
+
+        <div class="nextup"><div class="txt"><div class="k">Continuar</div><div class="t">Trilha 4 &mdash; Habilidades & Talentos do Futuro</div></div><a class="go" href="t4.html">Proximo &rarr;</a></div>
+      </article>
+      <aside class="margin-rail" aria-label="Margem: notas e seu painel">
+        <aside data-inema-rail="modulo-3-2#topico-1"></aside>
+
+        <aside class="sidenote" data-kind="definicao">
+          <div class="tag">Definicao</div>
+          <b>Plasticidade sinaptica.</b> A capacidade do cerebro de formar e fortalecer conexoes neurais. Ela esta
+          elevada logo ao acordar, sob niveis altos de dopamina, noradrenalina e acetilcolina &mdash; por isso a
+          manha favorece o aprendizado.
+        </aside>
+        <aside class="sidenote" data-kind="fundo">
+          <div class="tag">Indo mais fundo</div>
+          A consolidacao da memoria acontece no hipocampo durante o sono e se reforca com revisao logo apos
+          acordar. Aprender cedo e revisitar a ideia ao longo do dia leva o conteudo a memoria de longo prazo.
+        </aside>
+
+        <!-- ---- SECAO 4 ---- -->
+        
+        <aside data-inema-rail="modulo-3-2#topico-2"></aside>
+
+        <aside class="sidenote" data-kind="definicao">
+          <div class="tag">Definicao</div>
+          <b>Aprendizado deliberado.</b> Estudar com objetivo claro, metas e plano &mdash; oposto de consumir
+          conteudo passivamente. A regra das 5h vive de constancia, foco deliberado e mensuracao do progresso.
+        </aside>
+        <aside class="sidenote" data-kind="fundo">
+          <div class="tag">Indo mais fundo</div>
+          A <i>pratica deliberada</i> (Anders Ericsson) nao e repetir: e se desafiar um nivel acima do conforto,
+          receber feedback e corrigir. Espacar na semana contraria a curva do esquecimento de Ebbinghaus.
+        </aside>
+
+        <!-- ---- SECAO 5 ---- -->
+        
+        <aside data-inema-rail="modulo-3-2#topico-3"></aside>
+
+        <aside class="sidenote" data-kind="definicao">
+          <div class="tag">Definicao</div>
+          <b>20/20/20.</b> A estrutura da primeira hora proposta em <i>The 5 AM Club</i>: vinte minutos de
+          movimento, vinte de reflexao e vinte de aprendizado &mdash; energia fisica, clareza mental e conhecimento
+          logo cedo.
+        </aside>
+        <aside class="sidenote" data-kind="fonte" style="margin-bottom:0">
+          <div class="tag">Fonte</div>
+          Os dez poderes vem de obras como <i>Atomic Habits</i> (Clear), <i>The Gap and the Gain</i> (Sullivan
+          &amp; Hardy), <i>Thinking, Fast and Slow</i> (Kahneman) e <i>Limitless</i> (Kwik) &mdash; cada uma
+          condensada em uma virtude pratica.
+        </aside>
+
+      
+      </aside>
+  </div></main>
+  <footer class="colophon"><span>INEMA.CLUB &middot; Caderno do aluno</span><span class="pg">Modulo 3-2</span><span>Composto em Spectral &amp; Source Serif 4</span></footer>
+  <script src="./assets/learn.js"></script>
+  <script>
+    if (window.INEMA && typeof window.INEMA.init === "function") { window.INEMA.init(); }
+  </script>
+</body>
+</html>

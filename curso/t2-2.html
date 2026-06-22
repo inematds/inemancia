@@ -1,0 +1,484 @@
+<!DOCTYPE html>
+<html lang="pt-BR" data-theme="papel">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+
+  <!-- ===================================================================
+       1) ANTI-FOUC — script BLOQUEANTE, PRIMEIRO no <head>, ANTES das fontes
+          e do learn.css. Le inema.prefs (global, cross-curso) e aplica
+          data-theme + color-scheme + --measure/--leading/--fontscale +
+          data-font/--font-disp/--font-body ANTES do primeiro paint.
+          try/catch total => default papel no erro (preserva a marca INEMA).
+       =================================================================== -->
+  <script>
+  (function () {
+    try {
+      var html = document.documentElement;
+      var DEF = { theme: 'papel', font: 'serif', fontScale: 100, lineWidth: 66, leading: 1.66 };
+      function clone(o) { var r = {}; for (var x in o) r[x] = o[x]; return r; }
+      var p = clone(DEF);
+      try {
+        var raw = localStorage.getItem('inema.prefs');
+        if (raw) {
+          var parsed = JSON.parse(raw);
+          if (parsed && typeof parsed === 'object') {
+            for (var k in DEF) if (parsed[k] != null) p[k] = parsed[k];
+          }
+        }
+      } catch (e) { p = clone(DEF); }
+
+      var THEMES = {
+        'papel':  { attr: 'papel',  cs: 'light' },
+        'sepia':  { attr: 'sepia',  cs: 'light' },
+        'escuro': { attr: 'escuro', cs: 'dark'  }
+      };
+      var t = THEMES[p.theme] || THEMES['papel'];
+      html.setAttribute('data-theme', t.attr);
+      html.style.colorScheme = t.cs;
+
+      var font = (p.font === 'sans' || p.font === 'hyperlegible') ? p.font : 'serif';
+      html.setAttribute('data-font', font);
+
+      var s = html.style;
+
+      var scale = (+p.fontScale || 100);
+      s.setProperty('--fontscale', scale + '%');
+      html.setAttribute('data-fontscale', String(scale));
+
+      var lw = (+p.lineWidth || 66);
+      s.setProperty('--measure', lw + 'ch');
+      html.setAttribute('data-line-width', lw <= 62 ? 'estreito' : (lw >= 70 ? 'largo' : 'medio'));
+
+      var lh = (+p.leading || 1.66);
+      s.setProperty('--leading', lh.toString());
+      html.setAttribute('data-leading', lh <= 1.66 ? 'compacto' : 'confortavel');
+
+      var DISP = {
+        serif: '"Spectral", Georgia, "Times New Roman", serif',
+        sans: 'ui-sans-serif, system-ui, -apple-system, "Segoe UI", Roboto, sans-serif',
+        hyperlegible: '"Atkinson Hyperlegible", system-ui, -apple-system, sans-serif'
+      };
+      var BODY = {
+        serif: '"Source Serif 4", Georgia, "Times New Roman", serif',
+        sans: 'ui-sans-serif, system-ui, -apple-system, "Segoe UI", Roboto, sans-serif',
+        hyperlegible: '"Atkinson Hyperlegible", system-ui, -apple-system, sans-serif'
+      };
+      s.setProperty('--font-disp', DISP[font] || DISP.serif);
+      s.setProperty('--font-body', BODY[font] || BODY.serif);
+    } catch (err) {
+      try {
+        document.documentElement.setAttribute('data-theme', 'papel');
+        document.documentElement.style.colorScheme = 'light';
+      } catch (e) {}
+    }
+  })();
+  </script>
+
+  <meta name="inema-course" content="inema-ncia" />
+  <script type="application/json" data-inema-manifest>
+{
+  "course": "inema-ncia",
+  "tracks": [
+    {
+      "n": "1",
+      "title": "Atenção",
+      "modules": [
+        {
+          "id": "1-1",
+          "title": "Necessidades & Atencao",
+          "topics": 3,
+          "href": "t1-1.html"
+        },
+        {
+          "id": "1-2",
+          "title": "A economia da distracao",
+          "topics": 3,
+          "href": "t1-2.html"
+        }
+      ]
+    },
+    {
+      "n": "2",
+      "title": "Percepção",
+      "modules": [
+        {
+          "id": "2-1",
+          "title": "Percepcao & valor",
+          "topics": 3,
+          "href": "t2-1.html"
+        },
+        {
+          "id": "2-2",
+          "title": "Como aprendemos",
+          "topics": 2,
+          "href": "t2-2.html"
+        }
+      ]
+    },
+    {
+      "n": "3",
+      "title": "Hábitos",
+      "modules": [
+        {
+          "id": "3-1",
+          "title": "Motivacao & determinacao",
+          "topics": 2,
+          "href": "t3-1.html"
+        },
+        {
+          "id": "3-2",
+          "title": "Rotinas que sustentam",
+          "topics": 3,
+          "href": "t3-2.html"
+        }
+      ]
+    },
+    {
+      "n": "4",
+      "title": "Habilidades",
+      "modules": [
+        {
+          "id": "4-1",
+          "title": "Habilidades & talentos do futuro",
+          "topics": 3,
+          "href": "t4-1.html"
+        }
+      ]
+    },
+    {
+      "n": "5",
+      "title": "Persuasão",
+      "modules": [
+        {
+          "id": "5-1",
+          "title": "Persuasao & estoria",
+          "topics": 2,
+          "href": "t5-1.html"
+        },
+        {
+          "id": "5-2",
+          "title": "Aplicacao",
+          "topics": 3,
+          "href": "t5-2.html"
+        }
+      ]
+    },
+    {
+      "n": "6",
+      "title": "Recursos",
+      "modules": [
+        {
+          "id": "6-1",
+          "title": "Recursos do Canal",
+          "topics": 3,
+          "href": "t6-1.html"
+        }
+      ]
+    }
+  ]
+}
+  </script>
+
+  <title>Modulo 2-2 &mdash; Como aprendemos | INEMA.NCIA</title>
+
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Spectral:ital,wght@0,300;0,400;0,500;0,600;0,700;1,400;1,500&family=Source+Serif+4:ital,opsz,wght@0,8..60,400;0,8..60,500;0,8..60,600;1,8..60,400;1,8..60,500&family=IBM+Plex+Mono:wght@400;500&family=Atkinson+Hyperlegible:ital,wght@0,400;0,700;1,400&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="./assets/learn.css" />
+</head>
+<body>
+  <a class="skip" href="#reading">Pular para o conteudo</a>
+  <div class="reader-bar">
+    <div class="reader-inner">
+      <a class="wordmark" href="https://inema.club">INEMA<span class="dot">.</span><span class="club">CLUB</span></a>
+      <div class="reader-controls" data-inema-appearance>
+        <span class="rc-read"><span data-inema-meter="modulo:2-2"><span data-inema-meter-frac><strong>0</strong> de 2</span></span> lidas</span>
+        <div class="rc-group" role="group" aria-label="Tema de leitura">
+          <button type="button" class="rc-btn" data-inema-set-theme="papel" aria-pressed="true">Papel</button>
+          <button type="button" class="rc-btn" data-inema-set-theme="sepia" aria-pressed="false">Sepia</button>
+          <button type="button" class="rc-btn" data-inema-set-theme="escuro" aria-pressed="false">Escuro</button>
+        </div>
+        <div class="rc-group" role="group" aria-label="Fonte de leitura">
+          <button type="button" class="rc-btn" data-inema-set-font="serif" aria-pressed="true">Serif</button>
+          <button type="button" class="rc-btn" data-inema-set-font="sans" aria-pressed="false">Sans</button>
+          <button type="button" class="rc-btn" data-inema-set-font="hyperlegible" aria-pressed="false" title="Atkinson Hyperlegible">Aa&#8633;</button>
+        </div>
+        <div class="rc-group" role="group" aria-label="Tamanho do texto">
+          <button type="button" class="rc-btn" data-inema-set-fontscale="100" aria-pressed="true">A</button>
+          <button type="button" class="rc-btn" data-inema-set-fontscale="112" aria-pressed="false">A+</button>
+          <button type="button" class="rc-btn" data-inema-set-fontscale="125" aria-pressed="false">A++</button>
+        </div>
+        <div class="rc-group" role="group" aria-label="Largura da linha">
+          <button type="button" class="rc-btn" data-inema-set-linewidth="62" aria-pressed="false">Estreito</button>
+          <button type="button" class="rc-btn" data-inema-set-linewidth="66" aria-pressed="true">Medio</button>
+          <button type="button" class="rc-btn" data-inema-set-linewidth="70" aria-pressed="false">Largo</button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <header class="masthead">
+    <nav class="wayfind" aria-label="Onde voce esta">
+      <span><a href="index.html" style="text-decoration:none">INEMA.NCIA</a></span><span class="sep">&middot;</span>
+      <span><a href="t2.html" style="text-decoration:none">Trilha <b>2</b></a></span><span class="sep">&middot;</span>
+      <span>Modulo <b>2-2</b></span><span class="sep">&middot;</span>
+      <span data-inema-section-counter>Secao 1 de 2</span><span class="sep">&middot;</span>
+      <button type="button" data-inema-journey-open>Minha jornada <span class="inema-journey-badge" data-inema-journey-badge data-count="0">0</span></button>
+    </nav>
+  <nav class="course-nav" aria-label="Trilhas do curso" data-course-nav>
+    <a class="cn-home" href="index.html">Início</a>
+    <span class="cn-sep">&middot;</span>
+    <a href="t1.html"><b>1</b>&nbsp;Atenção</a>
+    <a href="t2.html" class="active" aria-current="page"><b>2</b>&nbsp;Percepção</a>
+    <a href="t3.html"><b>3</b>&nbsp;Hábitos</a>
+    <a href="t4.html"><b>4</b>&nbsp;Habilidades</a>
+    <a href="t5.html"><b>5</b>&nbsp;Persuasão</a>
+    <a href="t6.html"><b>6</b>&nbsp;Recursos</a>
+  </nav>
+  </header>
+
+  <main class="spread"><div class="leaf">
+      <article class="reading" id="reading">
+        <p class="kicker">Modulo 2-2 &middot; Trilha 2 &middot; INEMA.NCIA</p>
+        <h1 class="module">Como aprendemos</h1>
+        <p class="deck">Por que o aprendizado se fixa em uns e escorrega em outros — teorias e modelos para ler cada pessoa.</p>
+        <p class="read-meta"><span class="here">Lendo agora</span><span>2 secoes</span><span><a href="t2.html" style="color:inherit">&larr; indice da trilha</a></span></p>
+        <section class="aims" aria-label="O que este modulo cobre"><h2>O que este modulo cobre</h2><ul><li>Como o aprendizado se fixa</li><li>Modelos para ler cada pessoa</li></ul></section>
+          <nav class="toc" aria-label="Sumario do modulo" data-inema-toc>
+            <p class="toc-head">Sumario do modulo</p>
+            <ol>
+            <li class="current"><span class="dot-now"></span><span class="n">1</span><a href="#topico-1"><span class="t">Como o aprendizado se fixa</span></a></li>
+            <li><span class="n">2</span><a href="#topico-2"><span class="t">Modelos para ler cada pessoa</span></a><span class="leader"></span></li>
+            </ol>
+          </nav>
+
+<section id="topico-1"
+                 data-inema-topic="modulo-2-2#topico-1"
+                 data-inema-module="2-2"
+                 data-inema-track="2">
+          <div class="section-mark">
+            <span class="where">Secao 1 de 2</span><span>&middot;</span><span>Aprendizado</span>
+          </div>
+          <h2 class="head"><span class="num">1.</span>Como o aprendizado se fixa</h2>
+
+          <div class="prose">
+            <p class="lede" data-inema-block="m2-t4-p1">A forma como voce aprende decide quanto voce retem. Dois
+              educadores marcaram essa ideia. Em 1946, <strong>Edgar Dale</strong> propos o <em>Cone de
+              Experiencia</em>: do mais abstrato (ler, ouvir) ao mais concreto (praticar, ensinar a outros). Dale
+              nao atribui porcentagens &mdash; sua visao e qualitativa &mdash;, mas defende que quanto mais
+              concreta e ativa a experiencia, mais profundo o aprendizado.<span class="sidenote-ref">6</span></p>
+
+            <p data-inema-block="m2-t4-p2"><strong>William Glasser</strong> tornou essa intuicao quantificavel com
+              a <em>Piramide de Retencao</em>. Ele estima quanto se retem em cada modo: <strong>ler</strong> 10%,
+              <strong>ouvir</strong> 20%, <strong>ver</strong> 30%, <strong>ver e ouvir</strong> 50%,
+              <strong>discutir em grupo</strong> 70%, <strong>praticar</strong> 80% e <strong>ensinar aos
+              outros</strong> 95%. Atividades passivas retem pouco; atividades ativas retem muito. Quem aprende um
+              conceito e depois o ensina retem cerca de 95% &mdash; contra apenas 10% de quem so leu.</p>
+
+            <h3 class="sub">Subir a piramide com um assistente</h3>
+
+            <p data-inema-block="m2-t4-p3">A piramide vira um roteiro pratico quando voce usa um assistente como o
+              ChatGPT para puxar cada nivel para cima. Peca <em>resumos</em> do que vai ler; transforme texto em
+              <em>dialogo</em> para ouvir; peca <em>explicacoes visuais</em> e perguntas interativas sobre o que
+              acabou de ver. Suba mais: peca que ele <em>questione</em> suas ideias num debate, gere
+              <em>exercicios</em> e quizzes para praticar e, no topo, finja ser um aluno para que voce
+              <em>ensine</em> a ele. O ponto e simples: quanto mais ativo o seu papel, mais o conhecimento gruda.</p>
+          </div>
+
+          <!-- figura: piramide de retencao -->
+          <figure class="figure">
+            <figcaption><span class="fig-n">Fig. 2</span> &middot; A piramide de <b>Glasser</b> &mdash; do passivo ao ativo, a retencao sobe</figcaption>
+            <svg class="diagram" viewBox="0 0 720 220" role="img"
+                 aria-label="Diagrama de barras: ler retem 10%, ouvir 20%, ver 30%, ver e ouvir 50%, discutir 70%, praticar 80%, ensinar 95% — a retencao cresce com a participacao ativa.">
+              <g font-family="Source Serif 4, serif">
+                <g>
+                  <rect x="200" y="20" width="44" height="20" class="wash rule-stroke" stroke-width="1.1" rx="2"/>
+                  <text x="120" y="35" text-anchor="end" font-size="12.5" class="ink-soft">Ler</text>
+                  <text x="256" y="35" font-family="IBM Plex Mono, monospace" font-size="11" class="faint">10%</text>
+                </g>
+                <g>
+                  <rect x="200" y="46" width="80" height="20" class="wash rule-stroke" stroke-width="1.1" rx="2"/>
+                  <text x="120" y="61" text-anchor="end" font-size="12.5" class="ink-soft">Ouvir</text>
+                  <text x="292" y="61" font-family="IBM Plex Mono, monospace" font-size="11" class="faint">20%</text>
+                </g>
+                <g>
+                  <rect x="200" y="72" width="120" height="20" class="wash rule-stroke" stroke-width="1.1" rx="2"/>
+                  <text x="120" y="87" text-anchor="end" font-size="12.5" class="ink-soft">Ver</text>
+                  <text x="332" y="87" font-family="IBM Plex Mono, monospace" font-size="11" class="faint">30%</text>
+                </g>
+                <g>
+                  <rect x="200" y="98" width="200" height="20" class="wash rule-stroke" stroke-width="1.1" rx="2"/>
+                  <text x="120" y="113" text-anchor="end" font-size="12.5" class="ink-soft">Ver e ouvir</text>
+                  <text x="412" y="113" font-family="IBM Plex Mono, monospace" font-size="11" class="faint">50%</text>
+                </g>
+                <g>
+                  <rect x="200" y="124" width="280" height="20" fill="url(#hatch2)" class="accent-stroke" stroke-width="1.2" rx="2"/>
+                  <text x="120" y="139" text-anchor="end" font-size="12.5" class="ink">Discutir</text>
+                  <text x="492" y="139" font-family="IBM Plex Mono, monospace" font-size="11" class="ink-soft">70%</text>
+                </g>
+                <g>
+                  <rect x="200" y="150" width="320" height="20" fill="url(#hatch2)" class="accent-stroke" stroke-width="1.2" rx="2"/>
+                  <text x="120" y="165" text-anchor="end" font-size="12.5" class="ink">Praticar</text>
+                  <text x="532" y="165" font-family="IBM Plex Mono, monospace" font-size="11" class="ink-soft">80%</text>
+                </g>
+                <g>
+                  <rect x="200" y="176" width="380" height="22" class="accent" opacity="0.14" rx="2"/>
+                  <rect x="200" y="176" width="380" height="22" class="accent-stroke" stroke-width="1.5" fill="none" rx="2"/>
+                  <text x="120" y="192" text-anchor="end" font-family="Spectral, serif" font-style="italic" font-size="14" class="ink">Ensinar</text>
+                  <text x="592" y="192" font-family="IBM Plex Mono, monospace" font-size="12" class="accent">95%</text>
+                </g>
+              </g>
+              <line x1="200" y1="14" x2="200" y2="204" class="rule-stroke" stroke-width="1"/>
+            </svg>
+          </figure>
+
+          <!-- recall ativo -->
+          <div class="predict">
+            <p class="lbl">Pare e preveja</p>
+            <p>Voce tem uma hora para estudar um tema novo e quer reter o maximo. Reler o material tres vezes, ou
+              ler uma vez e gastar o resto explicando em voz alta?</p>
+            <details>
+              <summary>Ver uma resposta possivel</summary>
+              <p class="answer">Ler uma vez e <strong>ensinar</strong>. Pela piramide de Glasser, reler e uma
+                atividade passiva (~10%); explicar para alguem &mdash; mesmo para um assistente que finge nao
+                saber &mdash; e a atividade de maior retencao (~95%). Voce so descobre os buracos quando tenta
+                ensinar.</p>
+            </details>
+          </div>
+        </section>
+<section id="topico-2"
+                 data-inema-topic="modulo-2-2#topico-2"
+                 data-inema-module="2-2"
+                 data-inema-track="2">
+          <div class="section-mark">
+            <span class="where">Secao 2 de 2</span><span>&middot;</span><span>Personalizacao</span>
+          </div>
+          <h2 class="head"><span class="num">2.</span>Modelos para ler cada pessoa</h2>
+
+          <div class="prose">
+            <p class="lede" data-inema-block="m2-t5-p1">Se a percepcao molda o valor (Secao 2), entao falar com
+              alguem na lingua dela muda como ela ouve. Tres modelos de personalidade ajudam a fazer isso: o
+              <strong>Eneagrama</strong>, o <strong>MBTI</strong> e o <strong>DISC</strong>. Eles oferecem
+              perspectivas diferentes, porem complementares, sobre desejos, valores e estilos de decisao &mdash;
+              e, na pratica, servem para adaptar uma mensagem ao que cada pessoa de fato valoriza, sem mudar o
+              que esta sendo dito.<span class="sidenote-ref">7</span></p>
+
+            <h3 class="sub">Eneagrama: nove motivacoes</h3>
+
+            <p data-inema-block="m2-t5-p2">O Eneagrama descreve nove tipos, cada um com uma motivacao central
+              &mdash; um medo e um desejo de fundo. Popularizado por Oscar Ichazo e Claudio Naranjo, ele vai do
+              <em>Perfeccionista</em> (tipo 1, busca ordem e justica) ao <em>Pacificador</em> (tipo 9, busca
+              harmonia), passando pelo <em>Ajudante</em> (2), o <em>Competitivo</em> (3, busca reconhecimento),
+              o <em>Individualista</em> (4), o <em>Investigador</em> (5, valoriza conhecimento), o <em>Leal</em>
+              (6, busca seguranca), o <em>Entusiasta</em> (7, ama liberdade) e o <em>Desafiador</em> (8, quer
+              controle). Falar com um tipo 3 e prometer destaque e conquista; com um tipo 6, e oferecer seguranca
+              e suporte continuo.</p>
+
+            <h3 class="sub">MBTI: dezesseis formas de processar o mundo</h3>
+
+            <p data-inema-block="m2-t5-p3">Baseado nas teorias de tipos psicologicos de Carl Jung e desenvolvido
+              por Katharine Briggs e Isabel Briggs Myers, o MBTI combina quatro dimensoes &mdash;
+              Extroversao/Introversao, Intuicao/Sensacao, Pensamento/Sentimento e Julgamento/Percepcao &mdash; em
+              dezesseis tipos. Cada um prefere obter e processar informacao de um jeito: o INFP (Idealista) responde
+              a proposito e autenticidade; o ESTJ (Executivo), a eficiencia e organizacao; o ENTP (Inovador), a
+              ideias que rompem o convencional. A mesma loja de decoracao pode descrever um produto por
+              sustentabilidade para um, por funcionalidade para outro.</p>
+
+            <h3 class="sub">DISC: quatro estilos de comportamento</h3>
+
+            <p data-inema-block="m2-t5-p4">Proposto pelo psicologo William Marston em <em>Emotions of Normal
+              People</em> (1928), o DISC categoriza o comportamento em quatro estilos. O <strong>Dominante</strong>
+              quer resultado rapido e fala direta; o <strong>Influente</strong> valoriza interacao social e
+              entusiasmo; o <strong>Estavel</strong> busca seguranca, harmonia e suporte continuo; o
+              <strong>Cauteloso</strong> exige precisao, detalhe e informacao bem fundamentada. A mesma ferramenta
+              de CRM se vende a cada um de um jeito: performance para o D, comunidade para o I, suporte para o S,
+              tutoriais detalhados para o C.</p>
+          </div>
+
+          <!-- indo mais fundo: o detalhe (fonte rica) -->
+          <details class="go-deeper">
+            <summary><span class="chev">&#9656;</span> Indo mais fundo: os tipos completos e como adaptar a copy
+              <span class="opt">opcional</span></summary>
+            <div class="inner">
+              <p>Esta camada e para quem quer a tabela inteira. A logica e sempre a mesma: identifique a motivacao
+                central do tipo e escreva a mensagem que toca <em>aquela</em> motivacao &mdash; nada mais.</p>
+
+              <p><b>Eneagrama, os nove tipos.</b> 1 <em>Perfeccionista</em> &mdash; etica e organizacao
+                (&ldquo;alcance a excelencia em cada detalhe&rdquo;). 2 <em>Ajudante</em> &mdash; cuidar dos outros
+                (&ldquo;transforme vidas com a sua ajuda&rdquo;). 3 <em>Competitivo</em> &mdash; sucesso e
+                reconhecimento (&ldquo;seja reconhecido por sua determinacao&rdquo;). 4 <em>Individualista</em>
+                &mdash; autenticidade (&ldquo;expresse quem voce e&rdquo;). 5 <em>Investigador</em> &mdash;
+                conhecimento profundo (&ldquo;descubra o conhecimento que importa&rdquo;). 6 <em>Leal</em> &mdash;
+                seguranca (&ldquo;protegemos o que voce ama&rdquo;). 7 <em>Entusiasta</em> &mdash; novas
+                experiencias (&ldquo;novas aventuras esperam por voce&rdquo;). 8 <em>Desafiador</em> &mdash;
+                controle (&ldquo;assuma o controle do seu sucesso&rdquo;). 9 <em>Pacificador</em> &mdash; paz
+                (&ldquo;encontre sua paz interior&rdquo;).</p>
+
+              <p><b>MBTI, os dezesseis.</b> Os introvertidos pensadores &mdash; ISTJ (Inspetor), INTJ (Arquiteto),
+                ISTP (Virtuoso), INTP (Logico) &mdash; respondem a estrutura, estrategia e profundidade tecnica.
+                Os introvertidos sentimentais &mdash; ISFJ (Protetor), INFJ (Conselheiro), ISFP (Aventureiro),
+                INFP (Idealista) &mdash; respondem a cuidado, proposito e valores. Os extrovertidos &mdash; ESTP
+                (Empreendedor), ESFP (Animador), ENFP (Ativista), ENTP (Inovador), ESTJ (Executivo), ESFJ
+                (Provedor), ENFJ (Protagonista), ENTJ (Comandante) &mdash; vao de acao e adrenalina a lideranca e
+                visao estrategica. A copy do INFP fala de &ldquo;beleza com proposito&rdquo;; a do ENTJ,
+                &ldquo;lidere e conquiste com visao estrategica&rdquo;.</p>
+
+              <p><b>DISC, os quatro perfis.</b> D: &ldquo;resultados rapidos, performance maxima em menos
+                tempo&rdquo;. I: &ldquo;faca parte de uma comunidade vibrante&rdquo;. S: &ldquo;tranquilidade e
+                seguranca, suporte continuo&rdquo;. C: &ldquo;precisao em cada detalhe, rigor e analise&rdquo;.
+                Para experimentar na pratica, ha testes gratuitos online &mdash; Eneagrama na IDRlabs, MBTI na
+                16Personalities, DISC na Pacto RH.</p>
+            </div>
+          </details>
+        </section>
+                <section class="journey" aria-label="Minha jornada">
+          <div class="journey-top"><h2><span class="ico">&#10087;</span> Minha jornada</h2><button class="journey-cta" type="button" data-inema-journey-open>Abrir caderno &rarr;</button></div>
+          <div class="journey-body">
+            <div class="jstat"><div class="k">Neste modulo</div><div class="v" data-inema-meter="modulo:2-2"><span data-inema-meter-frac><strong>0</strong> de 2</span> <span class="nm">secoes lidas</span><div class="progress-line"><span class="progress-line__fill" data-inema-meter-fill></span></div></div></div>
+            <div class="jstat"><div class="k">Na trilha 2</div><div class="v" data-inema-meter="trilha:2"><span data-inema-meter-frac><strong>0</strong> de 5</span> <span class="nm">topicos</span><div class="progress-line"><span class="progress-line__fill" data-inema-meter-fill></span></div></div></div>
+            <div class="jstat"><div class="k">No curso</div><div class="v" data-inema-meter="curso"><span data-inema-meter-frac><strong>0</strong> de 27</span> <span class="nm">percorrido</span><div class="progress-line"><span class="progress-line__fill" data-inema-meter-fill></span></div></div></div>
+          </div>
+        </section>
+
+        <div class="nextup"><div class="txt"><div class="k">Continuar</div><div class="t">Trilha 3 &mdash; Habitos, Motivacao & Determinacao</div></div><a class="go" href="t3.html">Proximo &rarr;</a></div>
+      </article>
+      <aside class="margin-rail" aria-label="Margem: notas e seu painel">
+        <aside data-inema-rail="modulo-2-2#topico-1"></aside>
+
+        <aside class="sidenote" data-kind="definicao">
+          <div class="tag">Definicao</div>
+          <b>Piramide de Glasser.</b> Modelo que estima a retencao por modo de estudo: ler 10%, ouvir 20%, ver 30%,
+          ver e ouvir 50%, discutir 70%, praticar 80%, ensinar 95%.
+        </aside>
+        <aside class="sidenote" data-kind="fundo">
+          <div class="tag">Indo mais fundo</div>
+          O Cone de Dale (1946) e qualitativo &mdash; nao da porcentagens; Glasser quantificou a mesma intuicao.
+          Ambos concordam: experiencia ativa retem mais que recepcao passiva.
+        </aside>
+
+        <!-- ---- SECAO 5 ---- -->
+        
+        <aside data-inema-rail="modulo-2-2#topico-2"></aside>
+
+        <aside class="sidenote" data-kind="definicao">
+          <div class="tag">Definicao</div>
+          <b>Eneagrama, MBTI, DISC.</b> Tres tipologias: o Eneagrama mapeia <i>motivacoes</i> (9 tipos); o MBTI,
+          <i>preferencias</i> de Jung (16 tipos); o DISC, <i>estilos de comportamento</i> (4 perfis).
+        </aside>
+        <aside class="sidenote" data-kind="fonte" style="margin-bottom:0">
+          <div class="tag">Fonte</div>
+          Eneagrama: Ichazo e Naranjo. MBTI: Katharine e Isabel Briggs, sobre Jung. DISC: William Marston,
+          <i>Emotions of Normal People</i> (1928). Testes gratuitos: IDRlabs, 16Personalities, Pacto RH.
+        </aside>
+
+      
+      </aside>
+  </div></main>
+  <footer class="colophon"><span>INEMA.CLUB &middot; Caderno do aluno</span><span class="pg">Modulo 2-2</span><span>Composto em Spectral &amp; Source Serif 4</span></footer>
+  <script src="./assets/learn.js"></script>
+  <script>
+    if (window.INEMA && typeof window.INEMA.init === "function") { window.INEMA.init(); }
+  </script>
+</body>
+</html>
