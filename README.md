@@ -29,10 +29,14 @@ host estático (GitHub Pages / Vercel).
 
 ```
 curso/
-├── index.html          landing
-├── t/t1..t6.html       as 6 trilhas (cada tópico = uma seção)
-└── assets/             learn.css · learn.js (camada v3)
+├── index.html              landing (lista as trilhas)
+├── t1.html … t6.html       índices de trilha (cards dos módulos)
+├── t1-1.html … t6-1.html   10 módulos (páginas de leitura)
+└── assets/                 learn.css · learn.js (camada v3)
 ```
+
+Estrutura de 3 níveis (Curso → Trilha → Módulo), com mapa de módulos na margem
+(`.rail-modules`) em cada aula — padrão canônico atual da skill `formato-curso-v3`.
 
 ## Origem & privacidade
 
