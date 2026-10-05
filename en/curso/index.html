@@ -1,0 +1,455 @@
+<!DOCTYPE html>
+
+<html data-theme="papel" lang="en">
+<head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<!-- 1) ANTI-FOUC — bloqueante, PRIMEIRO. REL="." (index na raiz de curso/). -->
+<script>
+  (function () {
+    try {
+      var html = document.documentElement;
+      var DEF = { theme: 'papel', font: 'serif', fontScale: 100, lineWidth: 66, leading: 1.66 };
+      function clone(o) { var r = {}; for (var x in o) r[x] = o[x]; return r; }
+      var p = clone(DEF);
+      try {
+        var raw = localStorage.getItem('inema.prefs');
+        if (raw) {
+          var parsed = JSON.parse(raw);
+          if (parsed && typeof parsed === 'object') {
+            for (var k in DEF) if (parsed[k] != null) p[k] = parsed[k];
+          }
+        }
+      } catch (e) { p = clone(DEF); }
+      var THEMES = { 'papel': { attr: 'papel', cs: 'light' }, 'sepia': { attr: 'sepia', cs: 'light' }, 'escuro': { attr: 'escuro', cs: 'dark' } };
+      var t = THEMES[p.theme] || THEMES['papel'];
+      html.setAttribute('data-theme', t.attr); html.style.colorScheme = t.cs;
+      var font = (p.font === 'sans' || p.font === 'hyperlegible') ? p.font : 'serif';
+      html.setAttribute('data-font', font);
+      var s = html.style;
+      var scale = (+p.fontScale || 100); s.setProperty('--fontscale', scale + '%'); html.setAttribute('data-fontscale', String(scale));
+      var lw = (+p.lineWidth || 66); s.setProperty('--measure', lw + 'ch'); html.setAttribute('data-line-width', lw <= 62 ? 'estreito' : (lw >= 70 ? 'largo' : 'medio'));
+      var lh = (+p.leading || 1.66); s.setProperty('--leading', lh.toString()); html.setAttribute('data-leading', lh <= 1.66 ? 'compacto' : 'confortavel');
+      var DISP = { serif: '"Spectral", Georgia, "Times New Roman", serif', sans: 'ui-sans-serif, system-ui, -apple-system, "Segoe UI", Roboto, sans-serif', hyperlegible: '"Atkinson Hyperlegible", system-ui, -apple-system, sans-serif' };
+      var BODY = { serif: '"Source Serif 4", Georgia, "Times New Roman", serif', sans: 'ui-sans-serif, system-ui, -apple-system, "Segoe UI", Roboto, sans-serif', hyperlegible: '"Atkinson Hyperlegible", system-ui, -apple-system, sans-serif' };
+      s.setProperty('--font-disp', DISP[font] || DISP.serif); s.setProperty('--font-body', BODY[font] || BODY.serif);
+    } catch (err) {
+      try { document.documentElement.setAttribute('data-theme', 'papel'); document.documentElement.style.colorScheme = 'light'; } catch (e) {}
+    }
+  })();
+  </script>
+<!-- 2) Identidade do curso + manifesto (27 tópicos em 6 trilhas) -->
+<meta content="inema-ncia" name="inema-course"/>
+<script data-inema-manifest="" type="application/json">
+  {
+  "course": "inema-ncia",
+  "tracks": [
+    {
+      "n": "1",
+      "title": "Atenção",
+      "modules": [
+        {
+          "id": "1-1",
+          "title": "Necessidades & Atencao",
+          "topics": 3,
+          "href": "t1-1.html"
+        },
+        {
+          "id": "1-2",
+          "title": "A economia da distracao",
+          "topics": 3,
+          "href": "t1-2.html"
+        }
+      ]
+    },
+    {
+      "n": "2",
+      "title": "Percepção",
+      "modules": [
+        {
+          "id": "2-1",
+          "title": "Percepcao & valor",
+          "topics": 3,
+          "href": "t2-1.html"
+        },
+        {
+          "id": "2-2",
+          "title": "Como aprendemos",
+          "topics": 2,
+          "href": "t2-2.html"
+        }
+      ]
+    },
+    {
+      "n": "3",
+      "title": "Hábitos",
+      "modules": [
+        {
+          "id": "3-1",
+          "title": "Motivacao & determinacao",
+          "topics": 2,
+          "href": "t3-1.html"
+        },
+        {
+          "id": "3-2",
+          "title": "Rotinas que sustentam",
+          "topics": 3,
+          "href": "t3-2.html"
+        }
+      ]
+    },
+    {
+      "n": "4",
+      "title": "Habilidades",
+      "modules": [
+        {
+          "id": "4-1",
+          "title": "Habilidades & talentos do futuro",
+          "topics": 3,
+          "href": "t4-1.html"
+        }
+      ]
+    },
+    {
+      "n": "5",
+      "title": "Persuasão",
+      "modules": [
+        {
+          "id": "5-1",
+          "title": "Persuasao & estoria",
+          "topics": 2,
+          "href": "t5-1.html"
+        },
+        {
+          "id": "5-2",
+          "title": "Aplicacao",
+          "topics": 3,
+          "href": "t5-2.html"
+        }
+      ]
+    },
+    {
+      "n": "6",
+      "title": "Recursos",
+      "modules": [
+        {
+          "id": "6-1",
+          "title": "Recursos do Canal",
+          "topics": 3,
+          "href": "t6-1.html"
+        }
+      ]
+    }
+  ]
+}
+  </script>
+<title>INEMA.NCIA — the channel’s workbook, turned into a reading course | INEMA</title>
+<!-- 3) Fontes -->
+<link href="https://fonts.googleapis.com" rel="preconnect"/>
+<link crossorigin="" href="https://fonts.gstatic.com" rel="preconnect"/>
+<link href="https://fonts.googleapis.com/css2?family=Spectral:ital,wght@0,300;0,400;0,500;0,600;0,700;1,400;1,500&amp;family=Source+Serif+4:ital,opsz,wght@0,8..60,400;0,8..60,500;0,8..60,600;1,8..60,400;1,8..60,500&amp;family=IBM+Plex+Mono:wght@400;500&amp;family=Atkinson+Hyperlegible:ital,wght@0,400;0,700;1,400&amp;display=swap" rel="stylesheet"/>
+<!-- 4) Camada v3 -->
+<link href="../../curso/assets/learn.css" rel="stylesheet"/>
+<!-- 5) Ajustes locais da landing (tokens existentes, sem nova cor decorativa) -->
+<style>
+    .hero { margin: var(--s7) 0 var(--s8); }
+    .hero .lede-kicker { font-family: var(--mono); font-size: 0.72rem; letter-spacing: 0.22em; text-transform: uppercase; color: var(--accent); display: flex; align-items: center; gap: var(--s3); margin-bottom: var(--s5); }
+    .hero .lede-kicker::after { content: ""; flex: 1 1 auto; height: 1px; background: linear-gradient(90deg, var(--border), transparent); }
+    .hero h1 { font-family: var(--font-disp); font-weight: 400; font-size: clamp(2.0rem, 1.1rem + 3.0vw, 3.2rem); line-height: 1.12; letter-spacing: -0.012em; color: var(--ink); margin: 0 0 var(--s5); text-wrap: balance; }
+    .hero h1 em { font-style: italic; }
+    .hero .sub { font-size: clamp(1.1rem, 0.9rem + 0.6vw, 1.32rem); line-height: 1.5; color: var(--ink-soft); max-width: 56ch; margin: 0 0 var(--s6); font-family: var(--font-body); }
+    .cta-row { display: flex; flex-wrap: wrap; align-items: baseline; gap: var(--s3) var(--s5); margin-top: var(--s5); }
+    .cta-primary { display: inline-flex; align-items: center; gap: var(--s3); font-family: var(--font-body); font-size: 1.04rem; font-weight: 600; text-decoration: none; color: var(--on-accent); background: var(--accent); border: 1px solid var(--accent); border-radius: var(--radius, 4px); padding: 0.7rem 1.25rem; line-height: 1; transition: background 120ms ease; }
+    .cta-primary:hover { background: var(--accent-soft); border-color: var(--accent-soft); }
+    .cta-primary .arr { font-family: var(--mono); }
+    .cta-low { font-family: var(--font-body); font-size: 0.98rem; color: var(--ink-soft); }
+    .cta-low a { color: var(--accent); text-decoration: underline; text-underline-offset: 2px; }
+    .cta-note { display: block; margin-top: var(--s3); font-family: var(--mono); font-size: 0.74rem; letter-spacing: 0.04em; color: var(--ink-faint); }
+    .stand { margin: var(--s6) 0 0; padding-top: var(--s5); border-top: 1px solid var(--border); display: flex; flex-wrap: wrap; align-items: center; gap: var(--s3) var(--s5); }
+    .stand .lbl { font-family: var(--mono); font-size: 0.74rem; letter-spacing: 0.06em; color: var(--ink-faint); }
+    .stand [data-inema-meter] { display: inline-flex; align-items: center; gap: var(--s3); }
+    .stand [data-inema-meter-frac] { font-family: var(--mono); font-size: 0.78rem; color: var(--ink-soft); }
+    .stand [data-inema-meter-frac] strong { color: var(--ink); font-weight: 600; }
+    .stand .progress-line { width: 120px; height: 3px; border-radius: 3px; background: var(--paper-deep, var(--border)); overflow: hidden; }
+    .stand .progress-line__fill { display: block; height: 100%; width: 0%; background: var(--accent); transition: width 200ms ease; }
+    .curriculo { margin-top: var(--s5); }
+    .curriculo .track-line { display: flex; align-items: baseline; gap: var(--s4); padding-bottom: var(--s4); margin-bottom: var(--s5); border-bottom: 1px solid var(--border); }
+    .curriculo .track-tag { font-family: var(--mono); font-size: 0.72rem; letter-spacing: 0.14em; text-transform: uppercase; color: var(--accent); white-space: nowrap; }
+    .curriculo .track-title { font-family: var(--font-disp); font-style: italic; font-weight: 400; font-size: 1.3rem; color: var(--ink); margin: 0; }
+    .curriculo .track-meta { font-family: var(--mono); font-size: 0.74rem; color: var(--ink-faint); margin-left: auto; }
+    .idx-mod { margin: 0 0 var(--s7); }
+    .idx-mod .idx-head { display: flex; align-items: baseline; gap: var(--s3); font-family: var(--font-disp); margin: 0 0 var(--s3); }
+    .idx-mod .idx-num { font-family: var(--mono); font-size: 0.82rem; color: var(--ink-faint); letter-spacing: 0.04em; }
+    .idx-mod .idx-title { font-size: 1.34rem; font-weight: 600; color: var(--ink); text-decoration: none; line-height: 1.25; }
+    .idx-mod .idx-title:hover { color: var(--accent); }
+    .idx-mod .idx-why { font-family: var(--font-body); color: var(--ink-soft); margin: 0 0 var(--s3); max-width: var(--measure); }
+    .idx-mod .idx-foot { display: flex; flex-wrap: wrap; align-items: center; gap: var(--s3) var(--s4); font-family: var(--mono); font-size: 0.74rem; color: var(--ink-faint); }
+    .idx-mod .idx-open { color: var(--accent); text-decoration: none; font-weight: 500; font-family: var(--font-body); font-size: 0.92rem; }
+    .idx-mod .idx-open:hover { text-decoration: underline; text-underline-offset: 2px; }
+    .idx-mod .idx-dot { color: var(--border); }
+    .proof { margin: var(--s8) 0 var(--s7); border-top: 1px solid var(--border); padding-top: var(--s6); }
+    .proof .proof-kicker { font-family: var(--mono); font-size: 0.72rem; letter-spacing: 0.18em; text-transform: uppercase; color: var(--ink-faint); margin: 0 0 var(--s5); }
+    .proof blockquote { margin: 0 0 var(--s6); padding: 0 0 0 var(--s5); border-left: 2px solid var(--accent); }
+    .proof blockquote p { font-family: var(--font-disp); font-style: italic; font-weight: 300; font-size: 1.18rem; line-height: 1.5; color: var(--ink); margin: 0 0 var(--s3); max-width: 56ch; }
+    .proof blockquote cite { font-style: normal; font-family: var(--mono); font-size: 0.76rem; letter-spacing: 0.03em; color: var(--ink-faint); }
+    .proof blockquote cite b { color: var(--ink-soft); font-weight: 500; }
+    .closer { margin-top: var(--s7); border-top: 1px solid var(--border); padding-top: var(--s6); }
+    .closer p { font-family: var(--font-body); color: var(--ink-soft); max-width: var(--measure); margin: 0 0 var(--s5); }
+    @media (max-width: 1080px) { .stand .progress-line { width: 90px; } }
+  </style>
+<link href="https://inematds.github.io/inemancia/curso/" hreflang="pt-BR" rel="alternate"/><link href="https://inematds.github.io/inemancia/en/curso/" hreflang="en" rel="alternate"/><link href="https://inematds.github.io/inemancia/es/curso/" hreflang="es" rel="alternate"/></head>
+<body><div class="inema-lang" style="position:fixed;right:14px;bottom:14px;z-index:9999;display:flex;gap:2px;padding:4px;border-radius:10px;background:rgba(12,12,16,.82);border:1px solid rgba(226,162,59,.45);font:600 12px/1 Sora,Inter,system-ui,sans-serif;backdrop-filter:blur(8px)" translate="no"><a href="../../curso/" hreflang="pt-BR" style="padding:6px 8px;border-radius:7px;text-decoration:none;color:#e9e9ee">PT</a><a href="./" hreflang="en" style="padding:6px 8px;border-radius:7px;text-decoration:none;color:#1a1206;background:#E2A23B">EN</a><a href="../../es/curso/" hreflang="es" style="padding:6px 8px;border-radius:7px;text-decoration:none;color:#e9e9ee">ES</a></div>
+<a class="skip" href="#reading">Skip to content</a>
+<!-- ===================== READER BAR ===================== -->
+<div class="reader-bar">
+<div class="reader-inner">
+<a class="wordmark" href="https://inema.club" rel="noopener" target="_blank">INEMA<span class="dot">.</span><span class="club">CLUB</span></a>
+<div class="reader-controls" data-inema-appearance="">
+<span class="rc-read"><span data-inema-meter="curso"><span data-inema-meter-frac=""><strong>0</strong> of 27</span></span> covered</span>
+<div aria-label="Reading theme" class="rc-group" role="group">
+<button aria-pressed="true" class="rc-btn" data-inema-set-theme="papel" type="button">Role</button>
+<button aria-pressed="false" class="rc-btn" data-inema-set-theme="sepia" type="button">Sepia</button>
+<button aria-pressed="false" class="rc-btn" data-inema-set-theme="escuro" type="button">Dark</button>
+</div>
+<div aria-label="Reading source" class="rc-group" role="group">
+<button aria-pressed="true" class="rc-btn" data-inema-set-font="serif" type="button">Serif</button>
+<button aria-pressed="false" class="rc-btn" data-inema-set-font="sans" type="button">Sans</button>
+<button aria-pressed="false" class="rc-btn" data-inema-set-font="hyperlegible" title="Atkinson Hyperlegible — maximum legibility" type="button">Aa↹</button>
+</div>
+<div aria-label="Text size" class="rc-group" role="group">
+<button aria-pressed="true" class="rc-btn" data-inema-set-fontscale="100" type="button">A</button>
+<button aria-pressed="false" class="rc-btn" data-inema-set-fontscale="112" type="button">A+</button>
+<button aria-pressed="false" class="rc-btn" data-inema-set-fontscale="125" type="button">A++</button>
+</div>
+<div aria-label="Line width" class="rc-group" role="group">
+<button aria-pressed="false" class="rc-btn" data-inema-set-linewidth="62" type="button">Narrow</button>
+<button aria-pressed="true" class="rc-btn" data-inema-set-linewidth="66" type="button">Medium</button>
+<button aria-pressed="false" class="rc-btn" data-inema-set-linewidth="70" type="button">Wide</button>
+</div>
+</div>
+</div>
+</div>
+<!-- ===================== MASTHEAD ===================== -->
+<header class="masthead">
+<nav aria-label="Where you are" class="wayfind">
+<span><b>INEMA.NCIA</b> · the essential and human</span>
+<span class="sep">·</span>
+<span>6 learning paths · 27 sections</span>
+<span class="sep">·</span>
+<button data-inema-journey-open="" type="button">
+        My journey <span class="inema-journey-badge" data-count="0" data-inema-journey-badge="">0</span>
+</button>
+</nav>
+<nav aria-label="Course tracks" class="course-nav" data-course-nav="">
+<a class="cn-home" href="index.html">Start</a>
+<span class="cn-sep">·</span>
+<a href="t1.html"><b>1</b> Attention</a>
+<a href="t2.html"><b>2</b> Perception</a>
+<a href="t3.html"><b>3</b> Habits</a>
+<a href="t4.html"><b>4</b> Skills</a>
+<a href="t5.html"><b>5</b> Persuasion</a>
+<a href="t6.html"><b>6</b> Resources</a>
+</nav>
+</header>
+<!-- ===================== SPREAD ===================== -->
+<main class="spread">
+<div class="leaf">
+<article class="reading" id="reading">
+<!-- HERO -->
+<header class="hero">
+<p class="lede-kicker">INEMA.NCIA · the channel’s workbook, turned into a course</p>
+<h1>Information became free.<br/>Who learned to <em>pay attention</em> became rare — and that’s where everything else is decided.</h1>
+<p class="sub">This course doesn’t promise a shortcut. It calmly brings together what circulated in the channel
+            INEMA.NCIA about the part the machine can’t do for you: how your attention is auctioned off, how
+            perception distorts value, how habit beats motivation—and which human skills
+            remain scarce when everything else has become a commodity.</p>
+<div class="cta-row">
+<a class="cta-primary" href="t1.html">Start with Path 1 <span class="arr">→</span></a>
+<span class="cta-low">or, with no commitment, <a href="t1-1.html#topico-1">read only the first section</a> before.</span>
+</div>
+<span class="cta-note">No sign-up · opens directly · your progress stays only in your browser.</span>
+<div class="stand">
+<span class="lbl">Your path</span>
+<span data-inema-meter="curso">
+<span data-inema-meter-frac=""><strong>0</strong> of 27</span> sections
+              <span class="progress-line"><span class="progress-line__fill" data-inema-meter-fill=""></span></span>
+</span>
+<button data-inema-journey-open="" style="font-family:var(--mono);font-size:0.74rem;background:none;border:0;color:var(--accent);cursor:pointer;padding:0;text-decoration:underline;text-underline-offset:2px;" type="button">continue where I left off</button>
+</div>
+</header>
+<!-- O PORQUE -->
+<section data-inema-module="landing" data-inema-topic="modulo-landing#topico-porque" data-inema-track="1" id="topico-porque">
+<div class="section-mark">
+<span class="where">Why This Exists</span><span>·</span><span>Read before the index</span>
+</div>
+<h2 class="head"><span class="num">§</span>A notebook of conversations, not an info product</h2>
+<div class="prose">
+<p class="lede" data-inema-block="landing-porque-p1">INEMA.NCIA began as a Telegram channel—
+              scattered fragments about the neuroscience of attention, perception, habit, persuasion, and the skills that
+              remain when AI takes care of the rest.<span class="sidenote-ref">1</span> The problem with chat format is that
+              a good idea scrolls up and disappears. This course gathers those fragments, separates signal from what
+              was just a link, and recomposes them into a text you can read at your own pace.</p>
+<p data-inema-block="landing-porque-p2">The channel makes the same bet: no magic formula, no
+              promise of transformation in thirty days. There are six short, in-depth tracks—from the neuroscience of
+              focus to viral psychology—and each reads like a session, at your own pace, with the difficult details
+              kept in the margin for whenever you want them.</p>
+</div>
+<details class="go-deeper">
+<summary><span class="chev">▸</span> Going deeper: why “human” is the common thread
+              <span class="opt">optional</span></summary>
+<div class="inner">
+<p>Optional layer—the index below is enough to get started. As machines write, summarize, and generate, the differentiator shifts to what they can’t do: decide where to direct attention, read your own perception, sustain a habit without applause, persuade without manipulating. At its core, almost everything on the channel revolves around this single thesis—and it’s what organizes the six paths.</p>
+</div>
+</details>
+</section>
+<!-- CURRICULO COMO INDICE -->
+<section data-inema-module="landing" data-inema-topic="modulo-landing#topico-indice" data-inema-track="1" id="topico-indice">
+<div class="section-mark">
+<span class="where">The index</span><span>·</span><span>6 learning paths · 27 sections</span>
+</div>
+<h2 class="head"><span class="num">§</span>What you’ll study</h2>
+<div class="curriculo">
+<div class="track-line">
+<span class="track-tag">INEMA.NCIA</span>
+<h3 class="track-title">Six tracks, ten modules</h3>
+<span class="track-meta">27 sections · read at your own pace</span>
+</div>
+<article class="idx-mod">
+<p class="idx-head"><span class="idx-num">Learning path 1</span><a class="idx-title" href="t1.html">Neuroscience of Attention &amp; Focus</a></p>
+<p class="idx-why">Why your attention is auctioned off, how addiction hijacks the reward system, and why distraction costs more than it seems.</p>
+<ul class="idx-mods">
+<li class="idx-modline">
+<a class="idx-modlink" href="t1-1.html"><b>Module 1-1</b> · Needs &amp; Attention</a>
+<ol class="idx-secs"><li><a href="t1-1.html#topico-1">Human Needs</a></li><li><a href="t1-1.html#topico-2">Selective Attention and the SRAA</a></li><li><a href="t1-1.html#topico-3">The Neuroscience of Addiction</a></li></ol>
+</li>
+<li class="idx-modline">
+<a class="idx-modlink" href="t1-2.html"><b>Module 1-2</b> · The Attention Economy</a>
+<ol class="idx-secs"><li><a href="t1-2.html#topico-1">Shiny Object Syndrome (SOS)</a></li><li><a href="t1-2.html#topico-2">Efficiency x Distraction</a></li><li><a href="t1-2.html#topico-3">2025: The Main Vulnerability</a></li></ol>
+</li>
+</ul>
+<p class="idx-foot"><span>2 modules</span><span class="idx-dot">·</span><span>6 sections</span><span class="idx-dot">·</span><a class="idx-open" href="t1.html">Open the learning path →</a></p>
+</article>
+<article class="idx-mod">
+<p class="idx-head"><span class="idx-num">Learning path 2</span><a class="idx-title" href="t2.html">Perception &amp; Self-Knowledge</a></p>
+<p class="idx-why">The reality you perceive is an interpretation, not a fact: self-perception, value, archetypes, and how each person learns.</p>
+<ul class="idx-mods">
+<li class="idx-modline">
+<a class="idx-modlink" href="t2-1.html"><b>Module 2-1</b> · Perception &amp; Value</a>
+<ol class="idx-secs"><li><a href="t2-1.html#topico-1">How self-perception misleads us</a></li><li><a href="t2-1.html#topico-2">Perception and the value it creates</a></li><li><a href="t2-1.html#topico-3">Archetypes: the molds of behavior</a></li></ol>
+</li>
+<li class="idx-modline">
+<a class="idx-modlink" href="t2-2.html"><b>Module 2-2</b> · How We Learn</a>
+<ol class="idx-secs"><li><a href="t2-2.html#topico-1">How learning sticks</a></li><li><a href="t2-2.html#topico-2">Models for understanding each person</a></li></ol>
+</li>
+</ul>
+<p class="idx-foot"><span>2 modules</span><span class="idx-dot">·</span><span>5 sections</span><span class="idx-dot">·</span><a class="idx-open" href="t2.html">Open the learning path →</a></p>
+</article>
+<article class="idx-mod">
+<p class="idx-head"><span class="idx-num">Track 3</span><a class="idx-title" href="t3.html">Habits, Motivation &amp; Determination</a></p>
+<p class="idx-why">Motivation is the weather; determination is the structure. Inner permission and the routines that sustain the long game.</p>
+<ul class="idx-mods">
+<li class="idx-modline">
+<a class="idx-modlink" href="t3-1.html"><b>Module 3-1</b> · Motivation &amp; Determination</a>
+<ol class="idx-secs"><li><a href="t3-1.html#topico-1">Motivation x determination</a></li><li><a href="t3-1.html#topico-2">Permission to succeed</a></li></ol>
+</li>
+<li class="idx-modline">
+<a class="idx-modlink" href="t3-2.html"><b>Module 3-2</b> · Routines That Sustain</a>
+<ol class="idx-secs"><li><a href="t3-2.html#topico-1">The first-hour-of-the-morning rule</a></li><li><a href="t3-2.html#topico-2">The five-hour rule</a></li><li><a href="t3-2.html#topico-3">The ten powers of the wise</a></li></ol>
+</li>
+</ul>
+<p class="idx-foot"><span>2 modules</span><span class="idx-dot">·</span><span>5 sections</span><span class="idx-dot">·</span><a class="idx-open" href="t3.html">Open the learning path →</a></p>
+</article>
+<article class="idx-mod">
+<p class="idx-head"><span class="idx-num">Track 4</span><a class="idx-title" href="t4.html">Future Skills &amp; Talents</a></p>
+<p class="idx-why">What remains scarce when the machine takes over the rest: skills, talents, and profiles that define a business.</p>
+<ul class="idx-mods">
+<li class="idx-modline">
+<a class="idx-modlink" href="t4-1.html"><b>Module 4-1</b> · Skills &amp; Talents of the Future</a>
+<ol class="idx-secs"><li><a href="t4-1.html#topico-1">The 12 human skills</a></li><li><a href="t4-1.html#topico-2">The 6 talents of the future</a></li><li><a href="t4-1.html#topico-3">Human profiles that define the future of a business</a></li></ol>
+</li>
+</ul>
+<p class="idx-foot"><span>1 module</span><span class="idx-dot">·</span><span>3 sections</span><span class="idx-dot">·</span><a class="idx-open" href="t4.html">Open the learning path →</a></p>
+</article>
+<article class="idx-mod">
+<p class="idx-head"><span class="idx-num">Track 5</span><a class="idx-title" href="t5.html">Persuasion &amp; Viral Psychology</a></p>
+<p class="idx-why">Why a story sticks: persuasion techniques, the anatomy of virality, digital triggers, and a practical case.</p>
+<ul class="idx-mods">
+<li class="idx-modline">
+<a class="idx-modlink" href="t5-1.html"><b>Module 5-1</b> · Persuasion &amp; Storytelling</a>
+<ol class="idx-secs"><li><a href="t5-1.html#topico-1">Persuasion: simple techniques</a></li><li><a href="t5-1.html#topico-2">The Anatomy of a Viral Story (VIRAL ST)</a></li></ol>
+</li>
+<li class="idx-modline">
+<a class="idx-modlink" href="t5-2.html"><b>Module 5-2</b> · Application</a>
+<ol class="idx-secs"><li><a href="t5-2.html#topico-1">VIRALST in sales mode</a></li><li><a href="t5-2.html#topico-2">FGMD: the ten digital triggers</a></li><li><a href="t5-2.html#topico-3">Case study: the NCIAFlux project</a></li></ol>
+</li>
+</ul>
+<p class="idx-foot"><span>2 modules</span><span class="idx-dot">·</span><span>5 sections</span><span class="idx-dot">·</span><a class="idx-open" href="t5.html">Open the learning path →</a></p>
+</article>
+<article class="idx-mod">
+<p class="idx-head"><span class="idx-num">Track 6</span><a class="idx-title" href="t6.html">Channel Resources</a></p>
+<p class="idx-why">The living appendix: welcome, video library, and index of original Telegram topics.</p>
+<ul class="idx-mods">
+<li class="idx-modline">
+<a class="idx-modlink" href="t6-1.html"><b>Module 6-1</b> · Channel Resources</a>
+<ol class="idx-secs"><li><a href="t6-1.html#topico-1">Welcome to INEMA.NCIA</a></li><li><a href="t6-1.html#topico-2">Video Library</a></li><li><a href="t6-1.html#topico-3">Channel Topic Index</a></li></ol>
+</li>
+</ul>
+<p class="idx-foot"><span>1 module</span><span class="idx-dot">·</span><span>3 sections</span><span class="idx-dot">·</span><a class="idx-open" href="t6.html">Open the learning path →</a></p>
+</article>
+</div>
+</section>
+<!-- PROVA SOCIAL SOBRIA -->
+<section aria-label="About the material" class="proof">
+<p class="proof-kicker">No stars, no “+10,000 students” — just the spirit of the channel</p>
+<blockquote>
+<p>“You can’t outsource attention. The machine writes for you; deciding what deserves your
+              focus is still your job — and it’s the job that pays the most.”</p>
+<cite><b>INEMA.NCIA</b> · channel synthesis</cite>
+</blockquote>
+<blockquote>
+<p>“A habit is what’s left when motivation runs out. The rest is weather.”</p>
+<cite><b>Track 3</b> · Habits &amp; Determination</cite>
+</blockquote>
+</section>
+<!-- FECHO -->
+<section aria-label="Get started" class="closer">
+<p>The most honest way is simply to start and see whether the tone works for you. Learning Path 1 opens on a reading
+            page, with no sign-up—and you can stop after the first section if it's not for you.</p>
+<div class="cta-row">
+<a class="cta-primary" href="t1.html">Start with Path 1 <span class="arr">→</span></a>
+<span class="cta-low">or <a href="t1-1.html#topico-1">read only the first section</a> first.</span>
+</div>
+</section>
+</article>
+<!-- TRILHO DE MARGEM -->
+<aside aria-label="Margin: notes and your learning dashboard" class="margin-rail">
+<aside data-inema-rail="modulo-landing#topico-porque"></aside>
+<aside class="sidenote" data-kind="fonte">
+<div class="tag">Source</div>
+          All the content comes from the Telegram channel <b>INEMA.NCIA</b> (27 topics), collected and rewritten as reading material. Each track points back to the original topics in Track 6.
+          <div class="src-line">t.me/c/2414677686</div>
+</aside>
+<aside class="sidenote" data-kind="definicao">
+<div class="tag">How to read</div>
+<b>Learning path</b> groups sections; each <b>section</b> isolates one idea. There are 6 learning paths, 27 sections. Read in order
+          or jump straight to the one you’re interested in — your progress is saved in the browser.
+        </aside>
+<aside data-inema-rail="modulo-landing#topico-indice"></aside>
+<aside class="sidenote" data-kind="fundo">
+<div class="tag">Why the Index Is Dense</div>
+          The density of the index is proof of seriousness, not a lack of marketing: each track includes the <i>why</i> in full, instead of a list of benefits with green check marks.
+        </aside>
+</aside>
+</div>
+</main>
+<footer class="colophon">
+<span>INEMA.CLUB · Student Workbook</span>
+<span class="pg">INEMA.NCIA — landing page</span>
+<span>Set in Spectral &amp; Source Serif 4</span>
+</footer>
+<script src="../../curso/assets/learn.js"></script>
+<script>
+    if (window.INEMA && typeof window.INEMA.init === 'function') { window.INEMA.init(); }
+  </script>
+</body>
+</html>

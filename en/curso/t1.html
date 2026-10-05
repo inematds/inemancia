@@ -1,0 +1,305 @@
+<!DOCTYPE html>
+
+<html data-theme="papel" lang="en">
+<head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<!-- ===================================================================
+       1) ANTI-FOUC — script BLOQUEANTE, PRIMEIRO no <head>, ANTES das fontes
+          e do learn.css. Le inema.prefs (global, cross-curso) e aplica
+          data-theme + color-scheme + --measure/--leading/--fontscale +
+          data-font/--font-disp/--font-body ANTES do primeiro paint.
+          try/catch total => default papel no erro (preserva a marca INEMA).
+       =================================================================== -->
+<script>
+  (function () {
+    try {
+      var html = document.documentElement;
+      var DEF = { theme: 'papel', font: 'serif', fontScale: 100, lineWidth: 66, leading: 1.66 };
+      function clone(o) { var r = {}; for (var x in o) r[x] = o[x]; return r; }
+      var p = clone(DEF);
+      try {
+        var raw = localStorage.getItem('inema.prefs');
+        if (raw) {
+          var parsed = JSON.parse(raw);
+          if (parsed && typeof parsed === 'object') {
+            for (var k in DEF) if (parsed[k] != null) p[k] = parsed[k];
+          }
+        }
+      } catch (e) { p = clone(DEF); }
+
+      var THEMES = {
+        'papel':  { attr: 'papel',  cs: 'light' },
+        'sepia':  { attr: 'sepia',  cs: 'light' },
+        'escuro': { attr: 'escuro', cs: 'dark'  }
+      };
+      var t = THEMES[p.theme] || THEMES['papel'];
+      html.setAttribute('data-theme', t.attr);
+      html.style.colorScheme = t.cs;
+
+      var font = (p.font === 'sans' || p.font === 'hyperlegible') ? p.font : 'serif';
+      html.setAttribute('data-font', font);
+
+      var s = html.style;
+
+      var scale = (+p.fontScale || 100);
+      s.setProperty('--fontscale', scale + '%');
+      html.setAttribute('data-fontscale', String(scale));
+
+      var lw = (+p.lineWidth || 66);
+      s.setProperty('--measure', lw + 'ch');
+      html.setAttribute('data-line-width', lw <= 62 ? 'estreito' : (lw >= 70 ? 'largo' : 'medio'));
+
+      var lh = (+p.leading || 1.66);
+      s.setProperty('--leading', lh.toString());
+      html.setAttribute('data-leading', lh <= 1.66 ? 'compacto' : 'confortavel');
+
+      var DISP = {
+        serif: '"Spectral", Georgia, "Times New Roman", serif',
+        sans: 'ui-sans-serif, system-ui, -apple-system, "Segoe UI", Roboto, sans-serif',
+        hyperlegible: '"Atkinson Hyperlegible", system-ui, -apple-system, sans-serif'
+      };
+      var BODY = {
+        serif: '"Source Serif 4", Georgia, "Times New Roman", serif',
+        sans: 'ui-sans-serif, system-ui, -apple-system, "Segoe UI", Roboto, sans-serif',
+        hyperlegible: '"Atkinson Hyperlegible", system-ui, -apple-system, sans-serif'
+      };
+      s.setProperty('--font-disp', DISP[font] || DISP.serif);
+      s.setProperty('--font-body', BODY[font] || BODY.serif);
+    } catch (err) {
+      try {
+        document.documentElement.setAttribute('data-theme', 'papel');
+        document.documentElement.style.colorScheme = 'light';
+      } catch (e) {}
+    }
+  })();
+  </script>
+<meta content="inema-ncia" name="inema-course"/>
+<script data-inema-manifest="" type="application/json">
+{
+  "course": "inema-ncia",
+  "tracks": [
+    {
+      "n": "1",
+      "title": "Atenção",
+      "modules": [
+        {
+          "id": "1-1",
+          "title": "Necessidades & Atencao",
+          "topics": 3,
+          "href": "t1-1.html"
+        },
+        {
+          "id": "1-2",
+          "title": "A economia da distracao",
+          "topics": 3,
+          "href": "t1-2.html"
+        }
+      ]
+    },
+    {
+      "n": "2",
+      "title": "Percepção",
+      "modules": [
+        {
+          "id": "2-1",
+          "title": "Percepcao & valor",
+          "topics": 3,
+          "href": "t2-1.html"
+        },
+        {
+          "id": "2-2",
+          "title": "Como aprendemos",
+          "topics": 2,
+          "href": "t2-2.html"
+        }
+      ]
+    },
+    {
+      "n": "3",
+      "title": "Hábitos",
+      "modules": [
+        {
+          "id": "3-1",
+          "title": "Motivacao & determinacao",
+          "topics": 2,
+          "href": "t3-1.html"
+        },
+        {
+          "id": "3-2",
+          "title": "Rotinas que sustentam",
+          "topics": 3,
+          "href": "t3-2.html"
+        }
+      ]
+    },
+    {
+      "n": "4",
+      "title": "Habilidades",
+      "modules": [
+        {
+          "id": "4-1",
+          "title": "Habilidades & talentos do futuro",
+          "topics": 3,
+          "href": "t4-1.html"
+        }
+      ]
+    },
+    {
+      "n": "5",
+      "title": "Persuasão",
+      "modules": [
+        {
+          "id": "5-1",
+          "title": "Persuasao & estoria",
+          "topics": 2,
+          "href": "t5-1.html"
+        },
+        {
+          "id": "5-2",
+          "title": "Aplicacao",
+          "topics": 3,
+          "href": "t5-2.html"
+        }
+      ]
+    },
+    {
+      "n": "6",
+      "title": "Recursos",
+      "modules": [
+        {
+          "id": "6-1",
+          "title": "Recursos do Canal",
+          "topics": 3,
+          "href": "t6-1.html"
+        }
+      ]
+    }
+  ]
+}
+  </script>
+<title>Learning path 1 — Neuroscience of Attention &amp; Focus | INEMA.NCIA</title>
+<link href="https://fonts.googleapis.com" rel="preconnect"/>
+<link crossorigin="" href="https://fonts.gstatic.com" rel="preconnect"/>
+<link href="https://fonts.googleapis.com/css2?family=Spectral:ital,wght@0,300;0,400;0,500;0,600;0,700;1,400;1,500&amp;family=Source+Serif+4:ital,opsz,wght@0,8..60,400;0,8..60,500;0,8..60,600;1,8..60,400;1,8..60,500&amp;family=IBM+Plex+Mono:wght@400;500&amp;family=Atkinson+Hyperlegible:ital,wght@0,400;0,700;1,400&amp;display=swap" rel="stylesheet"/>
+<link href="../../curso/assets/learn.css" rel="stylesheet"/>
+<link href="https://inematds.github.io/inemancia/curso/t1.html" hreflang="pt-BR" rel="alternate"/><link href="https://inematds.github.io/inemancia/en/curso/t1.html" hreflang="en" rel="alternate"/><link href="https://inematds.github.io/inemancia/es/curso/t1.html" hreflang="es" rel="alternate"/></head>
+<body><div class="inema-lang" style="position:fixed;right:14px;bottom:14px;z-index:9999;display:flex;gap:2px;padding:4px;border-radius:10px;background:rgba(12,12,16,.82);border:1px solid rgba(226,162,59,.45);font:600 12px/1 Sora,Inter,system-ui,sans-serif;backdrop-filter:blur(8px)" translate="no"><a href="../../curso/t1.html" hreflang="pt-BR" style="padding:6px 8px;border-radius:7px;text-decoration:none;color:#e9e9ee">PT</a><a href="t1.html" hreflang="en" style="padding:6px 8px;border-radius:7px;text-decoration:none;color:#1a1206;background:#E2A23B">EN</a><a href="../../es/curso/t1.html" hreflang="es" style="padding:6px 8px;border-radius:7px;text-decoration:none;color:#e9e9ee">ES</a></div>
+<a class="skip" href="#reading">Skip to content</a>
+<div class="reader-bar">
+<div class="reader-inner">
+<a class="wordmark" href="https://inema.club" rel="noopener" target="_blank">INEMA<span class="dot">.</span><span class="club">CLUB</span></a>
+<div class="reader-controls" data-inema-appearance="">
+<span class="rc-read"><span data-inema-meter="trilha:1"><span data-inema-meter-frac=""><strong>0</strong> of 6</span></span> read</span>
+<div aria-label="Reading theme" class="rc-group" role="group">
+<button aria-pressed="true" class="rc-btn" data-inema-set-theme="papel" type="button">Role</button>
+<button aria-pressed="false" class="rc-btn" data-inema-set-theme="sepia" type="button">Sepia</button>
+<button aria-pressed="false" class="rc-btn" data-inema-set-theme="escuro" type="button">Dark</button>
+</div>
+<div aria-label="Reading source" class="rc-group" role="group">
+<button aria-pressed="true" class="rc-btn" data-inema-set-font="serif" type="button">Serif</button>
+<button aria-pressed="false" class="rc-btn" data-inema-set-font="sans" type="button">Sans</button>
+<button aria-pressed="false" class="rc-btn" data-inema-set-font="hyperlegible" title="Atkinson Hyperlegible" type="button">Aa↹</button>
+</div>
+<div aria-label="Text size" class="rc-group" role="group">
+<button aria-pressed="true" class="rc-btn" data-inema-set-fontscale="100" type="button">A</button>
+<button aria-pressed="false" class="rc-btn" data-inema-set-fontscale="112" type="button">A+</button>
+<button aria-pressed="false" class="rc-btn" data-inema-set-fontscale="125" type="button">A++</button>
+</div>
+<div aria-label="Line width" class="rc-group" role="group">
+<button aria-pressed="false" class="rc-btn" data-inema-set-linewidth="62" type="button">Narrow</button>
+<button aria-pressed="true" class="rc-btn" data-inema-set-linewidth="66" type="button">Medium</button>
+<button aria-pressed="false" class="rc-btn" data-inema-set-linewidth="70" type="button">Wide</button>
+</div>
+</div>
+</div>
+</div>
+<header class="masthead">
+<nav aria-label="Where you are" class="wayfind">
+<span><a href="index.html" style="text-decoration:none">INEMA.NCIA</a></span><span class="sep">·</span>
+<span>Learning path <b>1</b></span><span class="sep">·</span>
+<span>2 modules · 6 sections</span><span class="sep">·</span>
+<button data-inema-journey-open="" type="button">My journey <span class="inema-journey-badge" data-count="0" data-inema-journey-badge="">0</span></button>
+</nav>
+<nav aria-label="Course tracks" class="course-nav" data-course-nav="">
+<a class="cn-home" href="index.html">Start</a>
+<span class="cn-sep">·</span>
+<a aria-current="page" class="active" href="t1.html"><b>1</b> Attention</a>
+<a href="t2.html"><b>2</b> Perception</a>
+<a href="t3.html"><b>3</b> Habits</a>
+<a href="t4.html"><b>4</b> Skills</a>
+<a href="t5.html"><b>5</b> Persuasion</a>
+<a href="t6.html"><b>6</b> Resources</a>
+</nav>
+</header>
+<main class="spread"><div class="leaf">
+<article class="reading" id="reading">
+<p class="kicker">Learning path 1 · INEMA.NCIA</p>
+<h1 class="module">Neuroscience of Attention &amp; Focus</h1>
+<p class="deck">Before any technique, understand the organ at stake: why your attention is auctioned off and how distraction costs more than it seems.</p>
+<p class="read-meta"><span class="here">Learning path index</span><span>2 modules</span><span>6 sections</span></p>
+<section aria-label="Track modules">
+<div class="curriculo" style="margin-top:0">
+<article class="idx-mod">
+<p class="idx-head"><span class="idx-num">Module 1-1</span><a class="idx-title" href="t1-1.html">Needs &amp; Attention</a></p>
+<p class="idx-why">What drives behavior and how attention is captured—needs, selective attention, and the addiction loop.</p>
+<ol aria-label="Sections of module 1-1" class="idx-secs"><li><a href="t1-1.html#topico-1">Human Needs</a></li><li><a href="t1-1.html#topico-2">Selective Attention and the SRAA</a></li><li><a href="t1-1.html#topico-3">The Neuroscience of Addiction</a></li></ol>
+<p class="idx-foot"><span>3 sections</span><span class="idx-dot">·</span><a class="idx-open" href="t1-1.html">Open the module →</a></p>
+</article>
+<article class="idx-mod">
+<p class="idx-head"><span class="idx-num">Module 1-2</span><a class="idx-title" href="t1-2.html">The economics of distraction</a></p>
+<p class="idx-why">When your environment becomes a trap: the shiny object, the real cost of distraction, and how vulnerable we are to it today.</p>
+<ol aria-label="Sections of module 1-2" class="idx-secs"><li><a href="t1-2.html#topico-1">Shiny Object Syndrome (SOS)</a></li><li><a href="t1-2.html#topico-2">Efficiency x Distraction</a></li><li><a href="t1-2.html#topico-3">2025: The Main Vulnerability</a></li></ol>
+<p class="idx-foot"><span>3 sections</span><span class="idx-dot">·</span><a class="idx-open" href="t1-2.html">Open the module →</a></p>
+</article>
+</div>
+</section>
+<section aria-label="Self-check" class="check">
+<h2>Before you continue: four quick checks</h2>
+<p class="intro">No grades, no scoreboard. Answer from memory, then reveal the answer to compare.</p>
+<details class="q-item">
+<summary><span class="qn">01</span><span>Why do you start noticing more red cars after wanting one?</span><span class="reveal">Reveal</span></summary>
+<div class="ans"><p>The SRAA filters the flood of stimuli through <em>perceived relevance</em>. By
+              focusing on the red car, you teach your filter to highlight it—the number of cars in the world hasn’t changed,
+              your focus has.</p></div>
+</details>
+<details class="q-item">
+<summary><span class="qn">02</span><span>Why is social media as addictive as a casino?</span><span class="reveal">Reveal</span></summary>
+<div class="ans"><p>By the <em>intermittent variable reward</em>: sometimes the reward comes (a like,
+              a notification), sometimes it doesn't. Uncertainty keeps the user waiting for the next dose of dopamine, like
+              a slot machine.</p></div>
+</details>
+<details class="q-item">
+<summary><span class="qn">03</span><span>What’s the biggest cost of Shiny Object Syndrome?</span><span class="reveal">Reveal</span></summary>
+<div class="ans"><p>Switching projects before finishing wastes resources, misses opportunities, and
+              throws away the time of <em>ramp-up</em> — many beginnings, almost no conclusions. The defense is to
+              filter ideas for alignment with the main goal.</p></div>
+</details>
+<details class="q-item">
+<summary><span class="qn">04</span><span>What changed in security in 2025, according to the track’s analysis?</span><span class="reveal">Reveal</span></summary>
+<div class="ans"><p>Vulnerability shifts from technical to human. The defense moves from the network perimeter
+              to <em>cognitive defense</em> — the firewall becomes a trained mind, a matter of
+              cognitive literacy.</p></div>
+</details>
+</section>
+<section aria-label="My journey" class="journey">
+<div class="journey-top"><h2><span class="ico">❧</span> My journey</h2><button class="journey-cta" data-inema-journey-open="" type="button">Open the notebook →</button></div>
+<div class="journey-body">
+<div class="jstat"><div class="k">In this track</div><div class="v" data-inema-meter="trilha:1"><span data-inema-meter-frac=""><strong>0</strong> of 6</span> <span class="nm">topics</span><div class="progress-line"><span class="progress-line__fill" data-inema-meter-fill=""></span></div></div></div>
+<div class="jstat"><div class="k">In the course</div><div class="v" data-inema-meter="curso"><span data-inema-meter-frac=""><strong>0</strong> of 27</span> <span class="nm">covered</span><div class="progress-line"><span class="progress-line__fill" data-inema-meter-fill=""></span></div></div></div>
+</div>
+</section>
+<div class="nextup"><div class="txt"><div class="k">Continue</div><div class="t">Learning path 2 — Perception &amp; Self-Knowledge</div></div><a class="go" href="t2.html">Next →</a></div>
+</article>
+<aside aria-label="Margin" class="margin-rail">
+<aside class="sidenote" data-kind="definicao"><div class="tag">How to read</div> This is the index page for the <b>Learning path 1</b>: it lists the <b>modules</b>. Click a module to open the full reading.</aside>
+<aside class="sidenote" data-kind="fonte"><div class="tag">Origin</div> Content from the INEMA.NCIA Telegram channel, rewritten as a reading piece. <div class="src-line">t.me/c/2414677686</div></aside>
+</aside>
+</div></main>
+<footer class="colophon"><span>INEMA.CLUB · Student Workbook</span><span class="pg">Learning path 1 — table of contents</span><span>Set in Spectral &amp; Source Serif 4</span></footer>
+<script src="../../curso/assets/learn.js"></script>
+<script>
+    if (window.INEMA && typeof window.INEMA.init === "function") { window.INEMA.init(); }
+  </script>
+</body>
+</html>

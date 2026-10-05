@@ -1,0 +1,492 @@
+<!DOCTYPE html>
+
+<html data-theme="papel" lang="es">
+<head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<!-- ===================================================================
+       1) ANTI-FOUC — script BLOQUEANTE, PRIMEIRO no <head>, ANTES das fontes
+          e do learn.css. Le inema.prefs (global, cross-curso) e aplica
+          data-theme + color-scheme + --measure/--leading/--fontscale +
+          data-font/--font-disp/--font-body ANTES do primeiro paint.
+          try/catch total => default papel no erro (preserva a marca INEMA).
+       =================================================================== -->
+<script>
+  (function () {
+    try {
+      var html = document.documentElement;
+      var DEF = { theme: 'papel', font: 'serif', fontScale: 100, lineWidth: 66, leading: 1.66 };
+      function clone(o) { var r = {}; for (var x in o) r[x] = o[x]; return r; }
+      var p = clone(DEF);
+      try {
+        var raw = localStorage.getItem('inema.prefs');
+        if (raw) {
+          var parsed = JSON.parse(raw);
+          if (parsed && typeof parsed === 'object') {
+            for (var k in DEF) if (parsed[k] != null) p[k] = parsed[k];
+          }
+        }
+      } catch (e) { p = clone(DEF); }
+
+      var THEMES = {
+        'papel':  { attr: 'papel',  cs: 'light' },
+        'sepia':  { attr: 'sepia',  cs: 'light' },
+        'escuro': { attr: 'escuro', cs: 'dark'  }
+      };
+      var t = THEMES[p.theme] || THEMES['papel'];
+      html.setAttribute('data-theme', t.attr);
+      html.style.colorScheme = t.cs;
+
+      var font = (p.font === 'sans' || p.font === 'hyperlegible') ? p.font : 'serif';
+      html.setAttribute('data-font', font);
+
+      var s = html.style;
+
+      var scale = (+p.fontScale || 100);
+      s.setProperty('--fontscale', scale + '%');
+      html.setAttribute('data-fontscale', String(scale));
+
+      var lw = (+p.lineWidth || 66);
+      s.setProperty('--measure', lw + 'ch');
+      html.setAttribute('data-line-width', lw <= 62 ? 'estreito' : (lw >= 70 ? 'largo' : 'medio'));
+
+      var lh = (+p.leading || 1.66);
+      s.setProperty('--leading', lh.toString());
+      html.setAttribute('data-leading', lh <= 1.66 ? 'compacto' : 'confortavel');
+
+      var DISP = {
+        serif: '"Spectral", Georgia, "Times New Roman", serif',
+        sans: 'ui-sans-serif, system-ui, -apple-system, "Segoe UI", Roboto, sans-serif',
+        hyperlegible: '"Atkinson Hyperlegible", system-ui, -apple-system, sans-serif'
+      };
+      var BODY = {
+        serif: '"Source Serif 4", Georgia, "Times New Roman", serif',
+        sans: 'ui-sans-serif, system-ui, -apple-system, "Segoe UI", Roboto, sans-serif',
+        hyperlegible: '"Atkinson Hyperlegible", system-ui, -apple-system, sans-serif'
+      };
+      s.setProperty('--font-disp', DISP[font] || DISP.serif);
+      s.setProperty('--font-body', BODY[font] || BODY.serif);
+    } catch (err) {
+      try {
+        document.documentElement.setAttribute('data-theme', 'papel');
+        document.documentElement.style.colorScheme = 'light';
+      } catch (e) {}
+    }
+  })();
+  </script>
+<meta content="inema-ncia" name="inema-course"/>
+<script data-inema-manifest="" type="application/json">
+{
+  "course": "inema-ncia",
+  "tracks": [
+    {
+      "n": "1",
+      "title": "Atenção",
+      "modules": [
+        {
+          "id": "1-1",
+          "title": "Necessidades & Atencao",
+          "topics": 3,
+          "href": "t1-1.html"
+        },
+        {
+          "id": "1-2",
+          "title": "A economia da distracao",
+          "topics": 3,
+          "href": "t1-2.html"
+        }
+      ]
+    },
+    {
+      "n": "2",
+      "title": "Percepção",
+      "modules": [
+        {
+          "id": "2-1",
+          "title": "Percepcao & valor",
+          "topics": 3,
+          "href": "t2-1.html"
+        },
+        {
+          "id": "2-2",
+          "title": "Como aprendemos",
+          "topics": 2,
+          "href": "t2-2.html"
+        }
+      ]
+    },
+    {
+      "n": "3",
+      "title": "Hábitos",
+      "modules": [
+        {
+          "id": "3-1",
+          "title": "Motivacao & determinacao",
+          "topics": 2,
+          "href": "t3-1.html"
+        },
+        {
+          "id": "3-2",
+          "title": "Rotinas que sustentam",
+          "topics": 3,
+          "href": "t3-2.html"
+        }
+      ]
+    },
+    {
+      "n": "4",
+      "title": "Habilidades",
+      "modules": [
+        {
+          "id": "4-1",
+          "title": "Habilidades & talentos do futuro",
+          "topics": 3,
+          "href": "t4-1.html"
+        }
+      ]
+    },
+    {
+      "n": "5",
+      "title": "Persuasão",
+      "modules": [
+        {
+          "id": "5-1",
+          "title": "Persuasao & estoria",
+          "topics": 2,
+          "href": "t5-1.html"
+        },
+        {
+          "id": "5-2",
+          "title": "Aplicacao",
+          "topics": 3,
+          "href": "t5-2.html"
+        }
+      ]
+    },
+    {
+      "n": "6",
+      "title": "Recursos",
+      "modules": [
+        {
+          "id": "6-1",
+          "title": "Recursos do Canal",
+          "topics": 3,
+          "href": "t6-1.html"
+        }
+      ]
+    }
+  ]
+}
+  </script>
+<title>Módulo 5-2 — Aplicación | INEMA.NCIA</title>
+<link href="https://fonts.googleapis.com" rel="preconnect"/>
+<link crossorigin="" href="https://fonts.gstatic.com" rel="preconnect"/>
+<link href="https://fonts.googleapis.com/css2?family=Spectral:ital,wght@0,300;0,400;0,500;0,600;0,700;1,400;1,500&amp;family=Source+Serif+4:ital,opsz,wght@0,8..60,400;0,8..60,500;0,8..60,600;1,8..60,400;1,8..60,500&amp;family=IBM+Plex+Mono:wght@400;500&amp;family=Atkinson+Hyperlegible:ital,wght@0,400;0,700;1,400&amp;display=swap" rel="stylesheet"/>
+<link href="../../curso/assets/learn.css" rel="stylesheet"/>
+<link href="https://inematds.github.io/inemancia/curso/t5-2.html" hreflang="pt-BR" rel="alternate"/><link href="https://inematds.github.io/inemancia/en/curso/t5-2.html" hreflang="en" rel="alternate"/><link href="https://inematds.github.io/inemancia/es/curso/t5-2.html" hreflang="es" rel="alternate"/></head>
+<body><div class="inema-lang" style="position:fixed;right:14px;bottom:14px;z-index:9999;display:flex;gap:2px;padding:4px;border-radius:10px;background:rgba(12,12,16,.82);border:1px solid rgba(226,162,59,.45);font:600 12px/1 Sora,Inter,system-ui,sans-serif;backdrop-filter:blur(8px)" translate="no"><a href="../../curso/t5-2.html" hreflang="pt-BR" style="padding:6px 8px;border-radius:7px;text-decoration:none;color:#e9e9ee">PT</a><a href="../../en/curso/t5-2.html" hreflang="en" style="padding:6px 8px;border-radius:7px;text-decoration:none;color:#e9e9ee">EN</a><a href="t5-2.html" hreflang="es" style="padding:6px 8px;border-radius:7px;text-decoration:none;color:#1a1206;background:#E2A23B">ES</a></div>
+<a class="skip" href="#reading">Saltar al contenido</a>
+<div class="reader-bar">
+<div class="reader-inner">
+<a class="wordmark" href="https://inema.club" rel="noopener" target="_blank">INEMA<span class="dot">.</span><span class="club">CLUB</span></a>
+<div class="reader-controls" data-inema-appearance="">
+<span class="rc-read"><span data-inema-meter="modulo:5-2"><span data-inema-meter-frac=""><strong>0</strong> de 3</span></span> leídas</span>
+<div aria-label="Tema de lectura" class="rc-group" role="group">
+<button aria-pressed="true" class="rc-btn" data-inema-set-theme="papel" type="button">Papel</button>
+<button aria-pressed="false" class="rc-btn" data-inema-set-theme="sepia" type="button">Sepia</button>
+<button aria-pressed="false" class="rc-btn" data-inema-set-theme="escuro" type="button">Oscuro</button>
+</div>
+<div aria-label="Fuente de lectura" class="rc-group" role="group">
+<button aria-pressed="true" class="rc-btn" data-inema-set-font="serif" type="button">Serif</button>
+<button aria-pressed="false" class="rc-btn" data-inema-set-font="sans" type="button">Sans</button>
+<button aria-pressed="false" class="rc-btn" data-inema-set-font="hyperlegible" title="Atkinson Hyperlegible" type="button">Aa↹</button>
+</div>
+<div aria-label="Tamaño del texto" class="rc-group" role="group">
+<button aria-pressed="true" class="rc-btn" data-inema-set-fontscale="100" type="button">A</button>
+<button aria-pressed="false" class="rc-btn" data-inema-set-fontscale="112" type="button">A+</button>
+<button aria-pressed="false" class="rc-btn" data-inema-set-fontscale="125" type="button">A++</button>
+</div>
+<div aria-label="Ancho de línea" class="rc-group" role="group">
+<button aria-pressed="false" class="rc-btn" data-inema-set-linewidth="62" type="button">Estrecho</button>
+<button aria-pressed="true" class="rc-btn" data-inema-set-linewidth="66" type="button">Medio</button>
+<button aria-pressed="false" class="rc-btn" data-inema-set-linewidth="70" type="button">Ancho</button>
+</div>
+</div>
+</div>
+</div>
+<header class="masthead">
+<nav aria-label="Dónde estás" class="wayfind">
+<span><a href="index.html" style="text-decoration:none">INEMA.NCIA</a></span><span class="sep">·</span>
+<span><a href="t5.html" style="text-decoration:none">Recorrido <b>5</b></a></span><span class="sep">·</span>
+<span>Módulo <b>5-2</b></span><span class="sep">·</span>
+<span data-inema-section-counter="">Sección 1 de 3</span><span class="sep">·</span>
+<button data-inema-journey-open="" type="button">Mi recorrido <span class="inema-journey-badge" data-count="0" data-inema-journey-badge="">0</span></button>
+</nav>
+<nav aria-label="Rutas del curso" class="course-nav" data-course-nav="">
+<a class="cn-home" href="index.html">Inicio</a>
+<span class="cn-sep">·</span>
+<a href="t1.html"><b>1</b> Atención</a>
+<a href="t2.html"><b>2</b> Percepción</a>
+<a href="t3.html"><b>3</b> Hábitos</a>
+<a href="t4.html"><b>4</b> Habilidades</a>
+<a aria-current="page" class="active" href="t5.html"><b>5</b> Persuasión</a>
+<a href="t6.html"><b>6</b> Recursos</a>
+</nav>
+</header>
+<main class="spread"><div class="leaf">
+<article class="reading" id="reading">
+<p class="kicker">Módulo 5-2 · Ruta 5 · INEMA.NCIA</p>
+<h1 class="module">Aplicación</h1>
+<p class="deck">Del principio a la práctica: el método VIRALST en ventas, el modelo de desencadenantes en lo digital y un estudio de caso.</p>
+<p class="read-meta"><span class="here">Leyendo ahora</span><span>3 secciones</span><span><a href="t5.html" style="color:inherit">← índice de la ruta</a></span></p>
+<section aria-label="Qué abarca este módulo" class="aims"><h2>Qué abarca este módulo</h2><ul><li>VIRALST en modo ventas</li><li>FGMD: los diez disparadores en lo digital</li><li>Estudio de caso: el proyecto NCIAFlux</li></ul></section>
+<nav aria-label="Resumen del módulo" class="toc" data-inema-toc="">
+<p class="toc-head">Resumen del módulo</p>
+<ol>
+<li class="current"><span class="dot-now"></span><span class="n">1</span><a href="#topico-1"><span class="t">VIRALST en modo ventas</span></a></li>
+<li><span class="n">2</span><a href="#topico-2"><span class="t">FGMD: los diez disparadores en lo digital</span></a><span class="leader"></span></li>
+<li><span class="n">3</span><a href="#topico-3"><span class="t">Estudio de caso: el proyecto NCIAFlux</span></a><span class="leader"></span></li>
+</ol>
+</nav>
+<section data-inema-module="5-2" data-inema-topic="modulo-5-2#topico-1" data-inema-track="5" id="topico-1">
+<div class="section-mark">
+<span class="where">Sección 1 de 3</span><span>·</span><span>Ventas VIRALST</span>
+</div>
+<h2 class="head"><span class="num">1.</span>VIRALST en modo ventas</h2>
+<div class="prose">
+<p class="lede" data-inema-block="m5-t3-p1">La misma estructura de cuatro tiempos sirve para vender
+              — pero con un ajuste de tono. En lugar de provocar reflexión, el modo ventas provoca
+              <em>deseo, urgencia y acción</em>. El hook deja de ser solo curiosidad y se convierte en un gancho de dolor o de
+              deseo inmediato. La identificación se convierte en empatía comercial: «esto resuelve mi problema».
+              El conflicto muestra el obstáculo y el descubrimiento de la solución. Y el cierre suma al insight una llamada
+              a la acción.<span class="sidenote-ref">4</span></p>
+<p data-inema-block="m5-t3-p2">Cada ajuste tiene una lógica neurocientífica sencilla: el gancho del dolor
+              activa la amígdala (atención y urgencia); la empatía práctica recluta las neuronas espejo; el obstáculo
+              seguido de la solución libera dopamina a través de la búsqueda de recompensa; y el insight con CTA refuerza la decisión.
+              El secreto es mantener la emoción por encima de la lógica: frases cortas, ritmo de habla, sin jerga.</p>
+</div>
+<div class="prose">
+<p data-inema-block="m5-t3-p3">El prompt de abajo hace operativa esa adaptación. Es el molde que genera
+              el guion listo para grabar, con título y variaciones del hook:</p>
+<div class="codeblock"><span class="c">[MODO VIRALST SALES ACTIVADO]</span>
+
+Eres un especialista en storytelling viral y persuasión emocional.
+Crea un guion breve (30 a 60 segundos) listo para grabar (Reels, TikTok o Shorts),
+usando la técnica VIRALST adaptada a VENTAS, con 4 elementos:
+
+<span class="k">1. HOOK</span> (3 a 5s iniciales)
+   - Comienza con un dilema, un problema o un deseo inmediato del público.
+   - Usa preguntas provocadoras, contrastes de pérdida/beneficio o promesas audaces.
+   - Genera urgencia y curiosidad ("esto puede cambiar mi resultado").
+
+<span class="k">2. IDENTIFICACIÓN</span>
+   - Muestra empatía por el dolor o la situación actual del público.
+   - Usa situaciones reales y un lenguaje natural.
+   - Haz que el espectador piense "ese soy yo" o "esto es exactamente lo que estoy viviendo".
+
+<span class="k">3. CONFLICTO</span>
+   - Muestra el error, el desperdicio o la limitación actual.
+   - Presenta el descubrimiento o el momento decisivo, cuando aparece la solución.
+   - Crea un contraste entre el antes (frustración) y el después (transformación).
+
+<span class="k">4. CIERRE</span>
+   - Ofrece el giro y la promesa de resultado.
+   - Incluye una llamada a la acción sutil y emocional ("descubre", "prueba ahora", "entra al enlace").
+   - Termina con una frase que despierte las ganas de actuar.
+
+<span class="k">ESTILO:</span> lenguaje humano y persuasivo; frases cortas con ritmo oral;
+   emoción por encima de la lógica; los saltos de línea indican pausas.
+
+<span class="k">SALIDA:</span> 1) guion completo; 2) título corto (máx. 6 palabras);
+   3) tres variaciones de HOOK orientadas a las ventas.
+
+<span class="k">TEMA:</span> [producto, servicio o transformación que se va a vender]</div>
+</div>
+<div class="predict">
+<p class="lbl">Detente y predice</p>
+<p>Al comparar el VIRALST “reflexivo” de la sección anterior con este modo de ventas: ¿cuál es el único
+              golpe que gana un elemento <em>nuevo</em>, ¿y cuál es ese elemento?</p>
+<details>
+<summary>Ver una posible respuesta</summary>
+<p class="answer">O <strong>cierre</strong>. En el modo reflexivo entrega solo el insight; en el modo
+                de ventas agrega la <em>llamada a la acción</em> — una invitación emocional y de bajo esfuerzo
+                («pruébalo ahora», «entra al enlace») que transforma la comprensión en decisión.</p>
+</details>
+</div>
+</section>
+<section data-inema-module="5-2" data-inema-topic="modulo-5-2#topico-2" data-inema-track="5" id="topico-2">
+<div class="section-mark">
+<span class="where">Sección 2 de 3</span><span>·</span><span>Disparadores (FGMD)</span>
+</div>
+<h2 class="head"><span class="num">2.</span>FGMD: los diez disparadores en lo digital</h2>
+<div class="prose">
+<p class="lede" data-inema-block="m5-t4-p1">Los cuatro momentos de la historia viral se desglosan, en lo
+              digital, en un mapa más detallado: el FGMD. La diferencia de organización es crucial: aquí los detonantes
+              están ordenados <em>por función en el cerebro</em>, no con jerga de marketing. Cada uno responde una
+              pregunta mental que se hace el espectador, en secuencia, desde el primer segundo hasta la acción final.</p>
+<p data-inema-block="m5-t4-p2">El orden es: <strong>atención</strong> (detener — “¿qué es
+              esto?”), <strong>retención</strong> (contener — “¿hacia dónde va esto?”),
+              <strong>comprensión</strong> (aclarar — “¿lo estoy entendiendo?”),
+              <strong>identificación</strong> (conectar — “¿esto tiene que ver conmigo?”),
+              <strong>participación</strong> (activar — “¿qué pienso sobre esto?”),
+              <strong>autoridad</strong> (legitimar — “¿por qué debería escucharte?”),
+              <strong>conciencia</strong> (despertar — “nunca lo había pensado así”),
+              <strong>pertenencia</strong> (retener a largo plazo — “¿dónde encajo?”),
+              <strong>transformación</strong> (mostrar el camino — “¿puedo llegar allí?”) y,
+              solo entonces, <strong>CTA</strong> (mover — “¿qué hago ahora?”).<span class="sidenote-ref">5</span></p>
+<h3 class="sub">El gatillo más ignorado y el que sostiene la autoridad</h3>
+<p data-inema-block="m5-t4-p3">La comprensión suele omitirse, y es un error costoso: si la persona se
+              siente tonta, se va — aunque esté interesada. Simplificar, usar metáforas, traducir la jerga,
+              ofrecer un ejemplo concreto — eso es lo que construye autoridad real. Y fíjate dónde aparece el CTA:
+              al final, después de despertar conciencia y mostrar un camino. Un CTA fuerte no pide; continúa
+              el proceso. La frase síntesis resume toda la lógica: el contenido sólido no lleva del clic a la venta —
+              lleva de la interrupción a la conciencia.</p>
+</div>
+<details class="go-deeper">
+<summary><span class="chev">▸</span> Profundizando: el prompt maestro que aplica los diez disparadores
+              <span class="opt">opcional</span></summary>
+<div class="inner">
+<p>Capa opcional. FGMD se convierte en un único prompt que recibe un tema y produce contenido aplicando
+                los diez gatillos en orden cognitivo, con una regla firme: nada de hype, nada de promesas irreales,
+                nada de términos técnicos sin traducción. El contenido debe parecer conciencia, no propaganda.</p>
+<div class="codeblock"><span class="c"># Prompt maestro — Aplicador de activadores completos</span>
+Eres un estratega de comunicación digital especialista en gatillos mentales profundos.
+Voy a darte UN TEMA. Crea un contenido que aplique, de forma integrada y progresiva,
+TODOS los gatillos siguientes, respetando el orden cognitivo del cerebro:
+
+<span class="k">1. Atención</span> — empezar con una ruptura o una traición a las expectativas que detenga el desplazamiento.
+<span class="k">2. Retención</span> — promesa abierta y tensión cognitiva para mantener a la persona mirando.
+<span class="k">3. Comprensión</span> — traducirlo a un lenguaje sencillo, con una metáfora o un ejemplo.
+<span class="k">4. Identificación</span> — hacer que la persona se reconozca en el problema.
+<span class="k">5. Participación</span> — provocar una reacción mental o una pregunta implícita.
+<span class="k">6. Autoridad</span> — demostrar dominio del proceso, sin autopromoción.
+<span class="k">7. Conciencia</span> — generar un cambio de percepción (algo que no se puede «desver»).
+<span class="k">8. Pertenencia</span> — dejar claro que existe un espacio o un camino continuo.
+<span class="k">9. Transformación</span> — presentar un camino posible y accesible.
+<span class="k">10. CTA</span> — indicar un próximo paso claro y de bajo esfuerzo.
+
+<span class="c"># Reglas: sin exageraciones, sin promesas poco realistas, sin jerga sin traducir.</span>
+<span class="c"># Resultado: título impactante; bloques cortos; CTA final coherente.</span>
+<span class="k">Tema:</span> [PEGA AQUÍ EL TEMA]</div>
+<p>También hay una versión corta, de una sola línea, útil para una solicitud rápida: “crea un contenido
+                sobre [tema] aplicando, en orden, los diez disparadores, con lenguaje humano, sin exageraciones y enfocado en
+                despertar conciencia”. El modelo de referencia está publicado en
+                <span style="white-space:nowrap">inematds.github.io/FGMD</span>.</p>
+</div>
+</details>
+</section>
+<section data-inema-module="5-2" data-inema-topic="modulo-5-2#topico-3" data-inema-track="5" id="topico-3">
+<div class="section-mark">
+<span class="where">Sección 3 de 3</span><span>·</span><span>NCIAFlux</span>
+</div>
+<h2 class="head"><span class="num">3.</span>Estudio de caso: el proyecto NCIAFlux</h2>
+<div class="prose">
+<p class="lede" data-inema-block="m5-t5-p1">Toda la persuasión de este recorrido necesita algo que
+              persuadir <em>a favor</em>. NCIAFlux sirve como caso porque muestra cómo una promesa se vuelve lo bastante clara
+              como para caber en una frase. Es un sistema de <em>NeuroFluxo</em> para personas con TDAH —
+              el nombre combina NCIA (de neurociencia) con Flux (estado de flujo, adaptación, movimiento). El concepto
+              explicado al usuario es sencillo: el flujo del cerebro en el día a día.<span class="sidenote-ref">6</span></p>
+<p data-inema-block="m5-t5-p2">La promesa cabe en una sola línea porque invierte la expectativa: “en
+              NCIAFlux, no te adaptas al método — el método se adapta a tu NeuroFlujo”. En vez de
+              exigir disciplina, el sistema entiende cómo funciona el cerebro de la persona, crea un plan posible y
+              ajusta el flujo según cambian la energía y la rutina. Es una promesa que no suena clínica, no suena
+              productivista, tiene base científica — y es fácil de explicar en una frase.</p>
+<h3 class="sub">Tres fases y un diferencial que es casi todo emocional</h3>
+<p data-inema-block="m5-t5-p3">El producto se organiza en tres fases. La <strong>Descubrimiento</strong>
+              (cinco a siete minutos) hace preguntas sencillas y ofrece feedback inmediato, generando un perfil inicial
+              — y el uso continuo es opcional. El <strong>Plan</strong> nace de este perfil: una prioridad por
+              día, pocas tareas ligeras, rutinas condicionales. El <strong>Seguimiento</strong> y es amable —
+              panel visual, chat opcional por texto o voz, notificaciones al ritmo de la persona. La diferencia,
+              sin embargo, está definida casi por completo por lo que no hace: no cobra, no compara, no castiga. Observa cómo esto refleja la
+              persuasión de la Sección 1 — el producto entero habla de los miedos y las frustraciones del usuario, no de sus
+              propias funciones.</p>
+</div>
+<div class="predict">
+<p class="lbl">Detente y predice</p>
+<p>Al observar la diferencia —«no cobra, no compara, no castiga»—, ¿qué disparador
+              de persuasión de la Sección 1 activa con más fuerza?</p>
+<details>
+<summary>Ver una posible respuesta</summary>
+<p class="answer">Sobre todo <strong>reducir los miedos</strong> e <strong>justificar los
+                fracasos</strong>: quienes tienen TDAH cargan con la culpa de los planificadores abandonados y las metas incumplidas.
+                Decir «no te adaptas al método» les quita ese peso: el fracaso era del método
+                rígido, no de la persona.</p>
+</details>
+</div>
+<details class="go-deeper">
+<summary><span class="chev">▸</span> Profundizando: por qué funciona una marca corta + un concepto explicado
+              <span class="opt">opcional</span></summary>
+<div class="inner">
+<p>Capa opcional. El proyecto separa deliberadamente la <em>marca</em> del <em>concepto</em>: NCIAFlux es el
+                nombre corto y contundente que se queda en la memoria; NeuroFluxo es la explicación de una frase que cualquiera
+                entiende. Esta dupla resuelve un dilema común: los nombres descriptivos son claros, pero largos;
+                los nombres cortos son memorables, pero opacos. Usar ambos en capas ofrece lo mejor de los dos.</p>
+<p>El código y la evolución del proyecto están abiertos en el repositorio:
+                <a href="https://github.com/inematds/NCIAFlux">github.com/inematds/NCIAFlux</a>. Como
+                ejercicio, puedes cerrar la ruta aquí: toma NCIAFlux y escribe tú mismo un guion VIRALST en modo
+                ventas para él, usando los cinco detonantes de la Sección 1 y el orden del FGMD de la Sección 4.</p>
+</div>
+</details>
+</section>
+<section aria-label="Mi recorrido" class="journey">
+<div class="journey-top"><h2><span class="ico">❧</span> Mi recorrido</h2><button class="journey-cta" data-inema-journey-open="" type="button">Abrir el cuaderno →</button></div>
+<div class="journey-body">
+<div class="jstat"><div class="k">En este módulo</div><div class="v" data-inema-meter="modulo:5-2"><span data-inema-meter-frac=""><strong>0</strong> de 3</span> <span class="nm">secciones leídas</span><div class="progress-line"><span class="progress-line__fill" data-inema-meter-fill=""></span></div></div></div>
+<div class="jstat"><div class="k">En la ruta 5</div><div class="v" data-inema-meter="trilha:5"><span data-inema-meter-frac=""><strong>0</strong> de 5</span> <span class="nm">temas</span><div class="progress-line"><span class="progress-line__fill" data-inema-meter-fill=""></span></div></div></div>
+<div class="jstat"><div class="k">En el curso</div><div class="v" data-inema-meter="curso"><span data-inema-meter-frac=""><strong>0</strong> de 27</span> <span class="nm">recorrido</span><div class="progress-line"><span class="progress-line__fill" data-inema-meter-fill=""></span></div></div></div>
+</div>
+</section>
+<div class="nextup"><div class="txt"><div class="k">Continuar</div><div class="t">Ruta 6 — Recursos del canal</div></div><a class="go" href="t6.html">Siguiente →</a></div>
+</article>
+<aside aria-label="Margen: notas y tu panel" class="margin-rail">
+<nav aria-label="Módulos de la Ruta 5" class="rail-modules">
+<p class="rail-modules__head">Ruta 5 · Persuasión y viralidad</p>
+<ol>
+<li><a href="t5-1.html"><span class="n">5.1</span><span class="t">Persuasión y narrativa</span></a></li>
+<li aria-current="page"><span class="n">5.2</span><span class="t">Aplicación</span></li>
+</ol>
+<a class="rail-modules__index" href="t5.html">Índice de la ruta →</a>
+</nav>
+<aside data-inema-rail="modulo-5-2#topico-1"></aside>
+<aside class="sidenote" data-kind="definicao">
+<div class="tag">Definición</div>
+<b>Empatía comercial.</b> La identificación ajustada para las ventas: no “esto se trata de mí”, sino
+          “esto resuelve mi problema” — activando neuronas espejo con foco en la solución.
+        </aside>
+<aside class="sidenote" data-kind="fonte">
+<div class="tag">Fuente</div>
+          El prompt VIRALST MODE VENDAS reproducido en el cuerpo proviene del material base del tema, preservado en su forma
+          original para usarlo directamente.
+        </aside>
+<!-- ---- SECAO 4 ---- -->
+<aside data-inema-rail="modulo-5-2#topico-2"></aside>
+<aside class="sidenote" data-kind="fundo">
+<div class="tag">Profundizando</div>
+          La frase síntesis del FGMD: <i>el contenido sólido no lleva del clic a la venta — lleva de la interrupción a la
+          conciencia.</i> El CTA va al final, después de despertar el interés y mostrar el camino.
+        </aside>
+<aside class="sidenote" data-kind="fonte">
+<div class="tag">Fuente</div>
+          El modelo completo de los diez gatillos está publicado en inematds.github.io/FGMD.
+          <div class="src-line">inematds.github.io/FGMD</div>
+</aside>
+<!-- ---- SECAO 5 ---- -->
+<aside data-inema-rail="modulo-5-2#topico-3"></aside>
+<aside class="sidenote" data-kind="definicao">
+<div class="tag">Definición</div>
+<b>NeuroFluxo.</b> El concepto que NCIAFlux explica al usuario: el flujo del cerebro en el día a día. La promesa —ajustar la rutina, el foco y la energía al flujo real— cabe en una frase.
+        </aside>
+<aside class="sidenote" data-kind="fonte" style="margin-bottom:0">
+<div class="tag">Fuente</div>
+          El código y la evolución del proyecto NCIAFlux están abiertos en el repositorio.
+          <div class="src-line">github.com/inematds/NCIAFlux</div>
+</aside>
+</aside>
+</div></main>
+<footer class="colophon"><span>INEMA.CLUB · Cuaderno del alumno</span><span class="pg">Módulo 5-2</span><span>Compuesto en Spectral &amp; Source Serif 4</span></footer>
+<script src="../../curso/assets/learn.js"></script>
+<script>
+    if (window.INEMA && typeof window.INEMA.init === "function") { window.INEMA.init(); }
+  </script>
+</body>
+</html>

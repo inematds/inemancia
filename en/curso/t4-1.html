@@ -1,0 +1,590 @@
+<!DOCTYPE html>
+
+<html data-theme="papel" lang="en">
+<head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<!-- ===================================================================
+       1) ANTI-FOUC — script BLOQUEANTE, PRIMEIRO no <head>, ANTES das fontes
+          e do learn.css. Le inema.prefs (global, cross-curso) e aplica
+          data-theme + color-scheme + --measure/--leading/--fontscale +
+          data-font/--font-disp/--font-body ANTES do primeiro paint.
+          try/catch total => default papel no erro (preserva a marca INEMA).
+       =================================================================== -->
+<script>
+  (function () {
+    try {
+      var html = document.documentElement;
+      var DEF = { theme: 'papel', font: 'serif', fontScale: 100, lineWidth: 66, leading: 1.66 };
+      function clone(o) { var r = {}; for (var x in o) r[x] = o[x]; return r; }
+      var p = clone(DEF);
+      try {
+        var raw = localStorage.getItem('inema.prefs');
+        if (raw) {
+          var parsed = JSON.parse(raw);
+          if (parsed && typeof parsed === 'object') {
+            for (var k in DEF) if (parsed[k] != null) p[k] = parsed[k];
+          }
+        }
+      } catch (e) { p = clone(DEF); }
+
+      var THEMES = {
+        'papel':  { attr: 'papel',  cs: 'light' },
+        'sepia':  { attr: 'sepia',  cs: 'light' },
+        'escuro': { attr: 'escuro', cs: 'dark'  }
+      };
+      var t = THEMES[p.theme] || THEMES['papel'];
+      html.setAttribute('data-theme', t.attr);
+      html.style.colorScheme = t.cs;
+
+      var font = (p.font === 'sans' || p.font === 'hyperlegible') ? p.font : 'serif';
+      html.setAttribute('data-font', font);
+
+      var s = html.style;
+
+      var scale = (+p.fontScale || 100);
+      s.setProperty('--fontscale', scale + '%');
+      html.setAttribute('data-fontscale', String(scale));
+
+      var lw = (+p.lineWidth || 66);
+      s.setProperty('--measure', lw + 'ch');
+      html.setAttribute('data-line-width', lw <= 62 ? 'estreito' : (lw >= 70 ? 'largo' : 'medio'));
+
+      var lh = (+p.leading || 1.66);
+      s.setProperty('--leading', lh.toString());
+      html.setAttribute('data-leading', lh <= 1.66 ? 'compacto' : 'confortavel');
+
+      var DISP = {
+        serif: '"Spectral", Georgia, "Times New Roman", serif',
+        sans: 'ui-sans-serif, system-ui, -apple-system, "Segoe UI", Roboto, sans-serif',
+        hyperlegible: '"Atkinson Hyperlegible", system-ui, -apple-system, sans-serif'
+      };
+      var BODY = {
+        serif: '"Source Serif 4", Georgia, "Times New Roman", serif',
+        sans: 'ui-sans-serif, system-ui, -apple-system, "Segoe UI", Roboto, sans-serif',
+        hyperlegible: '"Atkinson Hyperlegible", system-ui, -apple-system, sans-serif'
+      };
+      s.setProperty('--font-disp', DISP[font] || DISP.serif);
+      s.setProperty('--font-body', BODY[font] || BODY.serif);
+    } catch (err) {
+      try {
+        document.documentElement.setAttribute('data-theme', 'papel');
+        document.documentElement.style.colorScheme = 'light';
+      } catch (e) {}
+    }
+  })();
+  </script>
+<meta content="inema-ncia" name="inema-course"/>
+<script data-inema-manifest="" type="application/json">
+{
+  "course": "inema-ncia",
+  "tracks": [
+    {
+      "n": "1",
+      "title": "Atenção",
+      "modules": [
+        {
+          "id": "1-1",
+          "title": "Necessidades & Atencao",
+          "topics": 3,
+          "href": "t1-1.html"
+        },
+        {
+          "id": "1-2",
+          "title": "A economia da distracao",
+          "topics": 3,
+          "href": "t1-2.html"
+        }
+      ]
+    },
+    {
+      "n": "2",
+      "title": "Percepção",
+      "modules": [
+        {
+          "id": "2-1",
+          "title": "Percepcao & valor",
+          "topics": 3,
+          "href": "t2-1.html"
+        },
+        {
+          "id": "2-2",
+          "title": "Como aprendemos",
+          "topics": 2,
+          "href": "t2-2.html"
+        }
+      ]
+    },
+    {
+      "n": "3",
+      "title": "Hábitos",
+      "modules": [
+        {
+          "id": "3-1",
+          "title": "Motivacao & determinacao",
+          "topics": 2,
+          "href": "t3-1.html"
+        },
+        {
+          "id": "3-2",
+          "title": "Rotinas que sustentam",
+          "topics": 3,
+          "href": "t3-2.html"
+        }
+      ]
+    },
+    {
+      "n": "4",
+      "title": "Habilidades",
+      "modules": [
+        {
+          "id": "4-1",
+          "title": "Habilidades & talentos do futuro",
+          "topics": 3,
+          "href": "t4-1.html"
+        }
+      ]
+    },
+    {
+      "n": "5",
+      "title": "Persuasão",
+      "modules": [
+        {
+          "id": "5-1",
+          "title": "Persuasao & estoria",
+          "topics": 2,
+          "href": "t5-1.html"
+        },
+        {
+          "id": "5-2",
+          "title": "Aplicacao",
+          "topics": 3,
+          "href": "t5-2.html"
+        }
+      ]
+    },
+    {
+      "n": "6",
+      "title": "Recursos",
+      "modules": [
+        {
+          "id": "6-1",
+          "title": "Recursos do Canal",
+          "topics": 3,
+          "href": "t6-1.html"
+        }
+      ]
+    }
+  ]
+}
+  </script>
+<title>Module 4-1 — Skills &amp; talents of the future | INEMA.NCIA</title>
+<link href="https://fonts.googleapis.com" rel="preconnect"/>
+<link crossorigin="" href="https://fonts.gstatic.com" rel="preconnect"/>
+<link href="https://fonts.googleapis.com/css2?family=Spectral:ital,wght@0,300;0,400;0,500;0,600;0,700;1,400;1,500&amp;family=Source+Serif+4:ital,opsz,wght@0,8..60,400;0,8..60,500;0,8..60,600;1,8..60,400;1,8..60,500&amp;family=IBM+Plex+Mono:wght@400;500&amp;family=Atkinson+Hyperlegible:ital,wght@0,400;0,700;1,400&amp;display=swap" rel="stylesheet"/>
+<link href="../../curso/assets/learn.css" rel="stylesheet"/>
+<link href="https://inematds.github.io/inemancia/curso/t4-1.html" hreflang="pt-BR" rel="alternate"/><link href="https://inematds.github.io/inemancia/en/curso/t4-1.html" hreflang="en" rel="alternate"/><link href="https://inematds.github.io/inemancia/es/curso/t4-1.html" hreflang="es" rel="alternate"/></head>
+<body><div class="inema-lang" style="position:fixed;right:14px;bottom:14px;z-index:9999;display:flex;gap:2px;padding:4px;border-radius:10px;background:rgba(12,12,16,.82);border:1px solid rgba(226,162,59,.45);font:600 12px/1 Sora,Inter,system-ui,sans-serif;backdrop-filter:blur(8px)" translate="no"><a href="../../curso/t4-1.html" hreflang="pt-BR" style="padding:6px 8px;border-radius:7px;text-decoration:none;color:#e9e9ee">PT</a><a href="t4-1.html" hreflang="en" style="padding:6px 8px;border-radius:7px;text-decoration:none;color:#1a1206;background:#E2A23B">EN</a><a href="../../es/curso/t4-1.html" hreflang="es" style="padding:6px 8px;border-radius:7px;text-decoration:none;color:#e9e9ee">ES</a></div>
+<a class="skip" href="#reading">Skip to content</a>
+<div class="reader-bar">
+<div class="reader-inner">
+<a class="wordmark" href="https://inema.club" rel="noopener" target="_blank">INEMA<span class="dot">.</span><span class="club">CLUB</span></a>
+<div class="reader-controls" data-inema-appearance="">
+<span class="rc-read"><span data-inema-meter="modulo:4-1"><span data-inema-meter-frac=""><strong>0</strong> of 3</span></span> read</span>
+<div aria-label="Reading theme" class="rc-group" role="group">
+<button aria-pressed="true" class="rc-btn" data-inema-set-theme="papel" type="button">Role</button>
+<button aria-pressed="false" class="rc-btn" data-inema-set-theme="sepia" type="button">Sepia</button>
+<button aria-pressed="false" class="rc-btn" data-inema-set-theme="escuro" type="button">Dark</button>
+</div>
+<div aria-label="Reading source" class="rc-group" role="group">
+<button aria-pressed="true" class="rc-btn" data-inema-set-font="serif" type="button">Serif</button>
+<button aria-pressed="false" class="rc-btn" data-inema-set-font="sans" type="button">Sans</button>
+<button aria-pressed="false" class="rc-btn" data-inema-set-font="hyperlegible" title="Atkinson Hyperlegible" type="button">Aa↹</button>
+</div>
+<div aria-label="Text size" class="rc-group" role="group">
+<button aria-pressed="true" class="rc-btn" data-inema-set-fontscale="100" type="button">A</button>
+<button aria-pressed="false" class="rc-btn" data-inema-set-fontscale="112" type="button">A+</button>
+<button aria-pressed="false" class="rc-btn" data-inema-set-fontscale="125" type="button">A++</button>
+</div>
+<div aria-label="Line width" class="rc-group" role="group">
+<button aria-pressed="false" class="rc-btn" data-inema-set-linewidth="62" type="button">Narrow</button>
+<button aria-pressed="true" class="rc-btn" data-inema-set-linewidth="66" type="button">Medium</button>
+<button aria-pressed="false" class="rc-btn" data-inema-set-linewidth="70" type="button">Wide</button>
+</div>
+</div>
+</div>
+</div>
+<header class="masthead">
+<nav aria-label="Where you are" class="wayfind">
+<span><a href="index.html" style="text-decoration:none">INEMA.NCIA</a></span><span class="sep">·</span>
+<span><a href="t4.html" style="text-decoration:none">Learning path <b>4</b></a></span><span class="sep">·</span>
+<span>Module <b>4-1</b></span><span class="sep">·</span>
+<span data-inema-section-counter="">Section 1 of 3</span><span class="sep">·</span>
+<button data-inema-journey-open="" type="button">My journey <span class="inema-journey-badge" data-count="0" data-inema-journey-badge="">0</span></button>
+</nav>
+<nav aria-label="Course tracks" class="course-nav" data-course-nav="">
+<a class="cn-home" href="index.html">Start</a>
+<span class="cn-sep">·</span>
+<a href="t1.html"><b>1</b> Attention</a>
+<a href="t2.html"><b>2</b> Perception</a>
+<a href="t3.html"><b>3</b> Habits</a>
+<a aria-current="page" class="active" href="t4.html"><b>4</b> Skills</a>
+<a href="t5.html"><b>5</b> Persuasion</a>
+<a href="t6.html"><b>6</b> Resources</a>
+</nav>
+</header>
+<main class="spread"><div class="leaf">
+<article class="reading" id="reading">
+<p class="kicker">Module 4-1 · Track 4 · INEMA.NCIA</p>
+<h1 class="module">Future skills &amp; talents</h1>
+<p class="deck">What remains scarce when the machine takes over the rest: the 12 skills, the 6 talents, and the profiles that define a business.</p>
+<p class="read-meta"><span class="here">Reading now</span><span>3 sections</span><span><a href="t4.html" style="color:inherit">← trail index</a></span></p>
+<section aria-label="What this module covers" class="aims"><h2>What this module covers</h2><ul><li>The 12 human skills</li><li>The 6 talents of the future</li><li>Human profiles that define the future of a business</li></ul></section>
+<nav aria-label="Module summary" class="toc" data-inema-toc="">
+<p class="toc-head">Module summary</p>
+<ol>
+<li class="current"><span class="dot-now"></span><span class="n">1</span><a href="#topico-1"><span class="t">The 12 human skills</span></a></li>
+<li><span class="n">2</span><a href="#topico-2"><span class="t">The 6 talents of the future</span></a><span class="leader"></span></li>
+<li><span class="n">3</span><a href="#topico-3"><span class="t">Human profiles that define the future of a business</span></a><span class="leader"></span></li>
+</ol>
+</nav>
+<section data-inema-module="4-1" data-inema-topic="modulo-4-1#topico-1" data-inema-track="4" id="topico-1">
+<div class="section-mark">
+<span class="where">Section 1 of 3</span><span>·</span><span>12 skills</span>
+</div>
+<h2 class="head"><span class="num">1.</span>The 12 human skills</h2>
+<div class="prose">
+<p class="lede dropcap" data-inema-block="m4-t1-p1">Artificial intelligence is automating
+              what is repetitive, predictable, and pattern-based: it already writes texts, summarizes documents,
+              programs, analyzes data, and answers questions in seconds. In light of this, one question remains
+              unanswered—and won’t go away— <em>if AI can do much of what you do today, what still makes you
+              necessary?</em><span class="sidenote-ref">1</span> The answer isn’t in what’s technical and easy to copy,
+              but in a handful of human skills that help you think, decide, adapt, and create value when
+              the situation is complex.</p>
+<p data-inema-block="m4-t1-p2">There are twelve, and they’re grouped less by category than by function.
+              Some relate to <strong>how you think</strong>: critical thinking, to question and
+              separate fact from opinion instead of becoming hostage to the machine's answer; creativity, which recombines
+              references and comes from lived experience, not patterns; nexialism, the art of connecting distant fields; and
+              breadth of knowledge, the collection of readings and experiences that supports good questions and good analogies.
+              Others have to do with <strong>how you act</strong>: will and purpose as energy and direction,
+              the ability to decide what to do—choosing the right problems, not just executing them—and
+              the courage to act under uncertainty, without guarantees.</p>
+<h3 class="sub">The ones machines can't reach</h3>
+<p data-inema-block="m4-t1-p3">A third group is the most resistant to automation, precisely because
+              it depends on <em>being</em> human, not information processing. Genuine empathy feels the other person’s pain,
+              shame, and hope — AI simulates kindness, but doesn’t build a bond. Human connection
+              builds trust and community: people follow, buy from, and draw inspiration from people, and that
+              is valued even more in an increasingly digital world. Data literacy protects us from being misled by charts and
+              vanity metrics. Learning how to learn keeps you relevant when technical knowledge
+              quickly becomes outdated. And ethical courage asks the question the machine never will: <em>is this possible,
+              but is it right?</em></p>
+<p data-inema-block="m4-t1-p4">Notice that none of them is “knowing how to use AI.” The big
+              question is no longer <em>how I use the tool</em> and becomes <em>who I need to become</em>
+              to remain valuable as machines do more and more. AI decides <em>how</em> of many
+              things; it is still up to humans to decide what is worth doing, why, for whom, and with what
+              consequences.</p>
+</div>
+<figure class="figure">
+<figcaption><span class="fig-n">Fig. 1</span> · The 12 Skills in <b>three functions</b>: think, act, be</figcaption>
+<svg aria-label="Diagram: the twelve human skills arranged in three columns—think, act, and be." class="diagram" role="img" viewbox="0 0 720 200">
+<line class="rule-stroke" stroke-width="1" x1="20" x2="700" y1="40" y2="40"></line>
+<g font-family="IBM Plex Mono, monospace" font-size="10" letter-spacing="1.4">
+<text class="faint" text-anchor="middle" x="135" y="30">HOW YOU THINK</text>
+<text class="faint" text-anchor="middle" x="360" y="30">HOW YOU ACT</text>
+<text class="accent" text-anchor="middle" x="585" y="30">WHO YOU ARE</text>
+</g>
+<g class="ink-soft" font-family="Source Serif 4, serif" font-size="12.5">
+<text text-anchor="middle" x="135" y="70">Critical thinking</text>
+<text text-anchor="middle" x="135" y="92">Creativity</text>
+<text text-anchor="middle" x="135" y="114">Nexialism</text>
+<text text-anchor="middle" x="135" y="136">Repertoire</text>
+<text text-anchor="middle" x="360" y="70">Desire and purpose</text>
+<text text-anchor="middle" x="360" y="92">Define what to do</text>
+<text text-anchor="middle" x="360" y="114">Dealing with uncertainty</text>
+<text text-anchor="middle" x="360" y="136">Data literacy</text>
+</g>
+<g class="ink" font-family="Source Serif 4, serif" font-size="12.5">
+<text text-anchor="middle" x="585" y="70">Genuine empathy</text>
+<text text-anchor="middle" x="585" y="92">Human connection</text>
+<text text-anchor="middle" x="585" y="114">Learning how to learn</text>
+<text text-anchor="middle" x="585" y="136">Ethical courage</text>
+</g>
+<line class="rule-stroke" stroke-dasharray="3 4" stroke-width="1" x1="248" x2="248" y1="48" y2="160"></line>
+<line class="accent-stroke" stroke-dasharray="3 4" stroke-width="1" x1="472" x2="472" y1="48" y2="160"></line>
+<text class="faint" font-family="IBM Plex Mono, monospace" font-size="9.5" letter-spacing="1.2" text-anchor="middle" x="360" y="184">THE FARTHER RIGHT YOU GO, THE HARDER IT IS TO AUTOMATE</text>
+</svg>
+</figure>
+<!-- recall ativo: pare e preveja -->
+<div class="predict">
+<p class="lbl">Stop and predict</p>
+<p>Of these twelve, which would you say is most threatened by AI <em>in your current job</em> —
+              and which one protects you the most?</p>
+<details>
+<summary>See a possible answer</summary>
+<p class="answer">There is no single answer — the exercise is the point. The material suggests starting
+                with a <strong>honest self-knowledge</strong>: rate each skill from 0 to 10, and mark where
+                AI poses the greatest threat to your role and where your strengths lie. The differentiator often lies in “being” skills—empathy, connection, ethical courage—that machines can't replicate.</p>
+</details>
+</div>
+<!-- indo mais fundo -->
+<details class="go-deeper">
+<summary><span class="chev">▸</span> Going deeper: a four-week plan
+              <span class="opt">optional</span></summary>
+<div class="inner">
+<p>The happy path above is enough to understand the idea. This layer is for anyone who wants to turn the
+                list into a study plan—and can be skipped without missing anything.</p>
+<p>The source proposes four moves. In <strong>week 1</strong>, self-awareness: rate yourself from 0
+                to 10 in each skill and ask yourself which ones you’re strong in, which ones you’re weak in, and which ones AI threatens most.
+                In the <strong>week 2</strong>, thinking and knowledge: read outside your field, question
+                information, make connections, write down new ideas. In the <strong>week 3</strong>, data, decision-making, and
+                uncertainty: basic statistical knowledge, prioritization practice, and small tests instead of
+                waiting for complete certainty. In the <strong>week 4</strong>, relationships, purpose, and ethics: listen more,
+                define what matters to you, and weigh the human impact of your decisions—using AI as a
+                tool, never as a substitute for your responsibility.</p>
+</div>
+</details>
+</section>
+<section data-inema-module="4-1" data-inema-topic="modulo-4-1#topico-2" data-inema-track="4" id="topico-2">
+<div class="section-mark">
+<span class="where">Section 2 of 3</span><span>·</span><span>6 talents</span>
+</div>
+<h2 class="head"><span class="num">2.</span>The 6 talents of the future</h2>
+<div class="prose">
+<p class="lede" data-inema-block="m4-t2-p1">In Jensen Huang's view, the focus of the future won't be
+              “who knows how to program” or “who has the most technical knowledge” —
+              technology will automate much of the technical work. The most valuable talents will belong to those who
+              can <em>think better, sense the context better, and use AI to solve
+              bigger problems</em>. Intelligence, then, stops being about memorizing, calculating, or writing code and becomes a
+              combination.<span class="sidenote-ref">2</span></p>
+<p data-inema-block="m4-t2-p2">There are six talents. The first is <strong>technical brilliance combined with
+              human empathy</strong>: understanding technology, but also understanding people—their needs,
+              fears, desires, and what hasn't been said clearly. The second is <strong>anticipation</strong>:
+              noticing problems before they explode, seeing what is coming, and not just quickly solving what has
+              already happened. The third is <strong>strategic thinking and a long-term vision</strong>
+              — Jensen observes that, with age, you may think more slowly, but find better answers
+              because you've learned to see the whole picture.</p>
+<h3 class="sub">Character matters more than isolated genius</h3>
+<p data-inema-block="m4-t2-p3">The last three lean toward the human and collective side. The fourth is
+              <strong>keep learning</strong>: tomorrow's professional doesn't need to know everything; they need
+              to learn quickly, be humble, and adapt. The fifth is <strong>work well as a team</strong>
+              — and here Jensen is direct: character matters more than isolated genius. Transparency,
+              trust, forgiveness, responsibility, and the ability to get through difficulties together become core talents.
+              The sixth is <strong>use AI as an amplifier</strong>: when anyone can create
+              software and businesses with the tool, the differentiator isn't knowing how to use it; it's having good questions, good
+              problems, and a good imagination.</p>
+<p data-inema-block="m4-t2-p4">The sentence that ties it all together: being intelligent in the future will mean combining technical skill,
+              sensitivity, vision, courage, and the ability to learn. The future values people who look at a
+              complex situation and ask— <em>what is the real problem here? What is no one seeing?
+              How can I use technology to solve this in a better way?</em></p>
+</div>
+<figure class="figure">
+<figcaption><span class="fig-n">Fig. 2</span> · The Six Talents — <b>technique</b> on one side, <b>character</b> of the other person</figcaption>
+<svg aria-label="Diagram: six future talents arranged between two poles—technical skill and character—connected by AI as an amplifier." class="diagram" role="img" viewbox="0 0 720 196">
+<text class="faint" font-family="IBM Plex Mono, monospace" font-size="10" letter-spacing="1.4" text-anchor="middle" x="80" y="28">TECHNIQUE</text>
+<text class="accent" font-family="IBM Plex Mono, monospace" font-size="10" letter-spacing="1.4" text-anchor="middle" x="640" y="28">CHARACTER</text>
+<line class="rule-stroke" stroke-width="1" x1="40" x2="680" y1="40" y2="40"></line>
+<g class="ink-soft" font-family="Source Serif 4, serif" font-size="12">
+<circle class="ink" cx="120" cy="70" r="3"></circle><text x="134" y="74">Technical expertise + empathy</text>
+<circle class="ink" cx="120" cy="100" r="3"></circle><text x="134" y="104">Anticipation</text>
+<circle class="ink" cx="120" cy="130" r="3"></circle><text x="134" y="134">Strategic vision</text>
+</g>
+<g class="ink" font-family="Source Serif 4, serif" font-size="12">
+<circle class="accent" cx="420" cy="70" r="3"></circle><text x="434" y="74">Always learning</text>
+<circle class="accent" cx="420" cy="100" r="3"></circle><text x="434" y="104">Team and character</text>
+<circle class="accent" cx="420" cy="130" r="3"></circle><text x="434" y="134">AI as an amplifier</text>
+</g>
+<line class="rule-stroke" stroke-dasharray="3 4" stroke-width="1" x1="360" x2="360" y1="56" y2="148"></line>
+<text class="ink" font-family="Spectral, serif" font-size="13" font-style="italic" text-anchor="middle" x="360" y="180">technique + sensitivity + vision + courage + learning</text>
+</svg>
+</figure>
+<!-- indo mais fundo -->
+<details class="go-deeper">
+<summary><span class="chev">▸</span> Going deeper: why anticipation is a rare talent
+              <span class="opt">optional</span></summary>
+<div class="inner">
+<p>Optional layer. Of the six, anticipation is what most distinguishes the ordinary professional from the exceptional—and it’s worth understanding why.</p>
+<p>Solving a problem quickly is an execution skill: the problem is already there; you just need to act. Anticipation works before that — it means noticing the problem while it’s still small, or before it
+                even exists. It depends on the others: it takes long-term vision to look ahead, empathy
+                to pick up on what people haven’t yet put into words, and repertoire to recognize a pattern
+                that has repeated before. That’s why Jensen treats it as a talent, not a technique: you can’t buy
+                it ready-made or delegate it to a machine; you cultivate it over time.</p>
+</div>
+</details>
+</section>
+<section data-inema-module="4-1" data-inema-topic="modulo-4-1#topico-3" data-inema-track="4" id="topico-3">
+<div class="section-mark">
+<span class="where">Section 3 of 3</span><span>·</span><span>Profiles</span>
+</div>
+<h2 class="head"><span class="num">3.</span>Human profiles that define the future of a business</h2>
+<div class="prose">
+<p class="lede" data-inema-block="m4-t3-p1">A successful company cannot be sustained by just one type of
+              person. Behind every business that lasts is a <em>fit</em> of human profiles — and
+              understanding them is the difference between building a team that runs on its own and relying on a hero who puts out
+              fires all day. The material maps out seventeen profiles, and the secret isn't having them all, but
+              recognizing who each person is so you can put them in the right place.<span class="sidenote-ref">3</span></p>
+<p data-inema-block="m4-t3-p2">At the top are the <strong>entrepreneur profiles</strong>: from innate to
+              trainable, from opportunistic to niche, from necessity-driven entrepreneur to non-entrepreneur. Two
+              deserve special attention because of the risks they carry. The <em>mule</em> is the heavy-lifting executor at the start,
+              indispensable during validation, but dangerous when the founder never leaves this role. The <em>savior
+              of the day</em> handles emergencies and inspires confidence — but centralizes everything, doesn't create
+              processes, and the company becomes dependent on him. The healthy transition is the same for both: stop
+              being a hero and become a <em>lead architect</em>, which builds systems that work without your
+              constant effort.</p>
+<h3 class="sub">Employees, experts, and the two arms</h3>
+<p data-inema-block="m4-t3-p3">Orbiting around it are the <strong>employee profiles</strong> —
+              the stable, the volatile, the low-turnover, the security-focused, and the ambitious — and the balance
+              among them is what provides continuity without killing growth: stable ones provide the foundation, ambitious ones
+              push forward, volatile ones serve specific projects. Above all, the <strong>strategic
+              support</strong>: the specialist, with deep expertise in one area; the generalist, who connects
+              sectors and has an advantage at a small company; the <em>right arm</em>, a trusted executor who
+              organizes day-to-day operations; and the <em>left arm</em>, an advisor or mentor who helps the founder
+              assess risks, metrics, and decisions—and doesn’t even need to be a full-time employee.</p>
+<p data-inema-block="m4-t3-p4">The logic comes together in one sentence: CEO plus right-hand person plus left-hand person
+              balances vision, execution, and analysis; specialists plus a generalist balance depth and
+              flexibility. When this combination is missing, the reason things break down is almost always the same quartet
+             —failing to take care of <strong>box</strong>, by <strong>people</strong>, by
+              <strong>processes</strong> and is <strong>strategy</strong>. An entrepreneur working alone becomes a pack mule or
+              a savior; with the right profiles in the right roles, the business gains the balance it needs to
+              last.</p>
+</div>
+<figure class="figure">
+<figcaption><span class="fig-n">Fig. 3</span> · The Core That Sustains a Business: <b>vision, execution, analysis</b></figcaption>
+<svg aria-label="Diagram: CEO in the center, with the right-hand person (execution) and left-hand person (analysis) on either side, and a base of specialists and generalists." class="diagram" role="img" viewbox="0 0 720 208">
+<rect class="accent-stroke" fill="url(#hatch4)" height="44" rx="3" stroke-width="1.3" width="140" x="290" y="28"></rect>
+<text class="ink" font-family="Spectral, serif" font-size="16" font-style="italic" text-anchor="middle" x="360" y="50">CEO</text>
+<text class="ink-soft" font-family="Source Serif 4, serif" font-size="10.5" text-anchor="middle" x="360" y="66">vision &amp; strategy</text>
+<defs>
+<pattern height="6" id="hatch4" patterntransform="rotate(45)" patternunits="userSpaceOnUse" width="6">
+<line class="accent-stroke" opacity="0.16" stroke-width="2.4" x1="0" x2="0" y1="0" y2="6"></line>
+</pattern>
+</defs>
+<path class="rule-stroke" d="M290 50 H 180" stroke-width="1.4"></path>
+<path class="rule-stroke" d="M430 50 H 540" stroke-width="1.4"></path>
+<rect class="wash rule-stroke" height="44" rx="3" stroke-width="1.2" width="140" x="40" y="28"></rect>
+<text class="ink-soft" font-family="Spectral, serif" font-size="14" font-style="italic" text-anchor="middle" x="110" y="50">Right brain</text>
+<text class="faint" font-family="Source Serif 4, serif" font-size="10.5" text-anchor="middle" x="110" y="66">execution</text>
+<rect class="wash rule-stroke" height="44" rx="3" stroke-width="1.2" width="140" x="540" y="28"></rect>
+<text class="ink-soft" font-family="Spectral, serif" font-size="14" font-style="italic" text-anchor="middle" x="610" y="50">Left brain</text>
+<text class="faint" font-family="Source Serif 4, serif" font-size="10.5" text-anchor="middle" x="610" y="66">analysis</text>
+<line class="rule-stroke" stroke-dasharray="3 4" stroke-width="1" x1="60" x2="660" y1="108" y2="108"></line>
+<text class="faint" font-family="IBM Plex Mono, monospace" font-size="9.5" letter-spacing="1.4" text-anchor="middle" x="360" y="100">THE FOUNDATION THAT DELIVERS</text>
+<rect class="wash rule-stroke" height="40" rx="3" stroke-width="1.2" width="180" x="120" y="124"></rect>
+<text class="ink" font-family="Spectral, serif" font-size="14" font-style="italic" text-anchor="middle" x="210" y="144">Experts</text>
+<text class="ink-soft" font-family="Source Serif 4, serif" font-size="10.5" text-anchor="middle" x="210" y="159">depth</text>
+<rect class="wash rule-stroke" height="40" rx="3" stroke-width="1.2" width="180" x="420" y="124"></rect>
+<text class="ink" font-family="Spectral, serif" font-size="14" font-style="italic" text-anchor="middle" x="510" y="144">Generalists</text>
+<text class="ink-soft" font-family="Source Serif 4, serif" font-size="10.5" text-anchor="middle" x="510" y="159">flexibility</text>
+<text class="accent" font-family="IBM Plex Mono, monospace" font-size="9.5" letter-spacing="1.2" text-anchor="middle" x="360" y="194">CASH · PEOPLE · PROCESSES · STRATEGY</text>
+</svg>
+</figure>
+<!-- recall ativo -->
+<div class="predict">
+<p class="lbl">Stop and predict</p>
+<p>You're a founder, you've validated the idea, and you make sales every day—but you still personally handle every
+              operational problem. Which profile should you hire <em>first</em>?</p>
+<details>
+<summary>See a possible answer</summary>
+<p class="answer">Probably the <strong>right arm</strong> — an operations coordinator to organize the team, ensure deadlines are met, and handle day-to-day tasks. This is what gets the founder out of the
+                “mule” role and frees them up for vision, strategy, and major clients. Without this piece, the
+                company grows only as far as one person can carry it.</p>
+</details>
+</div>
+<!-- indo mais fundo -->
+<details class="go-deeper">
+<summary><span class="chev">▸</span> Going deeper: what the evidence says about specialists vs. generalists
+              <span class="opt">optional</span></summary>
+<div class="inner">
+<p>Optional layer for those who want to see what the practice is based on.</p>
+<p>The research points toward flexibility. Studies associated with Chicago Booth and Harvard
+                Business School indicate that profiles <em>generalists</em> tend to do better as
+                entrepreneurs because they master several functions—a clear advantage in a small company or at the
+                beginning. HR materials (such as those from SHRM) add that the ideal profile depends on the goal:
+                those who want to lead benefit from being generalists; those who want to be technical authorities prefer to
+                specialize. And there’s a practical finding: rigidity between the two roles wastes talent—the
+                best companies use job rotation, develop generalists who later specialize, and
+                adjust the structure to the company’s size, from more hybrid at the start to more specialized as they grow.</p>
+</div>
+</details>
+</section>
+<section aria-label="My journey" class="journey">
+<div class="journey-top"><h2><span class="ico">❧</span> My journey</h2><button class="journey-cta" data-inema-journey-open="" type="button">Open the notebook →</button></div>
+<div class="journey-body">
+<div class="jstat"><div class="k">In this module</div><div class="v" data-inema-meter="modulo:4-1"><span data-inema-meter-frac=""><strong>0</strong> of 3</span> <span class="nm">sections read</span><div class="progress-line"><span class="progress-line__fill" data-inema-meter-fill=""></span></div></div></div>
+<div class="jstat"><div class="k">In Track 4</div><div class="v" data-inema-meter="trilha:4"><span data-inema-meter-frac=""><strong>0</strong> of 3</span> <span class="nm">topics</span><div class="progress-line"><span class="progress-line__fill" data-inema-meter-fill=""></span></div></div></div>
+<div class="jstat"><div class="k">In the course</div><div class="v" data-inema-meter="curso"><span data-inema-meter-frac=""><strong>0</strong> of 27</span> <span class="nm">covered</span><div class="progress-line"><span class="progress-line__fill" data-inema-meter-fill=""></span></div></div></div>
+</div>
+</section>
+<div class="nextup"><div class="txt"><div class="k">Continue</div><div class="t">Track 5 — Persuasion &amp; Viral Psychology</div></div><a class="go" href="t5.html">Next →</a></div>
+</article>
+<aside aria-label="Margin: notes and your dashboard" class="margin-rail">
+<nav aria-label="Track 4 Modules" class="rail-modules">
+<p class="rail-modules__head">Track 4 · Skills &amp; Talents</p>
+<ol>
+<li aria-current="page"><span class="n">4.1</span><span class="t">Future skills &amp; talents</span></li>
+</ol>
+<a class="rail-modules__index" href="t4.html">Learning path index →</a>
+</nav>
+<aside data-inema-rail="modulo-4-1#topico-1"></aside>
+<aside class="sidenote" data-kind="definicao">
+<div class="tag">Definition</div>
+<b>Nexialism.</b> The ability to connect knowledge from different fields—to see the relationships
+          between technology, behavior, economics, and culture. A nexialist doesn’t know just one thing; they connect
+          many.
+        </aside>
+<aside class="sidenote" data-kind="fundo">
+<div class="tag">Going deeper</div>
+<b>Data literacy</b> is not about being a programmer: it’s about not being fooled by numbers. Knowing that correlation is not
+          causation, that an average hides inequalities, and that “likes” rarely reflect real results.
+        </aside>
+<aside class="sidenote" data-kind="fonte">
+<div class="tag">Source</div>
+          The 12 human skills for the AI era, a synthesis from the INEMA.NCIA channel. The guiding question: who do I
+          need to become to remain valuable as machines do more and more?
+          <div class="src-line">t.me/c/2414677686/929</div>
+</aside>
+<!-- ---- SECAO 2 ---- -->
+<aside data-inema-rail="modulo-4-1#topico-2"></aside>
+<aside class="sidenote" data-kind="definicao">
+<div class="tag">Definition</div>
+<b>Anticipation.</b> Noticing problems and opportunities before others—seeing what’s coming,
+          not just quickly solving what has already arrived. For Jensen, the rarest of the six talents.
+        </aside>
+<aside class="sidenote" data-kind="fundo">
+<div class="tag">Going deeper</div>
+          “AI as an amplifier”: when anyone can create software with the tool, the differentiator
+          isn’t using it, but having <i>good questions, good problems, and good imagination</i>.
+        </aside>
+<aside class="sidenote" data-kind="fonte">
+<div class="tag">Source</div>
+          The 6 talents of the future, in Jensen Huang’s account as summarized by Jansen. The central idea: being intelligent
+          will mean combining technical skill, sensitivity, vision, and adaptability.
+          <div class="src-line">t.me/c/2414677686/909</div>
+</aside>
+<!-- ---- SECAO 3 ---- -->
+<aside data-inema-rail="modulo-4-1#topico-3"></aside>
+<aside class="sidenote" data-kind="definicao">
+<div class="tag">Definition</div>
+<b>Right brain vs. left brain.</b> The right-hand person is the trusted executor who organizes day-to-day work;
+          the left-hand person is the advisor or mentor who helps the founder assess risks and make decisions—and doesn't
+          even need to be a full-time employee.
+        </aside>
+<aside class="sidenote" data-kind="fundo">
+<div class="tag">Going deeper</div>
+<b>Mula</b> e <b>savior of the day</b> are useful at first, but become a trap: both centralize everything.
+          The transition is to become a <i>lead architect</i> — create systems that run without your constant effort.
+        </aside>
+<aside class="sidenote" data-kind="fonte" style="margin-bottom:0">
+<div class="tag">Source</div>
+          Human profiles that define the future of a business — a map of 17 profiles and a suggested structure for
+          a 10-person company, with evidence on specialists vs. generalists.
+          <div class="src-line">t.me/c/2414677686/754</div>
+</aside>
+</aside>
+</div></main>
+<footer class="colophon"><span>INEMA.CLUB · Student Workbook</span><span class="pg">Module 4-1</span><span>Set in Spectral &amp; Source Serif 4</span></footer>
+<script src="../../curso/assets/learn.js"></script>
+<script>
+    if (window.INEMA && typeof window.INEMA.init === "function") { window.INEMA.init(); }
+  </script>
+</body>
+</html>

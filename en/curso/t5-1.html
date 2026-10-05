@@ -1,0 +1,414 @@
+<!DOCTYPE html>
+
+<html data-theme="papel" lang="en">
+<head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<!-- ===================================================================
+       1) ANTI-FOUC — script BLOQUEANTE, PRIMEIRO no <head>, ANTES das fontes
+          e do learn.css. Le inema.prefs (global, cross-curso) e aplica
+          data-theme + color-scheme + --measure/--leading/--fontscale +
+          data-font/--font-disp/--font-body ANTES do primeiro paint.
+          try/catch total => default papel no erro (preserva a marca INEMA).
+       =================================================================== -->
+<script>
+  (function () {
+    try {
+      var html = document.documentElement;
+      var DEF = { theme: 'papel', font: 'serif', fontScale: 100, lineWidth: 66, leading: 1.66 };
+      function clone(o) { var r = {}; for (var x in o) r[x] = o[x]; return r; }
+      var p = clone(DEF);
+      try {
+        var raw = localStorage.getItem('inema.prefs');
+        if (raw) {
+          var parsed = JSON.parse(raw);
+          if (parsed && typeof parsed === 'object') {
+            for (var k in DEF) if (parsed[k] != null) p[k] = parsed[k];
+          }
+        }
+      } catch (e) { p = clone(DEF); }
+
+      var THEMES = {
+        'papel':  { attr: 'papel',  cs: 'light' },
+        'sepia':  { attr: 'sepia',  cs: 'light' },
+        'escuro': { attr: 'escuro', cs: 'dark'  }
+      };
+      var t = THEMES[p.theme] || THEMES['papel'];
+      html.setAttribute('data-theme', t.attr);
+      html.style.colorScheme = t.cs;
+
+      var font = (p.font === 'sans' || p.font === 'hyperlegible') ? p.font : 'serif';
+      html.setAttribute('data-font', font);
+
+      var s = html.style;
+
+      var scale = (+p.fontScale || 100);
+      s.setProperty('--fontscale', scale + '%');
+      html.setAttribute('data-fontscale', String(scale));
+
+      var lw = (+p.lineWidth || 66);
+      s.setProperty('--measure', lw + 'ch');
+      html.setAttribute('data-line-width', lw <= 62 ? 'estreito' : (lw >= 70 ? 'largo' : 'medio'));
+
+      var lh = (+p.leading || 1.66);
+      s.setProperty('--leading', lh.toString());
+      html.setAttribute('data-leading', lh <= 1.66 ? 'compacto' : 'confortavel');
+
+      var DISP = {
+        serif: '"Spectral", Georgia, "Times New Roman", serif',
+        sans: 'ui-sans-serif, system-ui, -apple-system, "Segoe UI", Roboto, sans-serif',
+        hyperlegible: '"Atkinson Hyperlegible", system-ui, -apple-system, sans-serif'
+      };
+      var BODY = {
+        serif: '"Source Serif 4", Georgia, "Times New Roman", serif',
+        sans: 'ui-sans-serif, system-ui, -apple-system, "Segoe UI", Roboto, sans-serif',
+        hyperlegible: '"Atkinson Hyperlegible", system-ui, -apple-system, sans-serif'
+      };
+      s.setProperty('--font-disp', DISP[font] || DISP.serif);
+      s.setProperty('--font-body', BODY[font] || BODY.serif);
+    } catch (err) {
+      try {
+        document.documentElement.setAttribute('data-theme', 'papel');
+        document.documentElement.style.colorScheme = 'light';
+      } catch (e) {}
+    }
+  })();
+  </script>
+<meta content="inema-ncia" name="inema-course"/>
+<script data-inema-manifest="" type="application/json">
+{
+  "course": "inema-ncia",
+  "tracks": [
+    {
+      "n": "1",
+      "title": "Atenção",
+      "modules": [
+        {
+          "id": "1-1",
+          "title": "Necessidades & Atencao",
+          "topics": 3,
+          "href": "t1-1.html"
+        },
+        {
+          "id": "1-2",
+          "title": "A economia da distracao",
+          "topics": 3,
+          "href": "t1-2.html"
+        }
+      ]
+    },
+    {
+      "n": "2",
+      "title": "Percepção",
+      "modules": [
+        {
+          "id": "2-1",
+          "title": "Percepcao & valor",
+          "topics": 3,
+          "href": "t2-1.html"
+        },
+        {
+          "id": "2-2",
+          "title": "Como aprendemos",
+          "topics": 2,
+          "href": "t2-2.html"
+        }
+      ]
+    },
+    {
+      "n": "3",
+      "title": "Hábitos",
+      "modules": [
+        {
+          "id": "3-1",
+          "title": "Motivacao & determinacao",
+          "topics": 2,
+          "href": "t3-1.html"
+        },
+        {
+          "id": "3-2",
+          "title": "Rotinas que sustentam",
+          "topics": 3,
+          "href": "t3-2.html"
+        }
+      ]
+    },
+    {
+      "n": "4",
+      "title": "Habilidades",
+      "modules": [
+        {
+          "id": "4-1",
+          "title": "Habilidades & talentos do futuro",
+          "topics": 3,
+          "href": "t4-1.html"
+        }
+      ]
+    },
+    {
+      "n": "5",
+      "title": "Persuasão",
+      "modules": [
+        {
+          "id": "5-1",
+          "title": "Persuasao & estoria",
+          "topics": 2,
+          "href": "t5-1.html"
+        },
+        {
+          "id": "5-2",
+          "title": "Aplicacao",
+          "topics": 3,
+          "href": "t5-2.html"
+        }
+      ]
+    },
+    {
+      "n": "6",
+      "title": "Recursos",
+      "modules": [
+        {
+          "id": "6-1",
+          "title": "Recursos do Canal",
+          "topics": 3,
+          "href": "t6-1.html"
+        }
+      ]
+    }
+  ]
+}
+  </script>
+<title>Module 5-1 — Persuasion &amp; Storytelling | INEMA.NCIA</title>
+<link href="https://fonts.googleapis.com" rel="preconnect"/>
+<link crossorigin="" href="https://fonts.gstatic.com" rel="preconnect"/>
+<link href="https://fonts.googleapis.com/css2?family=Spectral:ital,wght@0,300;0,400;0,500;0,600;0,700;1,400;1,500&amp;family=Source+Serif+4:ital,opsz,wght@0,8..60,400;0,8..60,500;0,8..60,600;1,8..60,400;1,8..60,500&amp;family=IBM+Plex+Mono:wght@400;500&amp;family=Atkinson+Hyperlegible:ital,wght@0,400;0,700;1,400&amp;display=swap" rel="stylesheet"/>
+<link href="../../curso/assets/learn.css" rel="stylesheet"/>
+<link href="https://inematds.github.io/inemancia/curso/t5-1.html" hreflang="pt-BR" rel="alternate"/><link href="https://inematds.github.io/inemancia/en/curso/t5-1.html" hreflang="en" rel="alternate"/><link href="https://inematds.github.io/inemancia/es/curso/t5-1.html" hreflang="es" rel="alternate"/></head>
+<body><div class="inema-lang" style="position:fixed;right:14px;bottom:14px;z-index:9999;display:flex;gap:2px;padding:4px;border-radius:10px;background:rgba(12,12,16,.82);border:1px solid rgba(226,162,59,.45);font:600 12px/1 Sora,Inter,system-ui,sans-serif;backdrop-filter:blur(8px)" translate="no"><a href="../../curso/t5-1.html" hreflang="pt-BR" style="padding:6px 8px;border-radius:7px;text-decoration:none;color:#e9e9ee">PT</a><a href="t5-1.html" hreflang="en" style="padding:6px 8px;border-radius:7px;text-decoration:none;color:#1a1206;background:#E2A23B">EN</a><a href="../../es/curso/t5-1.html" hreflang="es" style="padding:6px 8px;border-radius:7px;text-decoration:none;color:#e9e9ee">ES</a></div>
+<a class="skip" href="#reading">Skip to content</a>
+<div class="reader-bar">
+<div class="reader-inner">
+<a class="wordmark" href="https://inema.club" rel="noopener" target="_blank">INEMA<span class="dot">.</span><span class="club">CLUB</span></a>
+<div class="reader-controls" data-inema-appearance="">
+<span class="rc-read"><span data-inema-meter="modulo:5-1"><span data-inema-meter-frac=""><strong>0</strong> of 2</span></span> read</span>
+<div aria-label="Reading theme" class="rc-group" role="group">
+<button aria-pressed="true" class="rc-btn" data-inema-set-theme="papel" type="button">Role</button>
+<button aria-pressed="false" class="rc-btn" data-inema-set-theme="sepia" type="button">Sepia</button>
+<button aria-pressed="false" class="rc-btn" data-inema-set-theme="escuro" type="button">Dark</button>
+</div>
+<div aria-label="Reading source" class="rc-group" role="group">
+<button aria-pressed="true" class="rc-btn" data-inema-set-font="serif" type="button">Serif</button>
+<button aria-pressed="false" class="rc-btn" data-inema-set-font="sans" type="button">Sans</button>
+<button aria-pressed="false" class="rc-btn" data-inema-set-font="hyperlegible" title="Atkinson Hyperlegible" type="button">Aa↹</button>
+</div>
+<div aria-label="Text size" class="rc-group" role="group">
+<button aria-pressed="true" class="rc-btn" data-inema-set-fontscale="100" type="button">A</button>
+<button aria-pressed="false" class="rc-btn" data-inema-set-fontscale="112" type="button">A+</button>
+<button aria-pressed="false" class="rc-btn" data-inema-set-fontscale="125" type="button">A++</button>
+</div>
+<div aria-label="Line width" class="rc-group" role="group">
+<button aria-pressed="false" class="rc-btn" data-inema-set-linewidth="62" type="button">Narrow</button>
+<button aria-pressed="true" class="rc-btn" data-inema-set-linewidth="66" type="button">Medium</button>
+<button aria-pressed="false" class="rc-btn" data-inema-set-linewidth="70" type="button">Wide</button>
+</div>
+</div>
+</div>
+</div>
+<header class="masthead">
+<nav aria-label="Where you are" class="wayfind">
+<span><a href="index.html" style="text-decoration:none">INEMA.NCIA</a></span><span class="sep">·</span>
+<span><a href="t5.html" style="text-decoration:none">Learning path <b>5</b></a></span><span class="sep">·</span>
+<span>Module <b>5-1</b></span><span class="sep">·</span>
+<span data-inema-section-counter="">Section 1 of 2</span><span class="sep">·</span>
+<button data-inema-journey-open="" type="button">My journey <span class="inema-journey-badge" data-count="0" data-inema-journey-badge="">0</span></button>
+</nav>
+<nav aria-label="Course tracks" class="course-nav" data-course-nav="">
+<a class="cn-home" href="index.html">Start</a>
+<span class="cn-sep">·</span>
+<a href="t1.html"><b>1</b> Attention</a>
+<a href="t2.html"><b>2</b> Perception</a>
+<a href="t3.html"><b>3</b> Habits</a>
+<a href="t4.html"><b>4</b> Skills</a>
+<a aria-current="page" class="active" href="t5.html"><b>5</b> Persuasion</a>
+<a href="t6.html"><b>6</b> Resources</a>
+</nav>
+</header>
+<main class="spread"><div class="leaf">
+<article class="reading" id="reading">
+<p class="kicker">Module 5-1 · Track 5 · INEMA.NCIA</p>
+<h1 class="module">Persuasion &amp; story</h1>
+<p class="deck">What makes a message persuasive and a story stick—simple techniques and the anatomy of virality.</p>
+<p class="read-meta"><span class="here">Reading now</span><span>2 sections</span><span><a href="t5.html" style="color:inherit">← trail index</a></span></p>
+<section aria-label="What this module covers" class="aims"><h2>What this module covers</h2><ul><li>Persuasion: simple techniques</li><li>The Anatomy of a Viral Story (VIRAL ST)</li></ul></section>
+<nav aria-label="Module summary" class="toc" data-inema-toc="">
+<p class="toc-head">Module summary</p>
+<ol>
+<li class="current"><span class="dot-now"></span><span class="n">1</span><a href="#topico-1"><span class="t">Persuasion: simple techniques</span></a></li>
+<li><span class="n">2</span><a href="#topico-2"><span class="t">The Anatomy of a Viral Story (VIRAL ST)</span></a><span class="leader"></span></li>
+</ol>
+</nav>
+<section data-inema-module="5-1" data-inema-topic="modulo-5-1#topico-1" data-inema-track="5" id="topico-1">
+<div class="section-mark">
+<span class="where">Section 1 of 2</span><span>·</span><span>Persuasion</span>
+</div>
+<h2 class="head"><span class="num">1.</span>Persuasion: simple techniques</h2>
+<div class="prose">
+<p class="lede dropcap" data-inema-block="m5-t1-p1">Almost every message that tries to persuade makes the
+              same mistake: it talks about the person who <span class="sidenote-ref">1</span>write. It talks about the product, the company, the
+              seller’s competence. Real persuasion does the opposite — it starts with the <em>other</em>.
+              People respond emotionally to messages that touch their desires, fears, and beliefs;
+              when you write from that place, you stop pushing and start being heard.</p>
+<p data-inema-block="m5-t1-p2">The simplest structure that captures this fits into five triggers.
+              <strong>Encourage dreams</strong> of the person — supporting what they already want for themselves
+              (“you were born for this”). <strong>Justify failures</strong> — ease
+              guilt by pointing to an external cause (“you didn't have the right opportunities”).
+              <strong>Reduce the fears</strong> — acknowledge the concern and offer a path (“it’s normal
+              to feel this way at first, and here’s what to do”). <strong>Confirm your suspicions</strong>
+              — validate what they already suspect (“you were right to doubt that”). And
+              <strong>help fight the enemies</strong> — build connection by taking on a common adversary.<span class="sidenote-ref">2</span></p>
+<h3 class="sub">The test that changes everything: who are you looking at?</h3>
+<p data-inema-block="m5-t1-p3">Notice that none of the five describes the author. They all describe the internal state
+              of the person reading. That’s the point: most messages focus on the person speaking, but true persuasion
+              happens when you focus on the other person’s emotions and needs. Once you see the
+              structure, you start recognizing it in all kinds of content that works — from a sales email to a
+              political speech, from a viral post to a persuasive conversation.</p>
+</div>
+<!-- recall ativo: pare e preveja -->
+<div class="predict">
+<p class="lbl">Stop and predict</p>
+<p>You’re going to respond to someone who says: “I’ve tried selling online, but nothing works.”
+              Of the five triggers, which would you use <em>first</em> — and why?</p>
+<details>
+<summary>See a possible answer</summary>
+<p class="answer">Probably <strong>justify failure</strong>: lifting the weight of guilt
+                (“you were missing the right knowledge; it wasn't your fault”) opens the person up to hearing the rest. Only
+                then do we get to <em>encourage the dream</em> e <em>reduce fear</em>. The order matters: relief before
+                promise.</p>
+</details>
+</div>
+<!-- indo mais fundo: divulgacao progressiva -->
+<details class="go-deeper">
+<summary><span class="chev">▸</span> Going deeper: turning the five triggers into a service prompt
+              <span class="opt">optional</span></summary>
+<div class="inner">
+<p>The five triggers aren’t just for writing by hand. They fit into a master prompt that
+                guides an intelligent assistant to read the user’s message, identify its emotional content
+                (dreams, fears, frustrations, beliefs, perceived enemies), and respond using at least three of the
+                triggers—always ending with a practical next step.</p>
+<div class="codeblock"><span class="c"># Master prompt — Persuasive, Intelligent Support</span>
+Act as a precise, empathetic, and persuasive customer service assistant.
+When you receive the user's message:
+<span class="k">1.</span> Analyze the emotional and rational content (dreams, fears, frustrations, beliefs, enemies).
+<span class="k">2.</span> Look for data, examples, or clear instructions that address the real need.
+<span class="k">3.</span> Use at least 3 of these triggers: encourage dreams, justify failures,
+   reduce fears, confirm suspicions, help attack enemies.
+<span class="k">4.</span> Write in natural, warm, and confident language.
+<span class="k">5.</span> End with practical guidance or a clear next step.</div>
+<p>The same template can be adapted for WhatsApp flows, chatbots, or human customer service
+                that uses AI as a copilot—the channel changes, not the emotional structure.</p>
+</div>
+</details>
+</section>
+<section data-inema-module="5-1" data-inema-topic="modulo-5-1#topico-2" data-inema-track="5" id="topico-2">
+<div class="section-mark">
+<span class="where">Section 2 of 2</span><span>·</span><span>Viral story</span>
+</div>
+<h2 class="head"><span class="num">2.</span>The Anatomy of a Viral Story (VIRAL ST)</h2>
+<div class="prose">
+<p class="lede" data-inema-block="m5-t2-p1">A story that sticks isn't a matter of luck. It follows,
+              in order, a circuit the brain recognizes—and each stage activates a different region. The
+              VIRALST model organizes this circuit into four beats: <em>hook</em>, identification, conflict, and
+              resolution. Each one answers a question opened by the previous one, and that chain is what holds attention
+              until the end.</p>
+<p data-inema-block="m5-t2-p2">O <strong>hook</strong> activates the alert system — the
+              <span class="dfn"><details class="dfn"><summary>SRAA</summary><span class="body"><b>SRAA</b> is the ascending reticular activating system: the brain's filter that detects novelty and threat amid the noise. It decides what deserves conscious attention.</span></details></span>
+              that detects novelty amid the noise — with a provocative question or a statement that
+              breaks the mental pattern. The <strong>identification</strong> activates mirror neurons: natural language
+              and everyday situations make the person feel “this is about me.” The
+              <strong>conflict</strong> creates tension — a small dissonance, an emotional contrast —
+              that sustains interest through the anticipation of resolution. It is the <strong>closing</strong> delivers the
+              turning point: the insight that makes the brain release dopamine and oxytocin, imprinting the content in memory.<span class="sidenote-ref">3</span></p>
+<h3 class="sub">The reward cycle, deliberately completed</h3>
+<p data-inema-block="m5-t2-p3">The four beats are not independent: they form a <em>dopamine
+              loop</em>. Curiosity in the opening, empathy in the identification, tension in the conflict, cognitive reward at the end—the same mechanism that makes series and short videos addictive, used here
+              consciously. Pacing matters as much as content: six to ten short lines, sentences with just a few
+              words, without logical connectors. The text is read like speech, not prose—and that’s what keeps
+              the emotional flow going, rather than the rational one.</p>
+</div>
+<div class="predict">
+<p class="lbl">Stop and predict</p>
+<p>Of the four beats, which one do scriptwriters tend to neglect most—and what is the
+              cost of skipping it?</p>
+<details>
+<summary>See a possible answer</summary>
+<p class="answer">A <strong>identification</strong>. Many people go straight from the hook to the content,
+                and the viewer never feels that “it's about them.” Without this emotional mirror, there's no
+                connection—and the brain, which decides whether to keep watching at this stage, simply
+                scrolls to the next video.</p>
+</details>
+</div>
+<details class="go-deeper">
+<summary><span class="chev">▸</span> Going deeper: why an oral rhythm holds attention better
+              <span class="opt">optional</span></summary>
+<div class="inner">
+<p>Optional layer for those who want the mechanics behind it. Short sentences reduce cognitive load—the left temporal cortex processes each line effortlessly. The lack of formal connectors mimics the natural rhythm of speech, maintaining synchronization between hearing and emotion. And pauses (the line breaks) simulate the breathing of human speech, reinforcing the perception of authenticity.</p>
+<p>There’s also an attention limit at play: the brain processes stimuli in short windows, and six to
+                ten lines respect that interval. Exceeding that doesn’t make the text more informative—
+                it makes it more tiring, and the viewer gives up before the ending, which was exactly where the
+                reward was.</p>
+</div>
+</details>
+</section>
+<section aria-label="My journey" class="journey">
+<div class="journey-top"><h2><span class="ico">❧</span> My journey</h2><button class="journey-cta" data-inema-journey-open="" type="button">Open the notebook →</button></div>
+<div class="journey-body">
+<div class="jstat"><div class="k">In this module</div><div class="v" data-inema-meter="modulo:5-1"><span data-inema-meter-frac=""><strong>0</strong> of 2</span> <span class="nm">sections read</span><div class="progress-line"><span class="progress-line__fill" data-inema-meter-fill=""></span></div></div></div>
+<div class="jstat"><div class="k">In Track 5</div><div class="v" data-inema-meter="trilha:5"><span data-inema-meter-frac=""><strong>0</strong> of 5</span> <span class="nm">topics</span><div class="progress-line"><span class="progress-line__fill" data-inema-meter-fill=""></span></div></div></div>
+<div class="jstat"><div class="k">In the course</div><div class="v" data-inema-meter="curso"><span data-inema-meter-frac=""><strong>0</strong> of 27</span> <span class="nm">covered</span><div class="progress-line"><span class="progress-line__fill" data-inema-meter-fill=""></span></div></div></div>
+</div>
+</section>
+<div class="nextup"><div class="txt"><div class="k">Continue</div><div class="t">Module 5-2 — Application</div></div><a class="go" href="t5-2.html">Next →</a></div>
+</article>
+<aside aria-label="Margin: notes and your dashboard" class="margin-rail">
+<nav aria-label="Track 5 Modules" class="rail-modules">
+<p class="rail-modules__head">Track 5 · Persuasion &amp; Viral</p>
+<ol>
+<li aria-current="page"><span class="n">5.1</span><span class="t">Persuasion &amp; story</span></li>
+<li><a href="t5-2.html"><span class="n">5.2</span><span class="t">Application</span></a></li>
+</ol>
+<a class="rail-modules__index" href="t5.html">Learning path index →</a>
+</nav>
+<aside data-inema-rail="modulo-5-1#topico-1"></aside>
+<aside class="sidenote" data-kind="fundo">
+<div class="tag">Going deeper</div>
+          The golden rule of persuasion: a message that convinces describes the <i>the internal state of the person who reads</i> —
+          dreams, fears, beliefs — and never the competence of the person speaking.
+        </aside>
+<aside class="sidenote" data-kind="fonte">
+<div class="tag">Source</div>
+          The five triggers sum up <i>One Sentence Persuasion</i>, by Blair Warren—the source material
+          for this topic.
+          <div class="src-line">breakthroughmarketingsecrets.com · Blair Warren</div>
+</aside>
+<!-- ---- SECAO 2 ---- -->
+<aside data-inema-rail="modulo-5-1#topico-2"></aside>
+<aside class="sidenote" data-kind="definicao">
+<div class="tag">Definition</div>
+<b>Dopamine loop.</b> The curiosity → empathy → tension → reward cycle that VIRALST deliberately
+          completes—the same mechanism behind addictive series and short videos, used consciously here.
+        </aside>
+<aside class="sidenote" data-kind="fundo">
+<div class="tag">Going deeper</div>
+          Six to ten short lines, phrases of a few words, without logical connectors: the text is read as
+          <i>speaks</i>, maintaining the emotional flow—rather than the rational one.
+        </aside>
+<!-- ---- SECAO 3 ---- -->
+</aside>
+</div></main>
+<footer class="colophon"><span>INEMA.CLUB · Student Workbook</span><span class="pg">Module 5-1</span><span>Set in Spectral &amp; Source Serif 4</span></footer>
+<script src="../../curso/assets/learn.js"></script>
+<script>
+    if (window.INEMA && typeof window.INEMA.init === "function") { window.INEMA.init(); }
+  </script>
+</body>
+</html>

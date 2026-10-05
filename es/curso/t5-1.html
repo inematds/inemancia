@@ -1,0 +1,415 @@
+<!DOCTYPE html>
+
+<html data-theme="papel" lang="es">
+<head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<!-- ===================================================================
+       1) ANTI-FOUC — script BLOQUEANTE, PRIMEIRO no <head>, ANTES das fontes
+          e do learn.css. Le inema.prefs (global, cross-curso) e aplica
+          data-theme + color-scheme + --measure/--leading/--fontscale +
+          data-font/--font-disp/--font-body ANTES do primeiro paint.
+          try/catch total => default papel no erro (preserva a marca INEMA).
+       =================================================================== -->
+<script>
+  (function () {
+    try {
+      var html = document.documentElement;
+      var DEF = { theme: 'papel', font: 'serif', fontScale: 100, lineWidth: 66, leading: 1.66 };
+      function clone(o) { var r = {}; for (var x in o) r[x] = o[x]; return r; }
+      var p = clone(DEF);
+      try {
+        var raw = localStorage.getItem('inema.prefs');
+        if (raw) {
+          var parsed = JSON.parse(raw);
+          if (parsed && typeof parsed === 'object') {
+            for (var k in DEF) if (parsed[k] != null) p[k] = parsed[k];
+          }
+        }
+      } catch (e) { p = clone(DEF); }
+
+      var THEMES = {
+        'papel':  { attr: 'papel',  cs: 'light' },
+        'sepia':  { attr: 'sepia',  cs: 'light' },
+        'escuro': { attr: 'escuro', cs: 'dark'  }
+      };
+      var t = THEMES[p.theme] || THEMES['papel'];
+      html.setAttribute('data-theme', t.attr);
+      html.style.colorScheme = t.cs;
+
+      var font = (p.font === 'sans' || p.font === 'hyperlegible') ? p.font : 'serif';
+      html.setAttribute('data-font', font);
+
+      var s = html.style;
+
+      var scale = (+p.fontScale || 100);
+      s.setProperty('--fontscale', scale + '%');
+      html.setAttribute('data-fontscale', String(scale));
+
+      var lw = (+p.lineWidth || 66);
+      s.setProperty('--measure', lw + 'ch');
+      html.setAttribute('data-line-width', lw <= 62 ? 'estreito' : (lw >= 70 ? 'largo' : 'medio'));
+
+      var lh = (+p.leading || 1.66);
+      s.setProperty('--leading', lh.toString());
+      html.setAttribute('data-leading', lh <= 1.66 ? 'compacto' : 'confortavel');
+
+      var DISP = {
+        serif: '"Spectral", Georgia, "Times New Roman", serif',
+        sans: 'ui-sans-serif, system-ui, -apple-system, "Segoe UI", Roboto, sans-serif',
+        hyperlegible: '"Atkinson Hyperlegible", system-ui, -apple-system, sans-serif'
+      };
+      var BODY = {
+        serif: '"Source Serif 4", Georgia, "Times New Roman", serif',
+        sans: 'ui-sans-serif, system-ui, -apple-system, "Segoe UI", Roboto, sans-serif',
+        hyperlegible: '"Atkinson Hyperlegible", system-ui, -apple-system, sans-serif'
+      };
+      s.setProperty('--font-disp', DISP[font] || DISP.serif);
+      s.setProperty('--font-body', BODY[font] || BODY.serif);
+    } catch (err) {
+      try {
+        document.documentElement.setAttribute('data-theme', 'papel');
+        document.documentElement.style.colorScheme = 'light';
+      } catch (e) {}
+    }
+  })();
+  </script>
+<meta content="inema-ncia" name="inema-course"/>
+<script data-inema-manifest="" type="application/json">
+{
+  "course": "inema-ncia",
+  "tracks": [
+    {
+      "n": "1",
+      "title": "Atenção",
+      "modules": [
+        {
+          "id": "1-1",
+          "title": "Necessidades & Atencao",
+          "topics": 3,
+          "href": "t1-1.html"
+        },
+        {
+          "id": "1-2",
+          "title": "A economia da distracao",
+          "topics": 3,
+          "href": "t1-2.html"
+        }
+      ]
+    },
+    {
+      "n": "2",
+      "title": "Percepção",
+      "modules": [
+        {
+          "id": "2-1",
+          "title": "Percepcao & valor",
+          "topics": 3,
+          "href": "t2-1.html"
+        },
+        {
+          "id": "2-2",
+          "title": "Como aprendemos",
+          "topics": 2,
+          "href": "t2-2.html"
+        }
+      ]
+    },
+    {
+      "n": "3",
+      "title": "Hábitos",
+      "modules": [
+        {
+          "id": "3-1",
+          "title": "Motivacao & determinacao",
+          "topics": 2,
+          "href": "t3-1.html"
+        },
+        {
+          "id": "3-2",
+          "title": "Rotinas que sustentam",
+          "topics": 3,
+          "href": "t3-2.html"
+        }
+      ]
+    },
+    {
+      "n": "4",
+      "title": "Habilidades",
+      "modules": [
+        {
+          "id": "4-1",
+          "title": "Habilidades & talentos do futuro",
+          "topics": 3,
+          "href": "t4-1.html"
+        }
+      ]
+    },
+    {
+      "n": "5",
+      "title": "Persuasão",
+      "modules": [
+        {
+          "id": "5-1",
+          "title": "Persuasao & estoria",
+          "topics": 2,
+          "href": "t5-1.html"
+        },
+        {
+          "id": "5-2",
+          "title": "Aplicacao",
+          "topics": 3,
+          "href": "t5-2.html"
+        }
+      ]
+    },
+    {
+      "n": "6",
+      "title": "Recursos",
+      "modules": [
+        {
+          "id": "6-1",
+          "title": "Recursos do Canal",
+          "topics": 3,
+          "href": "t6-1.html"
+        }
+      ]
+    }
+  ]
+}
+  </script>
+<title>Módulo 5-1 — Persuasión e historia | INEMA.NCIA</title>
+<link href="https://fonts.googleapis.com" rel="preconnect"/>
+<link crossorigin="" href="https://fonts.gstatic.com" rel="preconnect"/>
+<link href="https://fonts.googleapis.com/css2?family=Spectral:ital,wght@0,300;0,400;0,500;0,600;0,700;1,400;1,500&amp;family=Source+Serif+4:ital,opsz,wght@0,8..60,400;0,8..60,500;0,8..60,600;1,8..60,400;1,8..60,500&amp;family=IBM+Plex+Mono:wght@400;500&amp;family=Atkinson+Hyperlegible:ital,wght@0,400;0,700;1,400&amp;display=swap" rel="stylesheet"/>
+<link href="../../curso/assets/learn.css" rel="stylesheet"/>
+<link href="https://inematds.github.io/inemancia/curso/t5-1.html" hreflang="pt-BR" rel="alternate"/><link href="https://inematds.github.io/inemancia/en/curso/t5-1.html" hreflang="en" rel="alternate"/><link href="https://inematds.github.io/inemancia/es/curso/t5-1.html" hreflang="es" rel="alternate"/></head>
+<body><div class="inema-lang" style="position:fixed;right:14px;bottom:14px;z-index:9999;display:flex;gap:2px;padding:4px;border-radius:10px;background:rgba(12,12,16,.82);border:1px solid rgba(226,162,59,.45);font:600 12px/1 Sora,Inter,system-ui,sans-serif;backdrop-filter:blur(8px)" translate="no"><a href="../../curso/t5-1.html" hreflang="pt-BR" style="padding:6px 8px;border-radius:7px;text-decoration:none;color:#e9e9ee">PT</a><a href="../../en/curso/t5-1.html" hreflang="en" style="padding:6px 8px;border-radius:7px;text-decoration:none;color:#e9e9ee">EN</a><a href="t5-1.html" hreflang="es" style="padding:6px 8px;border-radius:7px;text-decoration:none;color:#1a1206;background:#E2A23B">ES</a></div>
+<a class="skip" href="#reading">Saltar al contenido</a>
+<div class="reader-bar">
+<div class="reader-inner">
+<a class="wordmark" href="https://inema.club" rel="noopener" target="_blank">INEMA<span class="dot">.</span><span class="club">CLUB</span></a>
+<div class="reader-controls" data-inema-appearance="">
+<span class="rc-read"><span data-inema-meter="modulo:5-1"><span data-inema-meter-frac=""><strong>0</strong> de 2</span></span> leídas</span>
+<div aria-label="Tema de lectura" class="rc-group" role="group">
+<button aria-pressed="true" class="rc-btn" data-inema-set-theme="papel" type="button">Papel</button>
+<button aria-pressed="false" class="rc-btn" data-inema-set-theme="sepia" type="button">Sepia</button>
+<button aria-pressed="false" class="rc-btn" data-inema-set-theme="escuro" type="button">Oscuro</button>
+</div>
+<div aria-label="Fuente de lectura" class="rc-group" role="group">
+<button aria-pressed="true" class="rc-btn" data-inema-set-font="serif" type="button">Serif</button>
+<button aria-pressed="false" class="rc-btn" data-inema-set-font="sans" type="button">Sans</button>
+<button aria-pressed="false" class="rc-btn" data-inema-set-font="hyperlegible" title="Atkinson Hyperlegible" type="button">Aa↹</button>
+</div>
+<div aria-label="Tamaño del texto" class="rc-group" role="group">
+<button aria-pressed="true" class="rc-btn" data-inema-set-fontscale="100" type="button">A</button>
+<button aria-pressed="false" class="rc-btn" data-inema-set-fontscale="112" type="button">A+</button>
+<button aria-pressed="false" class="rc-btn" data-inema-set-fontscale="125" type="button">A++</button>
+</div>
+<div aria-label="Ancho de línea" class="rc-group" role="group">
+<button aria-pressed="false" class="rc-btn" data-inema-set-linewidth="62" type="button">Estrecho</button>
+<button aria-pressed="true" class="rc-btn" data-inema-set-linewidth="66" type="button">Medio</button>
+<button aria-pressed="false" class="rc-btn" data-inema-set-linewidth="70" type="button">Ancho</button>
+</div>
+</div>
+</div>
+</div>
+<header class="masthead">
+<nav aria-label="Dónde estás" class="wayfind">
+<span><a href="index.html" style="text-decoration:none">INEMA.NCIA</a></span><span class="sep">·</span>
+<span><a href="t5.html" style="text-decoration:none">Recorrido <b>5</b></a></span><span class="sep">·</span>
+<span>Módulo <b>5-1</b></span><span class="sep">·</span>
+<span data-inema-section-counter="">Sección 1 de 2</span><span class="sep">·</span>
+<button data-inema-journey-open="" type="button">Mi recorrido <span class="inema-journey-badge" data-count="0" data-inema-journey-badge="">0</span></button>
+</nav>
+<nav aria-label="Rutas del curso" class="course-nav" data-course-nav="">
+<a class="cn-home" href="index.html">Inicio</a>
+<span class="cn-sep">·</span>
+<a href="t1.html"><b>1</b> Atención</a>
+<a href="t2.html"><b>2</b> Percepción</a>
+<a href="t3.html"><b>3</b> Hábitos</a>
+<a href="t4.html"><b>4</b> Habilidades</a>
+<a aria-current="page" class="active" href="t5.html"><b>5</b> Persuasión</a>
+<a href="t6.html"><b>6</b> Recursos</a>
+</nav>
+</header>
+<main class="spread"><div class="leaf">
+<article class="reading" id="reading">
+<p class="kicker">Módulo 5-1 · Ruta 5 · INEMA.NCIA</p>
+<h1 class="module">Persuasión y narrativa</h1>
+<p class="deck">Qué hace que un mensaje convenza y que una historia se te quede grabada: técnicas sencillas y la anatomía de lo viral.</p>
+<p class="read-meta"><span class="here">Leyendo ahora</span><span>2 secciones</span><span><a href="t5.html" style="color:inherit">← índice de la ruta</a></span></p>
+<section aria-label="Qué abarca este módulo" class="aims"><h2>Qué abarca este módulo</h2><ul><li>Persuasión: técnicas simples</li><li>La anatomía de la historia viral (VIRAL ST)</li></ul></section>
+<nav aria-label="Resumen del módulo" class="toc" data-inema-toc="">
+<p class="toc-head">Resumen del módulo</p>
+<ol>
+<li class="current"><span class="dot-now"></span><span class="n">1</span><a href="#topico-1"><span class="t">Persuasión: técnicas simples</span></a></li>
+<li><span class="n">2</span><a href="#topico-2"><span class="t">La anatomía de la historia viral (VIRAL ST)</span></a><span class="leader"></span></li>
+</ol>
+</nav>
+<section data-inema-module="5-1" data-inema-topic="modulo-5-1#topico-1" data-inema-track="5" id="topico-1">
+<div class="section-mark">
+<span class="where">Sección 1 de 2</span><span>·</span><span>Persuasión</span>
+</div>
+<h2 class="head"><span class="num">1.</span>Persuasión: técnicas simples</h2>
+<div class="prose">
+<p class="lede dropcap" data-inema-block="m5-t1-p1">Casi todo mensaje que intenta convencer comete el
+              mismo error: habla de quien <span class="sidenote-ref">1</span>escribe. Habla del producto, de la empresa, de la competencia de quien vende. La persuasión de verdad hace lo opuesto: parte del <em>otro</em>.
+              Las personas responden emocionalmente a mensajes que tocan sus deseos, sus miedos y sus creencias;
+              cuando escribes desde ese lugar, dejas de insistir y empiezan a escucharte.</p>
+<p data-inema-block="m5-t1-p2">La estructura más sencilla que capta esto cabe en cinco disparadores.
+              <strong>Fomentar los sueños</strong> de la persona — apoyar lo que ya quiere para sí
+              (“naciste para esto”). <strong>Justificar los fracasos</strong> — aliviar la
+              culpa señalando una causa externa (“no tuviste las oportunidades adecuadas”).
+              <strong>Reducir los miedos</strong> — reconocer el temor y ofrecer un camino («es normal
+              sentir esto al principio, y aquí tienes qué hacer»). <strong>Confirmar las sospechas</strong>
+              — validar lo que ya sospecha («tenías razón en dudar de eso»). Y es
+              <strong>ayudar a combatir a los enemigos</strong> — crear conexión al asumir un adversario común.<span class="sidenote-ref">2</span></p>
+<h3 class="sub">La prueba que lo cambia todo: ¿a quién estás mirando?</h3>
+<p data-inema-block="m5-t1-p3">Observa que ninguno de los cinco describe al autor. Todos describen el estado
+              interno de quien lee. Ese es el punto: la mayoría de los mensajes se centra en quien habla, pero la persuasión
+              verdadera ocurre cuando te enfocas en las emociones y necesidades de la otra persona. Después de que ves la
+              estructura, empiezas a reconocerla en todo tipo de contenido que funciona — desde el correo de venta hasta el
+              discurso político, desde la publicación que se vuelve viral hasta la conversación que convence.</p>
+</div>
+<!-- recall ativo: pare e preveja -->
+<div class="predict">
+<p class="lbl">Detente y predice</p>
+<p>Vas a responderle a alguien que dice: “ya intenté vender en línea, pero nada me sale bien”.
+              De los cinco gatillos, ¿cuál usarías <em>primero</em> — ¿y por qué?</p>
+<details>
+<summary>Ver una posible respuesta</summary>
+<p class="answer">Probablemente <strong>justificar el fracaso</strong>: quitar el peso de la culpa
+                («te faltaban los conocimientos adecuados, no fue culpa tuya») abre a la persona para escuchar el resto. Solo
+                después entran <em>fomentar el sueño</em> e <em>reducir el miedo</em>. El orden importa: alivio antes
+                que promesa.</p>
+</details>
+</div>
+<!-- indo mais fundo: divulgacao progressiva -->
+<details class="go-deeper">
+<summary><span class="chev">▸</span> Profundizando: los cinco disparadores convertidos en un prompt de atención al cliente
+              <span class="opt">opcional</span></summary>
+<div class="inner">
+<p>Los cinco disparadores no sirven solo para escribir a mano. Pueden integrarse en un prompt maestro que
+                guíe a un asistente inteligente para leer el mensaje del usuario, identificar el contenido emocional
+                (sueños, miedos, frustraciones, creencias, enemigos percibidos) y responder usando al menos tres de los
+                disparadores, siempre cerrando con un siguiente paso práctico.</p>
+<div class="codeblock"><span class="c"># Prompt maestro — Atención inteligente y persuasiva</span>
+Actúa como un asistente de atención al cliente, preciso, empático y persuasivo.
+Al recibir el mensaje del usuario:
+<span class="k">1.</span> Analiza el contenido emocional y racional (sueños, miedos, frustraciones, creencias, enemigos).
+<span class="k">2.</span> Busca datos, ejemplos o instrucciones claras para la necesidad real.
+<span class="k">3.</span> Usa al menos 3 de los detonantes: incentivar los sueños, justificar los fracasos,
+   reducir los miedos, confirmar las sospechas, ayudar a atacar a los enemigos.
+<span class="k">4.</span> Escribe con un lenguaje natural, acogedor y seguro.
+<span class="k">5.</span> Termina con una orientación práctica o un siguiente paso claro.</div>
+<p>El mismo modelo se puede adaptar a flujos de WhatsApp, chatbots o una atención humana que usa la IA como copiloto: lo que cambia es el canal, no la estructura emocional.</p>
+</div>
+</details>
+</section>
+<section data-inema-module="5-1" data-inema-topic="modulo-5-1#topico-2" data-inema-track="5" id="topico-2">
+<div class="section-mark">
+<span class="where">Sección 2 de 2</span><span>·</span><span>Historia viral</span>
+</div>
+<h2 class="head"><span class="num">2.</span>La anatomía de la historia viral (VIRAL ST)</h2>
+<div class="prose">
+<p class="lede" data-inema-block="m5-t2-p1">Una historia que se te queda grabada no depende de la suerte. Sigue,
+              en orden, un circuito que el cerebro reconoce, y cada etapa activa una región distinta. El
+              modelo VIRALST organiza este circuito en cuatro pulsos: <em>hook</em>, identificación, conflicto y
+              cierre. Cada una responde una pregunta que la anterior planteó, y esa cadena es la que mantiene la atención
+              hasta el final.</p>
+<p data-inema-block="m5-t2-p2">O <strong>hook</strong> activa el sistema de alerta — el
+              <span class="dfn"><details class="dfn"><summary>SRAA</summary><span class="body"><b>SRAA</b> y es el Sistema Reticular Activador Ascendente: el filtro del cerebro que detecta novedades y amenazas entre el ruido. Es quien decide qué merece la atención consciente.</span></details></span>
+              que detecta novedades en medio del ruido — con una pregunta provocadora o una afirmación que
+              rompe el patrón mental. La <strong>identificación</strong> activa las neuronas espejo: el lenguaje
+              natural y las situaciones cotidianas hacen que la persona sienta “esto tiene que ver conmigo”. El
+              <strong>conflicto</strong> crea tensión — una pequeña disonancia, un contraste emocional —
+              que mantiene el interés mediante la expectativa de resolución. Es el <strong>cierre</strong> ofrece
+              el giro: el insight que hace que el cerebro libere dopamina y oxitocina, fijando el contenido en la memoria.<span class="sidenote-ref">3</span></p>
+<h3 class="sub">El ciclo de recompensa, cerrado intencionalmente</h3>
+<p data-inema-block="m5-t2-p3">Los cuatro momentos no son independientes: forman un <em>bucle de
+              dopamina</em>. Curiosidad al inicio, empatía en la identificación, tensión en el conflicto, recompensa
+              cognitiva al final: el mismo mecanismo que vuelve adictivos los videos cortos y las series, aquí usado de
+              forma consciente. El ritmo importa tanto como el contenido: de seis a diez líneas cortas, frases de pocas
+              palabras, sin conectores lógicos. El texto se lee como si se hablara, no como prosa, y eso mantiene
+              el flujo emocional, no racional.</p>
+</div>
+<div class="predict">
+<p class="lbl">Detente y predice</p>
+<p>De los cuatro tiempos, ¿cuál suele ser el más descuidado por quien escribe guiones — y cuál es el
+              costo de omitirlo?</p>
+<details>
+<summary>Ver una posible respuesta</summary>
+<p class="answer">A <strong>identificación</strong>. Mucha gente pasa directamente del hook al contenido,
+                y el espectador nunca siente que «se trata de él». Sin ese espejo emocional no hay
+                conexión, y el cerebro, que decide seguir mirando justamente en esta etapa, simplemente
+                pasa al siguiente video.</p>
+</details>
+</div>
+<details class="go-deeper">
+<summary><span class="chev">▸</span> Profundizando: por qué el ritmo oral retiene más
+              <span class="opt">opcional</span></summary>
+<div class="inner">
+<p>Capa opcional, para quien quiere conocer el porqué mecánico. Las frases cortas reducen la carga cognitiva —
+                la corteza temporal izquierda procesa cada línea sin esfuerzo. La ausencia de conectores formales
+                imita el ritmo natural del habla, manteniendo la sincronía entre audición y emoción. Y las pausas (los saltos
+                de línea) simulan la respiración del discurso humano, lo que refuerza la percepción de autenticidad.</p>
+<p>También hay un límite de atención en juego: el cerebro procesa estímulos en períodos cortos, y entre seis y
+                diez líneas respetan ese intervalo. Excederlo no vuelve el texto más informativo:
+                lo vuelve más cansado, y el espectador se va antes del cierre, que era justamente donde estaba
+                la recompensa.</p>
+</div>
+</details>
+</section>
+<section aria-label="Mi recorrido" class="journey">
+<div class="journey-top"><h2><span class="ico">❧</span> Mi recorrido</h2><button class="journey-cta" data-inema-journey-open="" type="button">Abrir el cuaderno →</button></div>
+<div class="journey-body">
+<div class="jstat"><div class="k">En este módulo</div><div class="v" data-inema-meter="modulo:5-1"><span data-inema-meter-frac=""><strong>0</strong> de 2</span> <span class="nm">secciones leídas</span><div class="progress-line"><span class="progress-line__fill" data-inema-meter-fill=""></span></div></div></div>
+<div class="jstat"><div class="k">En la ruta 5</div><div class="v" data-inema-meter="trilha:5"><span data-inema-meter-frac=""><strong>0</strong> de 5</span> <span class="nm">temas</span><div class="progress-line"><span class="progress-line__fill" data-inema-meter-fill=""></span></div></div></div>
+<div class="jstat"><div class="k">En el curso</div><div class="v" data-inema-meter="curso"><span data-inema-meter-frac=""><strong>0</strong> de 27</span> <span class="nm">recorrido</span><div class="progress-line"><span class="progress-line__fill" data-inema-meter-fill=""></span></div></div></div>
+</div>
+</section>
+<div class="nextup"><div class="txt"><div class="k">Continuar</div><div class="t">Módulo 5-2 — Aplicación</div></div><a class="go" href="t5-2.html">Siguiente →</a></div>
+</article>
+<aside aria-label="Margen: notas y tu panel" class="margin-rail">
+<nav aria-label="Módulos de la Ruta 5" class="rail-modules">
+<p class="rail-modules__head">Ruta 5 · Persuasión y viralidad</p>
+<ol>
+<li aria-current="page"><span class="n">5.1</span><span class="t">Persuasión y narrativa</span></li>
+<li><a href="t5-2.html"><span class="n">5.2</span><span class="t">Aplicación</span></a></li>
+</ol>
+<a class="rail-modules__index" href="t5.html">Índice de la ruta →</a>
+</nav>
+<aside data-inema-rail="modulo-5-1#topico-1"></aside>
+<aside class="sidenote" data-kind="fundo">
+<div class="tag">Profundizando</div>
+          La regla principal de la persuasión: el mensaje que convence describe el <i>estado interno de quien lee</i> —
+          sueños, miedos, creencias — y nunca la competencia de quien habla.
+        </aside>
+<aside class="sidenote" data-kind="fonte">
+<div class="tag">Fuente</div>
+          Los cinco disparadores sintetizan <i>Persuasión en una frase</i>, de Blair Warren, el material de base
+          de este tema.
+          <div class="src-line">breakthroughmarketingsecrets.com · Blair Warren</div>
+</aside>
+<!-- ---- SECAO 2 ---- -->
+<aside data-inema-rail="modulo-5-1#topico-2"></aside>
+<aside class="sidenote" data-kind="definicao">
+<div class="tag">Definición</div>
+<b>Bucle de dopamina.</b> El ciclo de curiosidad → empatía → tensión → recompensa que VIRALST cierra intencionalmente: el mismo mecanismo de las series y los videos cortos adictivos, aquí usado de forma consciente.
+        </aside>
+<aside class="sidenote" data-kind="fundo">
+<div class="tag">Profundizando</div>
+          De seis a diez líneas cortas, frases de pocas palabras, sin conectores lógicos: el texto se lee como
+          <i>habla</i>, manteniendo el flujo emocional, no racional.
+        </aside>
+<!-- ---- SECAO 3 ---- -->
+</aside>
+</div></main>
+<footer class="colophon"><span>INEMA.CLUB · Cuaderno del alumno</span><span class="pg">Módulo 5-1</span><span>Compuesto en Spectral &amp; Source Serif 4</span></footer>
+<script src="../../curso/assets/learn.js"></script>
+<script>
+    if (window.INEMA && typeof window.INEMA.init === "function") { window.INEMA.init(); }
+  </script>
+</body>
+</html>

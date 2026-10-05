@@ -1,0 +1,440 @@
+<!DOCTYPE html>
+
+<html data-theme="papel" lang="es">
+<head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<!-- ===================================================================
+       1) ANTI-FOUC — script BLOQUEANTE, PRIMEIRO no <head>, ANTES das fontes
+          e do learn.css. Le inema.prefs (global, cross-curso) e aplica
+          data-theme + color-scheme + --measure/--leading/--fontscale +
+          data-font/--font-disp/--font-body ANTES do primeiro paint.
+          try/catch total => default papel no erro (preserva a marca INEMA).
+       =================================================================== -->
+<script>
+  (function () {
+    try {
+      var html = document.documentElement;
+      var DEF = { theme: 'papel', font: 'serif', fontScale: 100, lineWidth: 66, leading: 1.66 };
+      function clone(o) { var r = {}; for (var x in o) r[x] = o[x]; return r; }
+      var p = clone(DEF);
+      try {
+        var raw = localStorage.getItem('inema.prefs');
+        if (raw) {
+          var parsed = JSON.parse(raw);
+          if (parsed && typeof parsed === 'object') {
+            for (var k in DEF) if (parsed[k] != null) p[k] = parsed[k];
+          }
+        }
+      } catch (e) { p = clone(DEF); }
+
+      var THEMES = {
+        'papel':  { attr: 'papel',  cs: 'light' },
+        'sepia':  { attr: 'sepia',  cs: 'light' },
+        'escuro': { attr: 'escuro', cs: 'dark'  }
+      };
+      var t = THEMES[p.theme] || THEMES['papel'];
+      html.setAttribute('data-theme', t.attr);
+      html.style.colorScheme = t.cs;
+
+      var font = (p.font === 'sans' || p.font === 'hyperlegible') ? p.font : 'serif';
+      html.setAttribute('data-font', font);
+
+      var s = html.style;
+
+      var scale = (+p.fontScale || 100);
+      s.setProperty('--fontscale', scale + '%');
+      html.setAttribute('data-fontscale', String(scale));
+
+      var lw = (+p.lineWidth || 66);
+      s.setProperty('--measure', lw + 'ch');
+      html.setAttribute('data-line-width', lw <= 62 ? 'estreito' : (lw >= 70 ? 'largo' : 'medio'));
+
+      var lh = (+p.leading || 1.66);
+      s.setProperty('--leading', lh.toString());
+      html.setAttribute('data-leading', lh <= 1.66 ? 'compacto' : 'confortavel');
+
+      var DISP = {
+        serif: '"Spectral", Georgia, "Times New Roman", serif',
+        sans: 'ui-sans-serif, system-ui, -apple-system, "Segoe UI", Roboto, sans-serif',
+        hyperlegible: '"Atkinson Hyperlegible", system-ui, -apple-system, sans-serif'
+      };
+      var BODY = {
+        serif: '"Source Serif 4", Georgia, "Times New Roman", serif',
+        sans: 'ui-sans-serif, system-ui, -apple-system, "Segoe UI", Roboto, sans-serif',
+        hyperlegible: '"Atkinson Hyperlegible", system-ui, -apple-system, sans-serif'
+      };
+      s.setProperty('--font-disp', DISP[font] || DISP.serif);
+      s.setProperty('--font-body', BODY[font] || BODY.serif);
+    } catch (err) {
+      try {
+        document.documentElement.setAttribute('data-theme', 'papel');
+        document.documentElement.style.colorScheme = 'light';
+      } catch (e) {}
+    }
+  })();
+  </script>
+<meta content="inema-ncia" name="inema-course"/>
+<script data-inema-manifest="" type="application/json">
+{
+  "course": "inema-ncia",
+  "tracks": [
+    {
+      "n": "1",
+      "title": "Atenção",
+      "modules": [
+        {
+          "id": "1-1",
+          "title": "Necessidades & Atencao",
+          "topics": 3,
+          "href": "t1-1.html"
+        },
+        {
+          "id": "1-2",
+          "title": "A economia da distracao",
+          "topics": 3,
+          "href": "t1-2.html"
+        }
+      ]
+    },
+    {
+      "n": "2",
+      "title": "Percepção",
+      "modules": [
+        {
+          "id": "2-1",
+          "title": "Percepcao & valor",
+          "topics": 3,
+          "href": "t2-1.html"
+        },
+        {
+          "id": "2-2",
+          "title": "Como aprendemos",
+          "topics": 2,
+          "href": "t2-2.html"
+        }
+      ]
+    },
+    {
+      "n": "3",
+      "title": "Hábitos",
+      "modules": [
+        {
+          "id": "3-1",
+          "title": "Motivacao & determinacao",
+          "topics": 2,
+          "href": "t3-1.html"
+        },
+        {
+          "id": "3-2",
+          "title": "Rotinas que sustentam",
+          "topics": 3,
+          "href": "t3-2.html"
+        }
+      ]
+    },
+    {
+      "n": "4",
+      "title": "Habilidades",
+      "modules": [
+        {
+          "id": "4-1",
+          "title": "Habilidades & talentos do futuro",
+          "topics": 3,
+          "href": "t4-1.html"
+        }
+      ]
+    },
+    {
+      "n": "5",
+      "title": "Persuasão",
+      "modules": [
+        {
+          "id": "5-1",
+          "title": "Persuasao & estoria",
+          "topics": 2,
+          "href": "t5-1.html"
+        },
+        {
+          "id": "5-2",
+          "title": "Aplicacao",
+          "topics": 3,
+          "href": "t5-2.html"
+        }
+      ]
+    },
+    {
+      "n": "6",
+      "title": "Recursos",
+      "modules": [
+        {
+          "id": "6-1",
+          "title": "Recursos do Canal",
+          "topics": 3,
+          "href": "t6-1.html"
+        }
+      ]
+    }
+  ]
+}
+  </script>
+<title>Módulo 1-1 — Necesidades y atención | INEMA.NCIA</title>
+<link href="https://fonts.googleapis.com" rel="preconnect"/>
+<link crossorigin="" href="https://fonts.gstatic.com" rel="preconnect"/>
+<link href="https://fonts.googleapis.com/css2?family=Spectral:ital,wght@0,300;0,400;0,500;0,600;0,700;1,400;1,500&amp;family=Source+Serif+4:ital,opsz,wght@0,8..60,400;0,8..60,500;0,8..60,600;1,8..60,400;1,8..60,500&amp;family=IBM+Plex+Mono:wght@400;500&amp;family=Atkinson+Hyperlegible:ital,wght@0,400;0,700;1,400&amp;display=swap" rel="stylesheet"/>
+<link href="../../curso/assets/learn.css" rel="stylesheet"/>
+<link href="https://inematds.github.io/inemancia/curso/t1-1.html" hreflang="pt-BR" rel="alternate"/><link href="https://inematds.github.io/inemancia/en/curso/t1-1.html" hreflang="en" rel="alternate"/><link href="https://inematds.github.io/inemancia/es/curso/t1-1.html" hreflang="es" rel="alternate"/></head>
+<body><div class="inema-lang" style="position:fixed;right:14px;bottom:14px;z-index:9999;display:flex;gap:2px;padding:4px;border-radius:10px;background:rgba(12,12,16,.82);border:1px solid rgba(226,162,59,.45);font:600 12px/1 Sora,Inter,system-ui,sans-serif;backdrop-filter:blur(8px)" translate="no"><a href="../../curso/t1-1.html" hreflang="pt-BR" style="padding:6px 8px;border-radius:7px;text-decoration:none;color:#e9e9ee">PT</a><a href="../../en/curso/t1-1.html" hreflang="en" style="padding:6px 8px;border-radius:7px;text-decoration:none;color:#e9e9ee">EN</a><a href="t1-1.html" hreflang="es" style="padding:6px 8px;border-radius:7px;text-decoration:none;color:#1a1206;background:#E2A23B">ES</a></div>
+<a class="skip" href="#reading">Saltar al contenido</a>
+<div class="reader-bar">
+<div class="reader-inner">
+<a class="wordmark" href="https://inema.club" rel="noopener" target="_blank">INEMA<span class="dot">.</span><span class="club">CLUB</span></a>
+<div class="reader-controls" data-inema-appearance="">
+<span class="rc-read"><span data-inema-meter="modulo:1-1"><span data-inema-meter-frac=""><strong>0</strong> de 3</span></span> leídas</span>
+<div aria-label="Tema de lectura" class="rc-group" role="group">
+<button aria-pressed="true" class="rc-btn" data-inema-set-theme="papel" type="button">Papel</button>
+<button aria-pressed="false" class="rc-btn" data-inema-set-theme="sepia" type="button">Sepia</button>
+<button aria-pressed="false" class="rc-btn" data-inema-set-theme="escuro" type="button">Oscuro</button>
+</div>
+<div aria-label="Fuente de lectura" class="rc-group" role="group">
+<button aria-pressed="true" class="rc-btn" data-inema-set-font="serif" type="button">Serif</button>
+<button aria-pressed="false" class="rc-btn" data-inema-set-font="sans" type="button">Sans</button>
+<button aria-pressed="false" class="rc-btn" data-inema-set-font="hyperlegible" title="Atkinson Hyperlegible" type="button">Aa↹</button>
+</div>
+<div aria-label="Tamaño del texto" class="rc-group" role="group">
+<button aria-pressed="true" class="rc-btn" data-inema-set-fontscale="100" type="button">A</button>
+<button aria-pressed="false" class="rc-btn" data-inema-set-fontscale="112" type="button">A+</button>
+<button aria-pressed="false" class="rc-btn" data-inema-set-fontscale="125" type="button">A++</button>
+</div>
+<div aria-label="Ancho de línea" class="rc-group" role="group">
+<button aria-pressed="false" class="rc-btn" data-inema-set-linewidth="62" type="button">Estrecho</button>
+<button aria-pressed="true" class="rc-btn" data-inema-set-linewidth="66" type="button">Medio</button>
+<button aria-pressed="false" class="rc-btn" data-inema-set-linewidth="70" type="button">Ancho</button>
+</div>
+</div>
+</div>
+</div>
+<header class="masthead">
+<nav aria-label="Dónde estás" class="wayfind">
+<span><a href="index.html" style="text-decoration:none">INEMA.NCIA</a></span><span class="sep">·</span>
+<span><a href="t1.html" style="text-decoration:none">Recorrido <b>1</b></a></span><span class="sep">·</span>
+<span>Módulo <b>1-1</b></span><span class="sep">·</span>
+<span data-inema-section-counter="">Sección 1 de 3</span><span class="sep">·</span>
+<button data-inema-journey-open="" type="button">Mi recorrido <span class="inema-journey-badge" data-count="0" data-inema-journey-badge="">0</span></button>
+</nav>
+<nav aria-label="Rutas del curso" class="course-nav" data-course-nav="">
+<a class="cn-home" href="index.html">Inicio</a>
+<span class="cn-sep">·</span>
+<a aria-current="page" class="active" href="t1.html"><b>1</b> Atención</a>
+<a href="t2.html"><b>2</b> Percepción</a>
+<a href="t3.html"><b>3</b> Hábitos</a>
+<a href="t4.html"><b>4</b> Habilidades</a>
+<a href="t5.html"><b>5</b> Persuasión</a>
+<a href="t6.html"><b>6</b> Recursos</a>
+</nav>
+</header>
+<main class="spread"><div class="leaf">
+<article class="reading" id="reading">
+<p class="kicker">Módulo 1-1 · Ruta 1 · INEMA.NCIA</p>
+<h1 class="module">Necesidades y atención</h1>
+<p class="deck">Qué mueve el comportamiento y cómo se capta la atención: necesidades, atención selectiva y el circuito de la adicción.</p>
+<p class="read-meta"><span class="here">Leyendo ahora</span><span>3 secciones</span><span><a href="t1.html" style="color:inherit">← índice de la ruta</a></span></p>
+<section aria-label="Qué abarca este módulo" class="aims"><h2>Qué abarca este módulo</h2><ul><li>Necesidades humanas</li><li>Atención selectiva y el SRAA</li><li>La neurociencia de la adicción</li></ul></section>
+<nav aria-label="Resumen del módulo" class="toc" data-inema-toc="">
+<p class="toc-head">Resumen del módulo</p>
+<ol>
+<li class="current"><span class="dot-now"></span><span class="n">1</span><a href="#topico-1"><span class="t">Necesidades humanas</span></a></li>
+<li><span class="n">2</span><a href="#topico-2"><span class="t">Atención selectiva y el SRAA</span></a><span class="leader"></span></li>
+<li><span class="n">3</span><a href="#topico-3"><span class="t">La neurociencia de la adicción</span></a><span class="leader"></span></li>
+</ol>
+</nav>
+<section data-inema-module="1-1" data-inema-topic="modulo-1-1#topico-1" data-inema-track="1" id="topico-1">
+<div class="section-mark">
+<span class="where">Sección 1 de 3</span><span>·</span><span>Necesidades</span>
+</div>
+<h2 class="head"><span class="num">1.</span>Necesidades humanas</h2>
+<div class="prose">
+<p class="lede dropcap" data-inema-block="m1-t1-p1">Antes de hablar del enfoque, vale la pena hacer una pregunta más
+              antigua: <em>¿qué mueve a una persona?</em> A lo largo del siglo XX, varias teorías intentaron trazar un mapa de las
+              necesidades y la motivación humanas. Ninguna es la respuesta definitiva: cada una ilumina un ángulo y
+              deja otro en la sombra.<span class="sidenote-ref">1</span> Conocerlas y adquirir vocabulario para
+              entender el terreno en el que después se disputará la atención.</p>
+<p data-inema-block="m1-t1-p2">La más conocida es la <strong>Pirámide de Maslow</strong>, que organiza
+              las necesidades en cinco niveles: fisiológicas, de seguridad, sociales, de estima y de autorrealización.
+              Su fortaleza es la claridad; su debilidad, suponer que recorremos la pirámide en orden, cuando en la práctica
+              buscamos varios niveles al mismo tiempo. La <strong>Teoría ERG de Alderfer</strong>, reorganiza esto
+              en existencia, relación y crecimiento, y reconoce precisamente lo que le falta a Maslow: que las
+              personas persiguen necesidades en paralelo, no en fila.</p>
+<h3 class="sub">De la motivación en el trabajo al estado de flujo</h3>
+<p data-inema-block="m1-t1-p3">Otras teorías apuntan a contextos específicos. La <strong>de los Dos
+              Factores, de Herzberg</strong>, separa lo que realmente motiva de lo que solo evita la insatisfacción. La
+              <strong>de la Autodeterminación</strong> apuesta por la motivación intrínseca y por tres necesidades
+              — autonomía, competencia y relación. <strong>McClelland</strong> habla de afiliación,
+              poder y realización; <strong>Vroom</strong>, en expectativa, instrumentalidad y valencia: la
+              motivación como cálculo entre esfuerzo, desempeño y recompensa.</p>
+<p data-inema-block="m1-t1-p4">Vale la pena destacar la <strong>Teoría del Flujo</strong>: el estado de inmersión
+              total en una actividad que combina placer y productividad. Aparece cuando el desafío se equilibra con la
+              habilidad, y es <em>difícil de alcanzar en entornos llenos de distracciones</em>. Guarda esa
+              última frase: es el puente hacia todo lo que viene en esta ruta.</p>
+</div>
+<details class="go-deeper">
+<summary><span class="chev">▸</span> Profundizando: por qué ninguna teoría se sostiene por sí sola
+              <span class="opt">opcional</span></summary>
+<div class="inner">
+<p>El recorrido recomendado de arriba basta para seguir. Esta capa es para quienes quieren entender por qué hay tantas teorías en competencia y pueden saltársela sin perder nada.</p>
+<p>Cada modelo nació de una pregunta diferente. Maslow y Alderfer preguntan <em>cuáles</em>
+                existen las necesidades y cómo se ordenan. Herzberg y la Autodeterminación preguntan <em>qué</em>
+                motiva en el entorno laboral. Vroom pregunta <em>cómo</em> la recompensa percibida se convierte en esfuerzo.
+                Por eso no se anulan entre sí: responden a cosas distintas. La limitación común — señalada en
+                varias de ellas — es la base empírica frágil y la dificultad para medir necesidades subjetivas en
+                contextos diversos. La lectura útil no consiste en elegir la teoría "correcta", sino en saber qué lente sirve para
+                cada situación.</p>
+</div>
+</details>
+</section>
+<section data-inema-module="1-1" data-inema-topic="modulo-1-1#topico-2" data-inema-track="1" id="topico-2">
+<div class="section-mark">
+<span class="where">Sección 2 de 3</span><span>·</span><span>Atención selectiva</span>
+</div>
+<h2 class="head"><span class="num">2.</span>Atención selectiva y el SRAA</h2>
+<div class="prose">
+<p class="lede" data-inema-block="m1-t2-p1">Tu cerebro recibe mucho más de lo que puede notar. Por
+              eso existe un portero: el <strong>Sistema Reticular Activador Ascendente</strong>, o
+              <strong>SRAA</strong> — una estructura que regula el estado de vigilia y filtra qué estímulos
+              llegan a la corteza, decidiendo a cada instante qué llega a la conciencia y qué queda fuera.<span class="sidenote-ref">2</span></p>
+<p data-inema-block="m1-t2-p2">La escala del filtrado impresiona. Se estima que el cerebro procesa
+              cerca de 400 mil millones de bytes de información por segundo, pero solo unos 2 mil bytes
+              llegan a la conciencia. El resto queda por debajo de la línea de flotación. Sin este filtro, la sobrecarga sería
+              total — y el criterio que usa para decidir qué pasa es, en gran parte, la
+              <em>relevancia percibida</em>.</p>
+<h3 class="sub">El auto rojo es lo que tú «programas»</h3>
+<p data-inema-block="m1-t2-p3">De ahí viene el ejemplo clásico: cuando deseas un auto rojo, empiezas a
+              notar autos rojos por todas partes. La cantidad en el mundo no cambió — lo que cambió fue tu
+              enfoque. La repetición de pensamientos, palabras e intenciones le indica al SRAA que eso importa, y este
+              empieza a destacar en el entorno todo lo que se correlaciona. El lado oscuro es simétrico: repetir
+              "no va a funcionar" le enseña al filtro a confirmar el pesimismo, borrando lo bueno de la escena.</p>
+<p data-inema-block="m1-t2-p4">Conviene hacer una salvedad honesta. La idea popular de que repetir una frase
+              exactamente 21 veces la convierte en de "vital interés" para el sistema <em>carece de respaldo
+              científico</em>. La formación de hábitos y la percepción selectiva son procesos complejos que involucran
+              emociones, contexto y frecuencia; los mecanismos exactos todavía son objeto de estudio en
+              neurociencia. El efecto del enfoque es real; el número mágico, no.</p>
+</div>
+<div class="predict">
+<p class="lbl">Detente y predice</p>
+<p>Si el SRAA destaca aquello en lo que te fijas con frecuencia, ¿qué ocurre cuando pasas horas
+              al día desplazándote por un feed diseñado para captar tu atención?</p>
+<details>
+<summary>Ver una posible respuesta</summary>
+<p class="answer">Entrenas el filtro para priorizar exactamente esos estímulos — y notar
+                cada vez más de lo mismo. Lo que eliges repetir, el cerebro aprende a destacar. Es el tema de la
+                próxima sección: cómo se aprovecha este mecanismo deliberadamente.</p>
+</details>
+</div>
+</section>
+<section data-inema-module="1-1" data-inema-topic="modulo-1-1#topico-3" data-inema-track="1" id="topico-3">
+<div class="section-mark">
+<span class="where">Sección 3 de 3</span><span>·</span><span>Adicción</span>
+</div>
+<h2 class="head"><span class="num">3.</span>La neurociencia de la adicción</h2>
+<div class="prose">
+<p class="lede" data-inema-block="m1-t3-p1">La adicción no es falta de fuerza de voluntad: tiene una base
+              biológica. La neurociencia de la adicción estudia cómo ciertas sustancias y conductas secuestran los
+              circuitos cerebrales relacionados con la recompensa, la motivación y el autocontrol. Esto aplica tanto a las drogas
+              como a las conductas: el juego, las compras, la comida y, cada vez más, las redes sociales.<span class="sidenote-ref">3</span></p>
+<p data-inema-block="m1-t3-p2">Entran en escena tres partes del cerebro. El <strong>sistema de
+              recompensa</strong> — núcleo accumbens y <strong>dopamina</strong> — se activa cuando algo
+              da placer. El <strong>corteza prefrontal</strong>, centro de la planificación y del control de los impulsos,
+              reduce su actividad en la adicción, lo que debilita la capacidad de resistir. Y la
+              <strong>amígdala</strong> con el <strong>hipocampo</strong> guardan recuerdos emocionales intensos
+              —los desencadenantes que reavivan el deseo mucho tiempo después.</p>
+<h3 class="sub">Por qué la red social funciona como casino</h3>
+<p data-inema-block="m1-t3-p3">Las plataformas fueron diseñadas para activar este sistema sin parar. El
+              motor central es el <strong>recompensa variable intermitente</strong>: como una máquina tragamonedas,
+              a veces llega la recompensa —like, comentario, notificación— y a veces no. La incertidumbre es
+              precisamente lo que atrapa, manteniéndote en el ciclo a la espera de la próxima dosis de dopamina. A eso se suma el
+              <strong>FOMO</strong> de las historias que desaparecen en 24 horas y la <strong>validación social</strong> que
+              transforma los «me gusta» en necesidad.</p>
+<p data-inema-block="m1-t3-p4">El costo aparece con el tiempo. El exceso de estímulos causa
+              <em>desensibilización</em>: los contenidos comunes se vuelven aburridos, y el cerebro pide dosis cada vez más
+              intensas: la misma tolerancia que produce la adicción química. Lejos del celular, aparece la abstinencia
+              en forma de ansiedad. El problema, concluye este campo, no está solo en el usuario: está en cómo las
+              plataformas explotan vulnerabilidades reales del cerebro para maximizar la interacción.</p>
+</div>
+<details class="go-deeper">
+<summary><span class="chev">▸</span> Profundizando: cómo recalibrar el sistema de recompensa
+              <span class="opt">opcional</span></summary>
+<div class="inner">
+<p>Capa opcional — lo que la propia literatura sugiere para salir de la prisión sin demonizar la
+                herramienta.</p>
+<p>Casi toda estrategia ataca el <em>desencadenante</em> o la <em>dosis</em>. Reducir las notificaciones corta las
+                señales que disparan el ciclo. Crear barreras físicas —el celular lejos de la cama, horarios
+                definidos— rompe el comportamiento automático. Sustituir los estímulos por actividades que
+                exigen esfuerzo real y presencia (por ejemplo, hacer ejercicio) ayuda a recalibrar la dopamina. Usar la red
+                de forma intencional, creando en vez de solo consumir, reduce el impacto; y los períodos de detox digital
+                le dan un respiro al sistema de recompensa para volver al equilibrio. El objetivo no es la abstinencia
+                total, sino una relación en la que la tecnología vuelva a ser una herramienta.</p>
+</div>
+</details>
+</section>
+<section aria-label="Mi recorrido" class="journey">
+<div class="journey-top"><h2><span class="ico">❧</span> Mi recorrido</h2><button class="journey-cta" data-inema-journey-open="" type="button">Abrir el cuaderno →</button></div>
+<div class="journey-body">
+<div class="jstat"><div class="k">En este módulo</div><div class="v" data-inema-meter="modulo:1-1"><span data-inema-meter-frac=""><strong>0</strong> de 3</span> <span class="nm">secciones leídas</span><div class="progress-line"><span class="progress-line__fill" data-inema-meter-fill=""></span></div></div></div>
+<div class="jstat"><div class="k">En la ruta 1</div><div class="v" data-inema-meter="trilha:1"><span data-inema-meter-frac=""><strong>0</strong> de 6</span> <span class="nm">temas</span><div class="progress-line"><span class="progress-line__fill" data-inema-meter-fill=""></span></div></div></div>
+<div class="jstat"><div class="k">En el curso</div><div class="v" data-inema-meter="curso"><span data-inema-meter-frac=""><strong>0</strong> de 27</span> <span class="nm">recorrido</span><div class="progress-line"><span class="progress-line__fill" data-inema-meter-fill=""></span></div></div></div>
+</div>
+</section>
+<div class="nextup"><div class="txt"><div class="k">Continuar</div><div class="t">Módulo 1-2 — La economía de la distracción</div></div><a class="go" href="t1-2.html">Siguiente →</a></div>
+</article>
+<aside aria-label="Margen: notas y tu panel" class="margin-rail">
+<nav aria-label="Módulos de la Ruta 1" class="rail-modules">
+<p class="rail-modules__head">Recorrido 1 · Neurociencia de la Atención</p>
+<ol>
+<li aria-current="page"><span class="n">1.1</span><span class="t">Necesidades y atención</span></li>
+<li><a href="t1-2.html"><span class="n">1.2</span><span class="t">La economía de la distracción</span></a></li>
+</ol>
+<a class="rail-modules__index" href="t1.html">Índice de la ruta →</a>
+</nav>
+<aside data-inema-rail="modulo-1-1#topico-1"></aside>
+<aside class="sidenote" data-kind="definicao">
+<div class="tag">Definición</div>
+<b>Motivación intrínseca.</b> El impulso que nace de la propia actividad, no de premios o castigos externos. Es el corazón de la Teoría de la Autodeterminación: autonomía, competencia y relación.
+        </aside>
+<aside class="sidenote" data-kind="fundo">
+<div class="tag">Profundizando</div>
+          O <i>estado de flujo</i> exige equilibrio entre desafío y habilidad, y desaparece cuando el entorno está lleno de distracciones. Por eso esta sección abre la ruta: es el puente hacia el tema del enfoque.
+        </aside>
+<!-- ---- SECAO 2 ---- -->
+<aside data-inema-rail="modulo-1-1#topico-2"></aside>
+<aside class="sidenote" data-kind="definicao">
+<div class="tag">Definición</div>
+<b>SRAA.</b> Sistema Reticular Activador Ascendente: estructura que regula la vigilia y filtra qué
+          estímulos sensoriales llegan a la corteza: el portero de tu atención.
+        </aside>
+<aside class="sidenote" data-kind="fonte">
+<div class="tag">Fuente</div>
+          El número «21 veces» para fijar una frase en la atención circula en contenidos populares, pero <i>carece de
+          respaldo científico</i>. El efecto del enfoque es real; la cantidad exacta, no.
+        </aside>
+<!-- ---- SECAO 3 ---- -->
+<aside data-inema-rail="modulo-1-1#topico-3"></aside>
+<aside class="sidenote" data-kind="definicao">
+<div class="tag">Definición</div>
+<b>Recompensa variable intermitente.</b> Recompensa que llega de forma impredecible: a veces sí,
+          a veces no. Es el mecanismo de la máquina tragamonedas y el motor del feed.
+        </aside>
+<aside class="sidenote" data-kind="fundo">
+<div class="tag">Profundizando</div>
+<i>Desensibilización:</i> el exceso de estímulos crea tolerancia neuronal; lo habitual se vuelve aburrido y el
+          cerebro pide dosis más intensas — la misma lógica de la adicción química.
+        </aside>
+<!-- ---- SECAO 4 ---- -->
+</aside>
+</div></main>
+<footer class="colophon"><span>INEMA.CLUB · Cuaderno del alumno</span><span class="pg">Módulo 1-1</span><span>Compuesto en Spectral &amp; Source Serif 4</span></footer>
+<script src="../../curso/assets/learn.js"></script>
+<script>
+    if (window.INEMA && typeof window.INEMA.init === "function") { window.INEMA.init(); }
+  </script>
+</body>
+</html>

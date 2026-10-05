@@ -1,0 +1,422 @@
+<!DOCTYPE html>
+
+<html data-theme="papel" lang="es">
+<head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<!-- ===================================================================
+       1) ANTI-FOUC — script BLOQUEANTE, PRIMEIRO no <head>, ANTES das fontes
+          e do learn.css. Le inema.prefs (global, cross-curso) e aplica
+          data-theme + color-scheme + --measure/--leading/--fontscale +
+          data-font/--font-disp/--font-body ANTES do primeiro paint.
+          try/catch total => default papel no erro (preserva a marca INEMA).
+       =================================================================== -->
+<script>
+  (function () {
+    try {
+      var html = document.documentElement;
+      var DEF = { theme: 'papel', font: 'serif', fontScale: 100, lineWidth: 66, leading: 1.66 };
+      function clone(o) { var r = {}; for (var x in o) r[x] = o[x]; return r; }
+      var p = clone(DEF);
+      try {
+        var raw = localStorage.getItem('inema.prefs');
+        if (raw) {
+          var parsed = JSON.parse(raw);
+          if (parsed && typeof parsed === 'object') {
+            for (var k in DEF) if (parsed[k] != null) p[k] = parsed[k];
+          }
+        }
+      } catch (e) { p = clone(DEF); }
+
+      var THEMES = {
+        'papel':  { attr: 'papel',  cs: 'light' },
+        'sepia':  { attr: 'sepia',  cs: 'light' },
+        'escuro': { attr: 'escuro', cs: 'dark'  }
+      };
+      var t = THEMES[p.theme] || THEMES['papel'];
+      html.setAttribute('data-theme', t.attr);
+      html.style.colorScheme = t.cs;
+
+      var font = (p.font === 'sans' || p.font === 'hyperlegible') ? p.font : 'serif';
+      html.setAttribute('data-font', font);
+
+      var s = html.style;
+
+      var scale = (+p.fontScale || 100);
+      s.setProperty('--fontscale', scale + '%');
+      html.setAttribute('data-fontscale', String(scale));
+
+      var lw = (+p.lineWidth || 66);
+      s.setProperty('--measure', lw + 'ch');
+      html.setAttribute('data-line-width', lw <= 62 ? 'estreito' : (lw >= 70 ? 'largo' : 'medio'));
+
+      var lh = (+p.leading || 1.66);
+      s.setProperty('--leading', lh.toString());
+      html.setAttribute('data-leading', lh <= 1.66 ? 'compacto' : 'confortavel');
+
+      var DISP = {
+        serif: '"Spectral", Georgia, "Times New Roman", serif',
+        sans: 'ui-sans-serif, system-ui, -apple-system, "Segoe UI", Roboto, sans-serif',
+        hyperlegible: '"Atkinson Hyperlegible", system-ui, -apple-system, sans-serif'
+      };
+      var BODY = {
+        serif: '"Source Serif 4", Georgia, "Times New Roman", serif',
+        sans: 'ui-sans-serif, system-ui, -apple-system, "Segoe UI", Roboto, sans-serif',
+        hyperlegible: '"Atkinson Hyperlegible", system-ui, -apple-system, sans-serif'
+      };
+      s.setProperty('--font-disp', DISP[font] || DISP.serif);
+      s.setProperty('--font-body', BODY[font] || BODY.serif);
+    } catch (err) {
+      try {
+        document.documentElement.setAttribute('data-theme', 'papel');
+        document.documentElement.style.colorScheme = 'light';
+      } catch (e) {}
+    }
+  })();
+  </script>
+<meta content="inema-ncia" name="inema-course"/>
+<script data-inema-manifest="" type="application/json">
+{
+  "course": "inema-ncia",
+  "tracks": [
+    {
+      "n": "1",
+      "title": "Atenção",
+      "modules": [
+        {
+          "id": "1-1",
+          "title": "Necessidades & Atencao",
+          "topics": 3,
+          "href": "t1-1.html"
+        },
+        {
+          "id": "1-2",
+          "title": "A economia da distracao",
+          "topics": 3,
+          "href": "t1-2.html"
+        }
+      ]
+    },
+    {
+      "n": "2",
+      "title": "Percepção",
+      "modules": [
+        {
+          "id": "2-1",
+          "title": "Percepcao & valor",
+          "topics": 3,
+          "href": "t2-1.html"
+        },
+        {
+          "id": "2-2",
+          "title": "Como aprendemos",
+          "topics": 2,
+          "href": "t2-2.html"
+        }
+      ]
+    },
+    {
+      "n": "3",
+      "title": "Hábitos",
+      "modules": [
+        {
+          "id": "3-1",
+          "title": "Motivacao & determinacao",
+          "topics": 2,
+          "href": "t3-1.html"
+        },
+        {
+          "id": "3-2",
+          "title": "Rotinas que sustentam",
+          "topics": 3,
+          "href": "t3-2.html"
+        }
+      ]
+    },
+    {
+      "n": "4",
+      "title": "Habilidades",
+      "modules": [
+        {
+          "id": "4-1",
+          "title": "Habilidades & talentos do futuro",
+          "topics": 3,
+          "href": "t4-1.html"
+        }
+      ]
+    },
+    {
+      "n": "5",
+      "title": "Persuasão",
+      "modules": [
+        {
+          "id": "5-1",
+          "title": "Persuasao & estoria",
+          "topics": 2,
+          "href": "t5-1.html"
+        },
+        {
+          "id": "5-2",
+          "title": "Aplicacao",
+          "topics": 3,
+          "href": "t5-2.html"
+        }
+      ]
+    },
+    {
+      "n": "6",
+      "title": "Recursos",
+      "modules": [
+        {
+          "id": "6-1",
+          "title": "Recursos do Canal",
+          "topics": 3,
+          "href": "t6-1.html"
+        }
+      ]
+    }
+  ]
+}
+  </script>
+<title>Módulo 3-1 — Motivación y determinación | INEMA.NCIA</title>
+<link href="https://fonts.googleapis.com" rel="preconnect"/>
+<link crossorigin="" href="https://fonts.gstatic.com" rel="preconnect"/>
+<link href="https://fonts.googleapis.com/css2?family=Spectral:ital,wght@0,300;0,400;0,500;0,600;0,700;1,400;1,500&amp;family=Source+Serif+4:ital,opsz,wght@0,8..60,400;0,8..60,500;0,8..60,600;1,8..60,400;1,8..60,500&amp;family=IBM+Plex+Mono:wght@400;500&amp;family=Atkinson+Hyperlegible:ital,wght@0,400;0,700;1,400&amp;display=swap" rel="stylesheet"/>
+<link href="../../curso/assets/learn.css" rel="stylesheet"/>
+<link href="https://inematds.github.io/inemancia/curso/t3-1.html" hreflang="pt-BR" rel="alternate"/><link href="https://inematds.github.io/inemancia/en/curso/t3-1.html" hreflang="en" rel="alternate"/><link href="https://inematds.github.io/inemancia/es/curso/t3-1.html" hreflang="es" rel="alternate"/></head>
+<body><div class="inema-lang" style="position:fixed;right:14px;bottom:14px;z-index:9999;display:flex;gap:2px;padding:4px;border-radius:10px;background:rgba(12,12,16,.82);border:1px solid rgba(226,162,59,.45);font:600 12px/1 Sora,Inter,system-ui,sans-serif;backdrop-filter:blur(8px)" translate="no"><a href="../../curso/t3-1.html" hreflang="pt-BR" style="padding:6px 8px;border-radius:7px;text-decoration:none;color:#e9e9ee">PT</a><a href="../../en/curso/t3-1.html" hreflang="en" style="padding:6px 8px;border-radius:7px;text-decoration:none;color:#e9e9ee">EN</a><a href="t3-1.html" hreflang="es" style="padding:6px 8px;border-radius:7px;text-decoration:none;color:#1a1206;background:#E2A23B">ES</a></div>
+<a class="skip" href="#reading">Saltar al contenido</a>
+<div class="reader-bar">
+<div class="reader-inner">
+<a class="wordmark" href="https://inema.club" rel="noopener" target="_blank">INEMA<span class="dot">.</span><span class="club">CLUB</span></a>
+<div class="reader-controls" data-inema-appearance="">
+<span class="rc-read"><span data-inema-meter="modulo:3-1"><span data-inema-meter-frac=""><strong>0</strong> de 2</span></span> leídas</span>
+<div aria-label="Tema de lectura" class="rc-group" role="group">
+<button aria-pressed="true" class="rc-btn" data-inema-set-theme="papel" type="button">Papel</button>
+<button aria-pressed="false" class="rc-btn" data-inema-set-theme="sepia" type="button">Sepia</button>
+<button aria-pressed="false" class="rc-btn" data-inema-set-theme="escuro" type="button">Oscuro</button>
+</div>
+<div aria-label="Fuente de lectura" class="rc-group" role="group">
+<button aria-pressed="true" class="rc-btn" data-inema-set-font="serif" type="button">Serif</button>
+<button aria-pressed="false" class="rc-btn" data-inema-set-font="sans" type="button">Sans</button>
+<button aria-pressed="false" class="rc-btn" data-inema-set-font="hyperlegible" title="Atkinson Hyperlegible" type="button">Aa↹</button>
+</div>
+<div aria-label="Tamaño del texto" class="rc-group" role="group">
+<button aria-pressed="true" class="rc-btn" data-inema-set-fontscale="100" type="button">A</button>
+<button aria-pressed="false" class="rc-btn" data-inema-set-fontscale="112" type="button">A+</button>
+<button aria-pressed="false" class="rc-btn" data-inema-set-fontscale="125" type="button">A++</button>
+</div>
+<div aria-label="Ancho de línea" class="rc-group" role="group">
+<button aria-pressed="false" class="rc-btn" data-inema-set-linewidth="62" type="button">Estrecho</button>
+<button aria-pressed="true" class="rc-btn" data-inema-set-linewidth="66" type="button">Medio</button>
+<button aria-pressed="false" class="rc-btn" data-inema-set-linewidth="70" type="button">Ancho</button>
+</div>
+</div>
+</div>
+</div>
+<header class="masthead">
+<nav aria-label="Dónde estás" class="wayfind">
+<span><a href="index.html" style="text-decoration:none">INEMA.NCIA</a></span><span class="sep">·</span>
+<span><a href="t3.html" style="text-decoration:none">Recorrido <b>3</b></a></span><span class="sep">·</span>
+<span>Módulo <b>3-1</b></span><span class="sep">·</span>
+<span data-inema-section-counter="">Sección 1 de 2</span><span class="sep">·</span>
+<button data-inema-journey-open="" type="button">Mi recorrido <span class="inema-journey-badge" data-count="0" data-inema-journey-badge="">0</span></button>
+</nav>
+<nav aria-label="Rutas del curso" class="course-nav" data-course-nav="">
+<a class="cn-home" href="index.html">Inicio</a>
+<span class="cn-sep">·</span>
+<a href="t1.html"><b>1</b> Atención</a>
+<a href="t2.html"><b>2</b> Percepción</a>
+<a aria-current="page" class="active" href="t3.html"><b>3</b> Hábitos</a>
+<a href="t4.html"><b>4</b> Habilidades</a>
+<a href="t5.html"><b>5</b> Persuasión</a>
+<a href="t6.html"><b>6</b> Recursos</a>
+</nav>
+</header>
+<main class="spread"><div class="leaf">
+<article class="reading" id="reading">
+<p class="kicker">Módulo 3-1 · Ruta 3 · INEMA.NCIA</p>
+<h1 class="module">Motivación y determinación</h1>
+<p class="deck">La diferencia entre querer y decidir, y el permiso interno que desbloquea (o bloquea) el éxito.</p>
+<p class="read-meta"><span class="here">Leyendo ahora</span><span>2 secciones</span><span><a href="t3.html" style="color:inherit">← índice de la ruta</a></span></p>
+<section aria-label="Qué abarca este módulo" class="aims"><h2>Qué abarca este módulo</h2><ul><li>Motivación vs. determinación</li><li>Permiso para tener éxito</li></ul></section>
+<nav aria-label="Resumen del módulo" class="toc" data-inema-toc="">
+<p class="toc-head">Resumen del módulo</p>
+<ol>
+<li class="current"><span class="dot-now"></span><span class="n">1</span><a href="#topico-1"><span class="t">Motivación vs. determinación</span></a></li>
+<li><span class="n">2</span><a href="#topico-2"><span class="t">Permiso para tener éxito</span></a><span class="leader"></span></li>
+</ol>
+</nav>
+<section data-inema-module="3-1" data-inema-topic="modulo-3-1#topico-1" data-inema-track="3" id="topico-1">
+<div class="section-mark">
+<span class="where">Sección 1 de 2</span><span>·</span><span>Motivación vs. determinación</span>
+</div>
+<h2 class="head"><span class="num">1.</span>Motivación vs. determinación</h2>
+<div class="prose">
+<p class="lede dropcap" data-inema-block="m3-t1-p1">El gran error de quienes no avanzan casi nunca es la falta de voluntad, sino el tipo de combustible en el que confían. <span class="sidenote-ref">1</span>La
+              motivación viene de afuera: el video inspirador, la frase contundente, la opinión ajena. Es como un cohete
+              sin combustible: sube rápido y cae enseguida, porque todo lo que viene de afuera es temporal. Cuando se acaba el brillo de
+              la inspiración, queda la tarea intacta y ninguna energía para hacerla.</p>
+<p data-inema-block="m3-t1-p2">A <em>determinación</em> y es de otra naturaleza. No nace de palabras
+              de terceros: nace dentro de ti, construida sobre un propósito claro, metas sólidas y un plan de
+              acción. No depende de los aplausos ni del estado de ánimo. Crece en el instante en que decides de verdad que
+              vas a hacerlo realidad — y sigues firme cuando nadie te está mirando, en un día lluvioso, con sueño, antes
+              de que aparezca cualquier resultado.</p>
+<h3 class="sub">Dos conceptos diferentes, pero complementarios</h3>
+<p data-inema-block="m3-t1-p3">No se trata de elegir uno y descartar el otro. La motivación es el
+              <strong>impulso inicial</strong>: el «porqué» que te hace empezar: fluctuante,
+              emocional, dependiente de factores internos y externos. La determinación es la <strong>continuidad</strong>:
+              el compromiso con el objetivo a pesar de los obstáculos — sólida, racional, basada en la disciplina y
+              el hábito. La motivación es decidir correr el maratón; la determinación es entrenar todos los días, incluso bajo
+              la lluvia.<span class="sidenote-ref">2</span></p>
+</div>
+<!-- recall ativo: pare e preveja -->
+<div class="predict">
+<p class="lbl">Detente y predice</p>
+<p>Empezaste un curso con entusiasmo y lo dejaste en la tercera semana. El entusiasmo era real, entonces ¿qué
+              te faltó para llegar al final?</p>
+<details>
+<summary>Ver una posible respuesta</summary>
+<p class="answer">Faltó <strong>determinación</strong>, no motivación. El entusiasmo cumplió su función:
+                te hizo empezar. Pero es como una llamarada: se enciende rápido y se apaga ante la primera
+                dificultad. Lo que te lleva hasta el final es hacerlo incluso sin ganas, con disciplina, objetivos
+                claros y un plan para cuando se te acaben los ánimos.</p>
+</details>
+</div>
+<div class="prose">
+<p data-inema-block="m3-t1-p4">Aquí hay una trampa sutil: para muchas personas, la motivación funciona como
+              <em>autoengaño</em>. Ver algo inspirador libera dopamina y da una sensación de progreso,
+              aunque no se haya hecho nada concreto. Es una satisfacción ilusoria que paraliza la acción, porque es más
+              cómodo buscar la siguiente inspiración que enfrentar la dureza del proceso. La verdadera
+              satisfacción viene de hacer, no de sentir.</p>
+</div>
+<!-- indo mais fundo: divulgacao progressiva -->
+<details class="go-deeper">
+<summary><span class="chev">▸</span> Profundizando: las cuatro patas de la determinación
+              <span class="opt">opcional</span></summary>
+<div class="inner">
+<p>El recorrido recomendado de arriba basta para usar la idea. Esta capa detalla qué sostiene la determinación cuando falta la motivación y puede saltarse sin perder nada.</p>
+<p>Una determinación firme suele apoyarse en cuatro pilares. <b>Claridad de propósito</b>: saber, de
+                forma honesta, por qué estás haciendo esto. <b>Disciplina</b>: la capacidad de seguir adelante
+                incluso en los días difíciles. <b>Compromiso</b>: hacer lo que hay que hacer, independientemente de las
+                circunstancias. Y <b>resiliencia</b>: la fuerza para continuar ante el fracaso. Observa que ninguna
+                depende de estar inspirado: son estructuras, no estados de ánimo.</p>
+<p>Por eso la práctica consiste en cultivar la motivación para renovar el entusiasmo (visualiza el propósito,
+                celebra los pequeños avances) y fortalecer la determinación para sostener el trabajo (crea rutinas,
+                enfócate en los avances mínimos). Una enciende; la otra mantiene encendida la llama.</p>
+</div>
+</details>
+</section>
+<section data-inema-module="3-1" data-inema-topic="modulo-3-1#topico-2" data-inema-track="3" id="topico-2">
+<div class="section-mark">
+<span class="where">Sección 2 de 2</span><span>·</span><span>Permiso</span>
+</div>
+<h2 class="head"><span class="num">2.</span>Permiso para tener éxito</h2>
+<div class="prose">
+<p class="lede" data-inema-block="m3-t2-p1">Puedes tener <em>capacidad</em> — conocimiento y
+              habilidad — y <em>disposición</em> — energía y esfuerzo — y aun así no avanzar.
+              Falta una tercera pieza, casi siempre invisible: la <strong>permiso</strong>.<span class="sidenote-ref">3</span>
+              El permiso es el nivel de aceptación, interna y externa, que tienes para alcanzar un resultado. Es lo que
+              crees que puedes tener, conseguir o vivir sin culpa, sin miedo y sin autosabotaje.</p>
+<p data-inema-block="m3-t2-p2">Sin permiso, siempre encuentras una forma de volver al
+              “punto de comodidad”. Si, en el fondo, ganar más dinero te parece peligroso, o capaz de
+              alejarte de tu familia, o de convertirte en “una persona diferente”, vas a sabotearte —
+              rechazando el ascenso, cobrando menos de lo que vales, gastándolo todo en cuanto aumenta. No por falta de
+              competencia, sino porque el cerebro aún no ha aceptado la nueva realidad. Por eso, a veces, personas muy
+              calificadas ganan menos que personas con la mitad de su preparación.</p>
+<h3 class="sub">Dónde se esconde el bloqueo</h3>
+<p data-inema-block="m3-t2-p3">El permiso no se refiere solo al dinero: atraviesa todas las áreas. El
+              profesional que no solicita un ascenso «porque todavía no está listo». La persona que
+              sabotea una relación saludable porque «es demasiado bueno para ser verdad». Quien asocia
+              el descanso con la pereza y nunca se toma vacaciones. El joven que oculta su propia vocación por miedo a la
+              desaprobación. En todos, la frase cambia, pero la raíz es la misma: un límite invisible sobre lo que se acepta
+              para uno mismo.<span class="sidenote-ref">4</span></p>
+</div>
+<div class="predict">
+<p class="lbl">Detente y predice</p>
+<p>Una persona quiere avanzar mucho, sabe exactamente qué hacer, pero no actúa y termina desistiendo.
+              ¿Cómo saber si el problema es falta de permiso o simplemente falta de prioridad?</p>
+<details>
+<summary>Ver una posible respuesta</summary>
+<p class="answer">Por la emoción al renunciar. Si al detenerse la persona siente <strong>alivio</strong>, era una
+                elección consciente: simplemente no quería pagar el precio. Si sientes
+                <strong>frustración y arrepentimiento</strong>, era falta de permiso: ella quería, pero un bloqueo
+                interno le impidió autorizarse a seguir.</p>
+</details>
+</div>
+<!-- indo mais fundo -->
+<details class="go-deeper">
+<summary><span class="chev">▸</span> Profundizando: querer llegar a la cima y rechazar el camino
+              <span class="opt">opcional</span></summary>
+<div class="inner">
+<p>Capa opcional. No todo bloqueo es falta de permiso — es importante no confundirlos.</p>
+<p>Hay quienes quieren la cima de la montaña, pero no quieren afrontar la subida: fascinación por el éxito,
+                rechazo al esfuerzo. Esa persona solo mira el resultado de quien llegó allí e ignora los años de camino
+                que hubo antes: compara lo que pasa entre bastidores con el escenario final, busca atajos que no existen y se desanima
+                cuando aparece la realidad del proceso. Aquí el bloqueo no es falta de permiso: es la ilusión de que existe
+                un camino fácil.</p>
+<p>La solución práctica es la misma en cualquier caso: aceptar que todo éxito tiene un precio, dejar de
+                comparar tu comienzo con el punto más alto de otra persona, ajustar las expectativas y enfocarte en el <em>primer paso</em>
+                — porque quien solo mira la cima se asusta y desiste antes de empezar. Y cuando el bloqueo
+                realmente sea la falta de permiso, se puede ampliar: el primer paso es reconocer dónde están los límites
+                invisibles.</p>
+</div>
+</details>
+</section>
+<section aria-label="Mi recorrido" class="journey">
+<div class="journey-top"><h2><span class="ico">❧</span> Mi recorrido</h2><button class="journey-cta" data-inema-journey-open="" type="button">Abrir el cuaderno →</button></div>
+<div class="journey-body">
+<div class="jstat"><div class="k">En este módulo</div><div class="v" data-inema-meter="modulo:3-1"><span data-inema-meter-frac=""><strong>0</strong> de 2</span> <span class="nm">secciones leídas</span><div class="progress-line"><span class="progress-line__fill" data-inema-meter-fill=""></span></div></div></div>
+<div class="jstat"><div class="k">En la ruta 3</div><div class="v" data-inema-meter="trilha:3"><span data-inema-meter-frac=""><strong>0</strong> de 5</span> <span class="nm">temas</span><div class="progress-line"><span class="progress-line__fill" data-inema-meter-fill=""></span></div></div></div>
+<div class="jstat"><div class="k">En el curso</div><div class="v" data-inema-meter="curso"><span data-inema-meter-frac=""><strong>0</strong> de 27</span> <span class="nm">recorrido</span><div class="progress-line"><span class="progress-line__fill" data-inema-meter-fill=""></span></div></div></div>
+</div>
+</section>
+<div class="nextup"><div class="txt"><div class="k">Continuar</div><div class="t">Módulo 3-2 — Rutinas que dan sustento</div></div><a class="go" href="t3-2.html">Siguiente →</a></div>
+</article>
+<aside aria-label="Margen: notas y tu panel" class="margin-rail">
+<nav aria-label="Módulos de la Ruta 3" class="rail-modules">
+<p class="rail-modules__head">Ruta 3 · Hábitos y determinación</p>
+<ol>
+<li aria-current="page"><span class="n">3.1</span><span class="t">Motivación y determinación</span></li>
+<li><a href="t3-2.html"><span class="n">3.2</span><span class="t">Rutinas que sustentan</span></a></li>
+</ol>
+<a class="rail-modules__index" href="t3.html">Índice de la ruta →</a>
+</nav>
+<aside data-inema-rail="modulo-3-1#topico-1"></aside>
+<aside class="sidenote" data-kind="definicao">
+<div class="tag">Definición</div>
+<b>Determinación.</b> Compromiso continuo con un objetivo, a pesar de los obstáculos. A diferencia de la motivación,
+          no depende del estado de ánimo ni de estímulos externos: es sólido, racional, hecho de disciplina y hábito.
+        </aside>
+<aside class="sidenote" data-kind="fundo">
+<div class="tag">Profundizando</div>
+          Motivación como <i>autoengaño</i>: ver algo inspirador libera dopamina y da una sensación de progreso
+          sin haber hecho nada concreto: una satisfacción ilusoria que paraliza la acción real.
+        </aside>
+<aside class="sidenote" data-kind="fonte">
+<div class="tag">Fuente</div>
+          La distinción entre impulso y constancia dialoga con <i>Poder sin límites</i>, de Anthony Robbins, que
+          aborda el control emocional, el enfoque y los hábitos positivos como estrategias que se pueden entrenar; no como suerte.
+        </aside>
+<!-- ---- SECAO 2 ---- -->
+<aside data-inema-rail="modulo-3-1#topico-2"></aside>
+<aside class="sidenote" data-kind="definicao">
+<div class="tag">Definición</div>
+<b>Permiso.</b> El nivel de aceptación, interna y externa, para alcanzar un resultado sin culpa, miedo ni autosabotaje. La ecuación del éxito es <i>capacidad + disposición + permiso</i> — si falta la
+          última, el esfuerzo se pierde.
+        </aside>
+<aside class="sidenote" data-kind="fundo">
+<div class="tag">Profundizando</div>
+          Cuatro patrones que frenan la prosperidad: la víctima natural, la víctima intencional, el vengador (cree que
+          el dinero corrompe) y el narcisista. Reconocerlos es el primer paso para ampliar el permiso.
+        </aside>
+<!-- ---- SECAO 3 ---- -->
+</aside>
+</div></main>
+<footer class="colophon"><span>INEMA.CLUB · Cuaderno del alumno</span><span class="pg">Módulo 3-1</span><span>Compuesto en Spectral &amp; Source Serif 4</span></footer>
+<script src="../../curso/assets/learn.js"></script>
+<script>
+    if (window.INEMA && typeof window.INEMA.init === "function") { window.INEMA.init(); }
+  </script>
+</body>
+</html>

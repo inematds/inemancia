@@ -1,0 +1,591 @@
+<!DOCTYPE html>
+
+<html data-theme="papel" lang="es">
+<head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<!-- ===================================================================
+       1) ANTI-FOUC — script BLOQUEANTE, PRIMEIRO no <head>, ANTES das fontes
+          e do learn.css. Le inema.prefs (global, cross-curso) e aplica
+          data-theme + color-scheme + --measure/--leading/--fontscale +
+          data-font/--font-disp/--font-body ANTES do primeiro paint.
+          try/catch total => default papel no erro (preserva a marca INEMA).
+       =================================================================== -->
+<script>
+  (function () {
+    try {
+      var html = document.documentElement;
+      var DEF = { theme: 'papel', font: 'serif', fontScale: 100, lineWidth: 66, leading: 1.66 };
+      function clone(o) { var r = {}; for (var x in o) r[x] = o[x]; return r; }
+      var p = clone(DEF);
+      try {
+        var raw = localStorage.getItem('inema.prefs');
+        if (raw) {
+          var parsed = JSON.parse(raw);
+          if (parsed && typeof parsed === 'object') {
+            for (var k in DEF) if (parsed[k] != null) p[k] = parsed[k];
+          }
+        }
+      } catch (e) { p = clone(DEF); }
+
+      var THEMES = {
+        'papel':  { attr: 'papel',  cs: 'light' },
+        'sepia':  { attr: 'sepia',  cs: 'light' },
+        'escuro': { attr: 'escuro', cs: 'dark'  }
+      };
+      var t = THEMES[p.theme] || THEMES['papel'];
+      html.setAttribute('data-theme', t.attr);
+      html.style.colorScheme = t.cs;
+
+      var font = (p.font === 'sans' || p.font === 'hyperlegible') ? p.font : 'serif';
+      html.setAttribute('data-font', font);
+
+      var s = html.style;
+
+      var scale = (+p.fontScale || 100);
+      s.setProperty('--fontscale', scale + '%');
+      html.setAttribute('data-fontscale', String(scale));
+
+      var lw = (+p.lineWidth || 66);
+      s.setProperty('--measure', lw + 'ch');
+      html.setAttribute('data-line-width', lw <= 62 ? 'estreito' : (lw >= 70 ? 'largo' : 'medio'));
+
+      var lh = (+p.leading || 1.66);
+      s.setProperty('--leading', lh.toString());
+      html.setAttribute('data-leading', lh <= 1.66 ? 'compacto' : 'confortavel');
+
+      var DISP = {
+        serif: '"Spectral", Georgia, "Times New Roman", serif',
+        sans: 'ui-sans-serif, system-ui, -apple-system, "Segoe UI", Roboto, sans-serif',
+        hyperlegible: '"Atkinson Hyperlegible", system-ui, -apple-system, sans-serif'
+      };
+      var BODY = {
+        serif: '"Source Serif 4", Georgia, "Times New Roman", serif',
+        sans: 'ui-sans-serif, system-ui, -apple-system, "Segoe UI", Roboto, sans-serif',
+        hyperlegible: '"Atkinson Hyperlegible", system-ui, -apple-system, sans-serif'
+      };
+      s.setProperty('--font-disp', DISP[font] || DISP.serif);
+      s.setProperty('--font-body', BODY[font] || BODY.serif);
+    } catch (err) {
+      try {
+        document.documentElement.setAttribute('data-theme', 'papel');
+        document.documentElement.style.colorScheme = 'light';
+      } catch (e) {}
+    }
+  })();
+  </script>
+<meta content="inema-ncia" name="inema-course"/>
+<script data-inema-manifest="" type="application/json">
+{
+  "course": "inema-ncia",
+  "tracks": [
+    {
+      "n": "1",
+      "title": "Atenção",
+      "modules": [
+        {
+          "id": "1-1",
+          "title": "Necessidades & Atencao",
+          "topics": 3,
+          "href": "t1-1.html"
+        },
+        {
+          "id": "1-2",
+          "title": "A economia da distracao",
+          "topics": 3,
+          "href": "t1-2.html"
+        }
+      ]
+    },
+    {
+      "n": "2",
+      "title": "Percepção",
+      "modules": [
+        {
+          "id": "2-1",
+          "title": "Percepcao & valor",
+          "topics": 3,
+          "href": "t2-1.html"
+        },
+        {
+          "id": "2-2",
+          "title": "Como aprendemos",
+          "topics": 2,
+          "href": "t2-2.html"
+        }
+      ]
+    },
+    {
+      "n": "3",
+      "title": "Hábitos",
+      "modules": [
+        {
+          "id": "3-1",
+          "title": "Motivacao & determinacao",
+          "topics": 2,
+          "href": "t3-1.html"
+        },
+        {
+          "id": "3-2",
+          "title": "Rotinas que sustentam",
+          "topics": 3,
+          "href": "t3-2.html"
+        }
+      ]
+    },
+    {
+      "n": "4",
+      "title": "Habilidades",
+      "modules": [
+        {
+          "id": "4-1",
+          "title": "Habilidades & talentos do futuro",
+          "topics": 3,
+          "href": "t4-1.html"
+        }
+      ]
+    },
+    {
+      "n": "5",
+      "title": "Persuasão",
+      "modules": [
+        {
+          "id": "5-1",
+          "title": "Persuasao & estoria",
+          "topics": 2,
+          "href": "t5-1.html"
+        },
+        {
+          "id": "5-2",
+          "title": "Aplicacao",
+          "topics": 3,
+          "href": "t5-2.html"
+        }
+      ]
+    },
+    {
+      "n": "6",
+      "title": "Recursos",
+      "modules": [
+        {
+          "id": "6-1",
+          "title": "Recursos do Canal",
+          "topics": 3,
+          "href": "t6-1.html"
+        }
+      ]
+    }
+  ]
+}
+  </script>
+<title>Módulo 4-1 — Habilidades y talentos del futuro | INEMA.NCIA</title>
+<link href="https://fonts.googleapis.com" rel="preconnect"/>
+<link crossorigin="" href="https://fonts.gstatic.com" rel="preconnect"/>
+<link href="https://fonts.googleapis.com/css2?family=Spectral:ital,wght@0,300;0,400;0,500;0,600;0,700;1,400;1,500&amp;family=Source+Serif+4:ital,opsz,wght@0,8..60,400;0,8..60,500;0,8..60,600;1,8..60,400;1,8..60,500&amp;family=IBM+Plex+Mono:wght@400;500&amp;family=Atkinson+Hyperlegible:ital,wght@0,400;0,700;1,400&amp;display=swap" rel="stylesheet"/>
+<link href="../../curso/assets/learn.css" rel="stylesheet"/>
+<link href="https://inematds.github.io/inemancia/curso/t4-1.html" hreflang="pt-BR" rel="alternate"/><link href="https://inematds.github.io/inemancia/en/curso/t4-1.html" hreflang="en" rel="alternate"/><link href="https://inematds.github.io/inemancia/es/curso/t4-1.html" hreflang="es" rel="alternate"/></head>
+<body><div class="inema-lang" style="position:fixed;right:14px;bottom:14px;z-index:9999;display:flex;gap:2px;padding:4px;border-radius:10px;background:rgba(12,12,16,.82);border:1px solid rgba(226,162,59,.45);font:600 12px/1 Sora,Inter,system-ui,sans-serif;backdrop-filter:blur(8px)" translate="no"><a href="../../curso/t4-1.html" hreflang="pt-BR" style="padding:6px 8px;border-radius:7px;text-decoration:none;color:#e9e9ee">PT</a><a href="../../en/curso/t4-1.html" hreflang="en" style="padding:6px 8px;border-radius:7px;text-decoration:none;color:#e9e9ee">EN</a><a href="t4-1.html" hreflang="es" style="padding:6px 8px;border-radius:7px;text-decoration:none;color:#1a1206;background:#E2A23B">ES</a></div>
+<a class="skip" href="#reading">Saltar al contenido</a>
+<div class="reader-bar">
+<div class="reader-inner">
+<a class="wordmark" href="https://inema.club" rel="noopener" target="_blank">INEMA<span class="dot">.</span><span class="club">CLUB</span></a>
+<div class="reader-controls" data-inema-appearance="">
+<span class="rc-read"><span data-inema-meter="modulo:4-1"><span data-inema-meter-frac=""><strong>0</strong> de 3</span></span> leídas</span>
+<div aria-label="Tema de lectura" class="rc-group" role="group">
+<button aria-pressed="true" class="rc-btn" data-inema-set-theme="papel" type="button">Papel</button>
+<button aria-pressed="false" class="rc-btn" data-inema-set-theme="sepia" type="button">Sepia</button>
+<button aria-pressed="false" class="rc-btn" data-inema-set-theme="escuro" type="button">Oscuro</button>
+</div>
+<div aria-label="Fuente de lectura" class="rc-group" role="group">
+<button aria-pressed="true" class="rc-btn" data-inema-set-font="serif" type="button">Serif</button>
+<button aria-pressed="false" class="rc-btn" data-inema-set-font="sans" type="button">Sans</button>
+<button aria-pressed="false" class="rc-btn" data-inema-set-font="hyperlegible" title="Atkinson Hyperlegible" type="button">Aa↹</button>
+</div>
+<div aria-label="Tamaño del texto" class="rc-group" role="group">
+<button aria-pressed="true" class="rc-btn" data-inema-set-fontscale="100" type="button">A</button>
+<button aria-pressed="false" class="rc-btn" data-inema-set-fontscale="112" type="button">A+</button>
+<button aria-pressed="false" class="rc-btn" data-inema-set-fontscale="125" type="button">A++</button>
+</div>
+<div aria-label="Ancho de línea" class="rc-group" role="group">
+<button aria-pressed="false" class="rc-btn" data-inema-set-linewidth="62" type="button">Estrecho</button>
+<button aria-pressed="true" class="rc-btn" data-inema-set-linewidth="66" type="button">Medio</button>
+<button aria-pressed="false" class="rc-btn" data-inema-set-linewidth="70" type="button">Ancho</button>
+</div>
+</div>
+</div>
+</div>
+<header class="masthead">
+<nav aria-label="Dónde estás" class="wayfind">
+<span><a href="index.html" style="text-decoration:none">INEMA.NCIA</a></span><span class="sep">·</span>
+<span><a href="t4.html" style="text-decoration:none">Recorrido <b>4</b></a></span><span class="sep">·</span>
+<span>Módulo <b>4-1</b></span><span class="sep">·</span>
+<span data-inema-section-counter="">Sección 1 de 3</span><span class="sep">·</span>
+<button data-inema-journey-open="" type="button">Mi recorrido <span class="inema-journey-badge" data-count="0" data-inema-journey-badge="">0</span></button>
+</nav>
+<nav aria-label="Rutas del curso" class="course-nav" data-course-nav="">
+<a class="cn-home" href="index.html">Inicio</a>
+<span class="cn-sep">·</span>
+<a href="t1.html"><b>1</b> Atención</a>
+<a href="t2.html"><b>2</b> Percepción</a>
+<a href="t3.html"><b>3</b> Hábitos</a>
+<a aria-current="page" class="active" href="t4.html"><b>4</b> Habilidades</a>
+<a href="t5.html"><b>5</b> Persuasión</a>
+<a href="t6.html"><b>6</b> Recursos</a>
+</nav>
+</header>
+<main class="spread"><div class="leaf">
+<article class="reading" id="reading">
+<p class="kicker">Módulo 4-1 · Ruta 4 · INEMA.NCIA</p>
+<h1 class="module">Habilidades y talentos del futuro</h1>
+<p class="deck">Lo que sigue siendo escaso cuando la máquina se encarga del resto: las 12 habilidades, los 6 talentos y los perfiles que definen un negocio.</p>
+<p class="read-meta"><span class="here">Leyendo ahora</span><span>3 secciones</span><span><a href="t4.html" style="color:inherit">← índice de la ruta</a></span></p>
+<section aria-label="Qué abarca este módulo" class="aims"><h2>Qué abarca este módulo</h2><ul><li>Las 12 habilidades humanas</li><li>Los 6 talentos del futuro</li><li>Perfiles humanos que definen el futuro de un negocio</li></ul></section>
+<nav aria-label="Resumen del módulo" class="toc" data-inema-toc="">
+<p class="toc-head">Resumen del módulo</p>
+<ol>
+<li class="current"><span class="dot-now"></span><span class="n">1</span><a href="#topico-1"><span class="t">Las 12 habilidades humanas</span></a></li>
+<li><span class="n">2</span><a href="#topico-2"><span class="t">Los 6 talentos del futuro</span></a><span class="leader"></span></li>
+<li><span class="n">3</span><a href="#topico-3"><span class="t">Perfiles humanos que definen el futuro de un negocio</span></a><span class="leader"></span></li>
+</ol>
+</nav>
+<section data-inema-module="4-1" data-inema-topic="modulo-4-1#topico-1" data-inema-track="4" id="topico-1">
+<div class="section-mark">
+<span class="where">Sección 1 de 3</span><span>·</span><span>12 habilidades</span>
+</div>
+<h2 class="head"><span class="num">1.</span>Las 12 habilidades humanas</h2>
+<div class="prose">
+<p class="lede dropcap" data-inema-block="m4-t1-p1">La inteligencia artificial está automatizando
+              lo que es repetitivo, previsible y basado en patrones: ya escribe textos, resume documentos,
+              programa, analiza datos y responde preguntas en segundos. Ante esto, una pregunta sigue en pie y
+              no se va — <em>si la IA puede hacer buena parte de lo que haces hoy, ¿qué es lo que aún te hace
+              necesario?</em><span class="sidenote-ref">1</span> La respuesta no está en lo técnico y fácil de copiar,
+              sino en un puñado de competencias humanas que ayudan a pensar, decidir, adaptarse y crear valor donde
+              la situación es compleja.</p>
+<p data-inema-block="m4-t1-p2">Son doce y se agrupan menos por categoría que por función.
+              Algunas tienen que ver con <strong>cómo piensas</strong>: pensamiento crítico, para cuestionar y
+              separar los hechos de las opiniones en vez de quedar a merced de la respuesta de la máquina; creatividad, que recombina
+              referencias y nace de la experiencia, no de un patrón; nexialismo, el arte de conectar áreas distantes; y
+              repertorio, el acervo de lecturas y experiencias que sustenta buenas preguntas y buenas analogías.
+              Otras se relacionan con <strong>cómo actúas</strong>: voluntad y propósito como energía y dirección,
+              la capacidad de decidir qué hacer —elegir los problemas adecuados, no solo resolverlos—
+              y el valor de actuar en la incertidumbre, sin garantías.</p>
+<h3 class="sub">Las que la máquina no alcanza</h3>
+<p data-inema-block="m4-t1-p3">Un tercer grupo es el más resistente a la automatización, precisamente porque
+              depende de <em>ser</em> humano, y no de procesar información. La empatía genuina siente el dolor, la
+              vergüenza y la esperanza de la otra persona: la IA simula amabilidad, pero no crea vínculos. La conexión
+              humana construye confianza y comunidad: las personas siguen, compran e inspiran a otras personas, y eso
+              se valora más en un mundo cada vez más digital. La alfabetización en datos nos protege de que nos engañen con gráficos y
+              métricas de vanidad. Aprender a aprender te mantiene vigente cuando el conocimiento técnico
+              envejece rápido. Y el coraje ético hace la pregunta que la máquina nunca hará: <em>¿esto es posible,
+              pero es correcto?</em></p>
+<p data-inema-block="m4-t1-p4">Observa que ninguno de ellos es “saber usar IA”. La gran
+              cuestión deja de ser <em>cómo uso la herramienta</em> y pasa a ser <em>en quién necesito convertirme</em>
+              para seguir siendo valioso cuando la máquina ejecuta cada vez más. La IA decide el <em>cómo</em> de muchas
+              cosas; aun así, le corresponde al ser humano decidir qué vale la pena hacer, por qué, para quién y con qué
+              consecuencias.</p>
+</div>
+<figure class="figure">
+<figcaption><span class="fig-n">Fig. 1</span> · Las 12 habilidades en <b>tres funciones</b>: pensar, actuar, ser</figcaption>
+<svg aria-label="Diagrama: las doce habilidades humanas distribuidas en tres columnas — pensar, actuar y ser." class="diagram" role="img" viewbox="0 0 720 200">
+<line class="rule-stroke" stroke-width="1" x1="20" x2="700" y1="40" y2="40"></line>
+<g font-family="IBM Plex Mono, monospace" font-size="10" letter-spacing="1.4">
+<text class="faint" text-anchor="middle" x="135" y="30">CÓMO PIENSAS</text>
+<text class="faint" text-anchor="middle" x="360" y="30">CÓMO ACTÚAS</text>
+<text class="accent" text-anchor="middle" x="585" y="30">QUIÉN ERES</text>
+</g>
+<g class="ink-soft" font-family="Source Serif 4, serif" font-size="12.5">
+<text text-anchor="middle" x="135" y="70">Pensamiento crítico</text>
+<text text-anchor="middle" x="135" y="92">Creatividad</text>
+<text text-anchor="middle" x="135" y="114">Nexialismo</text>
+<text text-anchor="middle" x="135" y="136">Repertorio</text>
+<text text-anchor="middle" x="360" y="70">Voluntad y propósito</text>
+<text text-anchor="middle" x="360" y="92">Definir qué hacer</text>
+<text text-anchor="middle" x="360" y="114">Lidiar con la incertidumbre</text>
+<text text-anchor="middle" x="360" y="136">Alfabetización de datos</text>
+</g>
+<g class="ink" font-family="Source Serif 4, serif" font-size="12.5">
+<text text-anchor="middle" x="585" y="70">Empatía genuina</text>
+<text text-anchor="middle" x="585" y="92">Conexión humana</text>
+<text text-anchor="middle" x="585" y="114">Aprender a aprender</text>
+<text text-anchor="middle" x="585" y="136">Coraje ético</text>
+</g>
+<line class="rule-stroke" stroke-dasharray="3 4" stroke-width="1" x1="248" x2="248" y1="48" y2="160"></line>
+<line class="accent-stroke" stroke-dasharray="3 4" stroke-width="1" x1="472" x2="472" y1="48" y2="160"></line>
+<text class="faint" font-family="IBM Plex Mono, monospace" font-size="9.5" letter-spacing="1.2" text-anchor="middle" x="360" y="184">CUANTO MÁS A LA DERECHA, MÁS DIFÍCIL DE AUTOMATIZAR</text>
+</svg>
+</figure>
+<!-- recall ativo: pare e preveja -->
+<div class="predict">
+<p class="lbl">Detente y predice</p>
+<p>De estas doce, ¿cuál dirías que está más amenazada por la IA <em>en tu trabajo actual</em> —
+              ¿y cuál es la que más te protege?</p>
+<details>
+<summary>Ver una posible respuesta</summary>
+<p class="answer">No hay una respuesta única: el ejercicio es lo importante. El material sugiere empezar
+                por un <strong>autoconocimiento honesto</strong>: evaluar de 0 a 10 cada habilidad, marcar dónde
+                la IA amenaza más tu papel y dónde tienes fortalezas. La diferencia suele estar en las habilidades del
+                «ser»: empatía, conexión, valentía ética, que la máquina no puede copiar.</p>
+</details>
+</div>
+<!-- indo mais fundo -->
+<details class="go-deeper">
+<summary><span class="chev">▸</span> Profundizando: un plan de cuatro semanas
+              <span class="opt">opcional</span></summary>
+<div class="inner">
+<p>El recorrido recomendado de arriba basta para entender la idea. Esta capa es para quienes quieren convertir la lista en una ruta de estudio y pueden saltársela sin perder nada.</p>
+<p>La fuente propone cuatro movimientos. En la <strong>semana 1</strong>, autoconocimiento: evalúate de 0
+                a 10 en cada habilidad y pregúntate en cuáles eres fuerte, en cuáles eres débil y cuáles amenaza más la IA.
+                En la <strong>semana 2</strong>, pensamiento y repertorio: lee sobre temas ajenos a tu área, cuestiona
+                la información, establece conexiones, anota ideas nuevas. En la <strong>semana 3</strong>, datos, decisiones e
+                incertidumbre: nociones básicas de estadística, práctica de priorización y pequeñas pruebas en vez de
+                esperar certeza total. En la <strong>semana 4</strong>, relaciones, propósito y ética: escucha más,
+                define qué te importa y sopesa el impacto humano de tus decisiones, usando la IA como
+                herramienta, nunca como sustituta de tu responsabilidad.</p>
+</div>
+</details>
+</section>
+<section data-inema-module="4-1" data-inema-topic="modulo-4-1#topico-2" data-inema-track="4" id="topico-2">
+<div class="section-mark">
+<span class="where">Sección 2 de 3</span><span>·</span><span>6 talentos</span>
+</div>
+<h2 class="head"><span class="num">2.</span>Los 6 talentos del futuro</h2>
+<div class="prose">
+<p class="lede" data-inema-block="m4-t2-p1">Según la perspectiva de Jensen Huang, el foco del futuro no estará en
+              “quién sabe programar” ni en “quién tiene más conocimientos técnicos”: la
+              tecnología automatizará buena parte de lo técnico. Los talentos más valiosos serán los de quienes
+              logran <em>pensar mejor, percibir mejor el contexto y usar la IA para resolver problemas
+              mayores</em>. La inteligencia, allí, deja de ser memorizar, calcular o escribir código, y se convierte en una
+              combinación.<span class="sidenote-ref">2</span></p>
+<p data-inema-block="m4-t2-p2">Son seis talentos. El primero es el <strong>brillo técnico sumado a
+              empatía humana</strong>: entender la tecnología, pero también entender a las personas: necesidades,
+              miedos, deseos y lo que no se dijo con claridad. La segunda es la <strong>anticipación</strong>:
+              detectar los problemas antes de que estallen, ver lo que se avecina y no solo resolver rápido lo
+              que ya apareció. El tercero es el <strong>pensamiento estratégico y visión a largo plazo</strong>
+              — Jensen observa que, con la edad, quizá piense más despacio, pero encuentra mejores respuestas
+              porque aprendió a ver el panorama completo.</p>
+<h3 class="sub">El carácter cuenta más que la genialidad aislada</h3>
+<p data-inema-block="m4-t2-p3">Los tres últimos se orientan al lado humano y colectivo. El cuarto es
+              <strong>aprender continuamente</strong>: el profesional del futuro no necesita saberlo todo; necesita
+              aprender rápido, ser humilde y adaptarse. La quinta es <strong>trabajar bien en equipo</strong>
+              — y aquí Jensen es directo: el carácter importa más que la genialidad aislada. La transparencia,
+              la confianza, el perdón, la responsabilidad y la capacidad de superar las dificultades juntos se convierten en talentos
+              centrales. El sexto es <strong>usar la IA como amplificador</strong>: cuando cualquiera puede crear
+              software y negocios con la herramienta, la diferencia no está en saber usarla, sino en tener buenas preguntas, buenos
+              problemas y buena imaginación.</p>
+<p data-inema-block="m4-t2-p4">La frase que lo conecta todo: ser inteligente en el futuro será combinar técnica,
+              sensibilidad, visión, valentía y capacidad de aprender. El futuro valora a quienes miran una
+              situación compleja y preguntan — <em>¿cuál es el problema real aquí? ¿Qué nadie está viendo?
+              ¿Cómo uso la tecnología para resolverlo de una mejor manera?</em></p>
+</div>
+<figure class="figure">
+<figcaption><span class="fig-n">Fig. 2</span> · Los seis talentos — <b>técnica</b> por un lado, <b>carácter</b> del otro</figcaption>
+<svg aria-label="Diagrama: seis talentos del futuro dispuestos entre dos polos — técnica y carácter — conectados por la IA como amplificador." class="diagram" role="img" viewbox="0 0 720 196">
+<text class="faint" font-family="IBM Plex Mono, monospace" font-size="10" letter-spacing="1.4" text-anchor="middle" x="80" y="28">TÉCNICA</text>
+<text class="accent" font-family="IBM Plex Mono, monospace" font-size="10" letter-spacing="1.4" text-anchor="middle" x="640" y="28">CARÁCTER</text>
+<line class="rule-stroke" stroke-width="1" x1="40" x2="680" y1="40" y2="40"></line>
+<g class="ink-soft" font-family="Source Serif 4, serif" font-size="12">
+<circle class="ink" cx="120" cy="70" r="3"></circle><text x="134" y="74">Brillo técnico + empatía</text>
+<circle class="ink" cx="120" cy="100" r="3"></circle><text x="134" y="104">Anticipación</text>
+<circle class="ink" cx="120" cy="130" r="3"></circle><text x="134" y="134">Visión estratégica</text>
+</g>
+<g class="ink" font-family="Source Serif 4, serif" font-size="12">
+<circle class="accent" cx="420" cy="70" r="3"></circle><text x="434" y="74">Aprender siempre</text>
+<circle class="accent" cx="420" cy="100" r="3"></circle><text x="434" y="104">Equipo y carácter</text>
+<circle class="accent" cx="420" cy="130" r="3"></circle><text x="434" y="134">La IA como amplificador</text>
+</g>
+<line class="rule-stroke" stroke-dasharray="3 4" stroke-width="1" x1="360" x2="360" y1="56" y2="148"></line>
+<text class="ink" font-family="Spectral, serif" font-size="13" font-style="italic" text-anchor="middle" x="360" y="180">técnica + sensibilidad + visión + valentía + aprender</text>
+</svg>
+</figure>
+<!-- indo mais fundo -->
+<details class="go-deeper">
+<summary><span class="chev">▸</span> Profundizando: por qué la anticipación es el talento poco común
+              <span class="opt">opcional</span></summary>
+<div class="inner">
+<p>Capa opcional. De las seis, la anticipación es la que más distingue al profesional común del excepcional —
+                y vale la pena entender por qué.</p>
+<p>Resolver un problema rápido es una habilidad de ejecución: el problema ya está planteado, solo falta actuar. La
+                anticipación opera antes de eso — es percibir el problema cuando aún es pequeño, o ni siquiera
+                existe. Depende de las demás: necesita visión a largo plazo para mirar hacia adelante, empatía
+                para captar lo que las personas aún no han expresado y repertorio para reconocer un patrón
+                que ya se repitió antes. Por eso Jensen la considera un talento y no una técnica: no se compra
+                lista ni se delega a una máquina, se cultiva con el tiempo.</p>
+</div>
+</details>
+</section>
+<section data-inema-module="4-1" data-inema-topic="modulo-4-1#topico-3" data-inema-track="4" id="topico-3">
+<div class="section-mark">
+<span class="where">Sección 3 de 3</span><span>·</span><span>Perfiles</span>
+</div>
+<h2 class="head"><span class="num">3.</span>Perfiles humanos que definen el futuro de un negocio</h2>
+<div class="prose">
+<p class="lede" data-inema-block="m4-t3-p1">Una empresa exitosa no se sostiene con un solo tipo de
+              persona. Detrás de cada negocio que perdura hay un <em>encaje</em> de perfiles humanos — y
+              entenderlos es la diferencia entre formar un equipo que funciona solo y depender de un héroe que apaga
+              incendios todo el día. El material mapea diecisiete perfiles, y el secreto no es tenerlos todos, sino
+              reconocer quién es cada uno para ubicarlo en el lugar correcto.<span class="sidenote-ref">3</span></p>
+<p data-inema-block="m4-t3-p2">En la cima están los <strong>perfiles del emprendedor</strong>: desde el innato hasta el
+              entrenable, desde el oportunista hasta el de nicho, desde el emprendedor por necesidad hasta el no emprendedor. Dos
+              merecen especial atención por el riesgo que conllevan. La <em>mula</em> y es quien realiza el trabajo pesado del inicio,
+              indispensable para la validación, pero peligroso cuando el fundador nunca deja ese papel. El <em>salvador
+              de la patria</em> resuelve emergencias e inspira confianza — solo que centraliza, no crea
+              procesos, y la empresa pasa a depender de él. La transición saludable es la misma para ambos: dejar
+              de ser héroe y convertirse en <em>líder-arquitecto</em>, que construye sistemas que funcionan sin tu
+              esfuerzo constante.</p>
+<h3 class="sub">Empleados, especialistas y los dos brazos</h3>
+<p data-inema-block="m4-t3-p3">Alrededor orbitan los <strong>perfiles de empleados</strong> —
+              el estable, el volátil, el de baja rotación, el de seguridad y el ambicioso — y el equilibrio
+              entre ellos es lo que da continuidad sin frenar el crecimiento: los estables garantizan la base, los ambiciosos
+              impulsan hacia adelante, los volátiles sirven para proyectos puntuales. Por encima de todos, el <strong>soporte
+              estratégico</strong>: el especialista, con profundidad en un área; el generalista, que conecta
+              sectores y tiene ventaja en una empresa pequeña; el <em>brazo derecho</em>, ejecutor de confianza que
+              organiza el día a día; y el <em>brazo izquierdo</em>, consejero o mentor que ayuda al fundador a
+              evaluar riesgos, métricas y decisiones, y que ni siquiera tiene que ser empleado de tiempo completo.</p>
+<p data-inema-block="m4-t3-p4">La lógica se resume en una frase: CEO más brazo derecho más brazo izquierdo
+              equilibra visión, ejecución y análisis; especialistas más generalista equilibran profundidad y
+              flexibilidad. Cuando falta ese encaje, la causa del fracaso casi siempre es el mismo cuarteto
+              — no cuidar <strong>caja</strong>, de <strong>gente</strong>, de
+              <strong>procesos</strong> y es de <strong>estrategia</strong>. Un emprendedor solo se convierte en mula o en
+              salvador de la patria; con los perfiles adecuados en el lugar indicado, el negocio alcanza el equilibrio que le permite
+              perdurar.</p>
+</div>
+<figure class="figure">
+<figcaption><span class="fig-n">Fig. 3</span> · El núcleo que sostiene un negocio: <b>visión, ejecución, análisis</b></figcaption>
+<svg aria-label="Diagrama: CEO en el centro con el brazo derecho (ejecución) y el brazo izquierdo (análisis) a los lados, y la base de especialistas y generalistas." class="diagram" role="img" viewbox="0 0 720 208">
+<rect class="accent-stroke" fill="url(#hatch4)" height="44" rx="3" stroke-width="1.3" width="140" x="290" y="28"></rect>
+<text class="ink" font-family="Spectral, serif" font-size="16" font-style="italic" text-anchor="middle" x="360" y="50">CEO</text>
+<text class="ink-soft" font-family="Source Serif 4, serif" font-size="10.5" text-anchor="middle" x="360" y="66">visión y estrategia</text>
+<defs>
+<pattern height="6" id="hatch4" patterntransform="rotate(45)" patternunits="userSpaceOnUse" width="6">
+<line class="accent-stroke" opacity="0.16" stroke-width="2.4" x1="0" x2="0" y1="0" y2="6"></line>
+</pattern>
+</defs>
+<path class="rule-stroke" d="M290 50 H 180" stroke-width="1.4"></path>
+<path class="rule-stroke" d="M430 50 H 540" stroke-width="1.4"></path>
+<rect class="wash rule-stroke" height="44" rx="3" stroke-width="1.2" width="140" x="40" y="28"></rect>
+<text class="ink-soft" font-family="Spectral, serif" font-size="14" font-style="italic" text-anchor="middle" x="110" y="50">Brazo derecho</text>
+<text class="faint" font-family="Source Serif 4, serif" font-size="10.5" text-anchor="middle" x="110" y="66">ejecución</text>
+<rect class="wash rule-stroke" height="44" rx="3" stroke-width="1.2" width="140" x="540" y="28"></rect>
+<text class="ink-soft" font-family="Spectral, serif" font-size="14" font-style="italic" text-anchor="middle" x="610" y="50">Brazo izquierdo</text>
+<text class="faint" font-family="Source Serif 4, serif" font-size="10.5" text-anchor="middle" x="610" y="66">análisis</text>
+<line class="rule-stroke" stroke-dasharray="3 4" stroke-width="1" x1="60" x2="660" y1="108" y2="108"></line>
+<text class="faint" font-family="IBM Plex Mono, monospace" font-size="9.5" letter-spacing="1.4" text-anchor="middle" x="360" y="100">LA BASE QUE CUMPLE</text>
+<rect class="wash rule-stroke" height="40" rx="3" stroke-width="1.2" width="180" x="120" y="124"></rect>
+<text class="ink" font-family="Spectral, serif" font-size="14" font-style="italic" text-anchor="middle" x="210" y="144">Especialistas</text>
+<text class="ink-soft" font-family="Source Serif 4, serif" font-size="10.5" text-anchor="middle" x="210" y="159">profundidad</text>
+<rect class="wash rule-stroke" height="40" rx="3" stroke-width="1.2" width="180" x="420" y="124"></rect>
+<text class="ink" font-family="Spectral, serif" font-size="14" font-style="italic" text-anchor="middle" x="510" y="144">Generalistas</text>
+<text class="ink-soft" font-family="Source Serif 4, serif" font-size="10.5" text-anchor="middle" x="510" y="159">flexibilidad</text>
+<text class="accent" font-family="IBM Plex Mono, monospace" font-size="9.5" letter-spacing="1.2" text-anchor="middle" x="360" y="194">CAJA · PERSONAS · PROCESOS · ESTRATEGIA</text>
+</svg>
+</figure>
+<!-- recall ativo -->
+<div class="predict">
+<p class="lbl">Detente y predice</p>
+<p>Eres fundador, validaste la idea y ya vendes todos los días, pero sigues resolviendo personalmente cada
+              problema operativo. ¿Qué perfil contratas <em>primero</em>?</p>
+<details>
+<summary>Ver una posible respuesta</summary>
+<p class="answer">Probablemente el <strong>brazo derecho</strong> — un coordinador de
+                operaciones que organice al equipo, garantice los plazos y resuelva el día a día. Es lo que saca al fundador de
+                la piel de «mula» y lo libera para la visión, la estrategia y los grandes clientes. Sin esta pieza, la
+                empresa crece hasta el límite de lo que una sola persona puede cargar.</p>
+</details>
+</div>
+<!-- indo mais fundo -->
+<details class="go-deeper">
+<summary><span class="chev">▸</span> Profundizando: qué dicen las evidencias sobre especialista frente a generalista
+              <span class="opt">opcional</span></summary>
+<div class="inner">
+<p>Capa opcional, para quien quiere ver en qué se basa la práctica.</p>
+<p>La investigación apunta hacia la flexibilidad. Estudios vinculados con Chicago Booth y Harvard
+                Business School indican que los perfiles <em>generalistas</em> tienden a desempeñarse mejor como
+                emprendedores, porque dominan varias funciones: una ventaja clara en una empresa pequeña o al
+                comienzo. Los materiales de RR. HH. (como los de SHRM) añaden que el perfil ideal depende del objetivo:
+                quien quiere liderar se beneficia de ser generalista; quien quiere ser referente técnico prefiere
+                especializarse. Y hay un hallazgo práctico: la rigidez entre ambos roles desperdicia talento: las
+                mejores empresas usan la rotación de funciones, desarrollan generalistas que luego se especializan y
+                ajustan la estructura al tamaño, con más hibridación al principio y más especialización a medida que crecen.</p>
+</div>
+</details>
+</section>
+<section aria-label="Mi recorrido" class="journey">
+<div class="journey-top"><h2><span class="ico">❧</span> Mi recorrido</h2><button class="journey-cta" data-inema-journey-open="" type="button">Abrir el cuaderno →</button></div>
+<div class="journey-body">
+<div class="jstat"><div class="k">En este módulo</div><div class="v" data-inema-meter="modulo:4-1"><span data-inema-meter-frac=""><strong>0</strong> de 3</span> <span class="nm">secciones leídas</span><div class="progress-line"><span class="progress-line__fill" data-inema-meter-fill=""></span></div></div></div>
+<div class="jstat"><div class="k">En la ruta 4</div><div class="v" data-inema-meter="trilha:4"><span data-inema-meter-frac=""><strong>0</strong> de 3</span> <span class="nm">temas</span><div class="progress-line"><span class="progress-line__fill" data-inema-meter-fill=""></span></div></div></div>
+<div class="jstat"><div class="k">En el curso</div><div class="v" data-inema-meter="curso"><span data-inema-meter-frac=""><strong>0</strong> de 27</span> <span class="nm">recorrido</span><div class="progress-line"><span class="progress-line__fill" data-inema-meter-fill=""></span></div></div></div>
+</div>
+</section>
+<div class="nextup"><div class="txt"><div class="k">Continuar</div><div class="t">Ruta 5 — Persuasión y psicología viral</div></div><a class="go" href="t5.html">Siguiente →</a></div>
+</article>
+<aside aria-label="Margen: notas y tu panel" class="margin-rail">
+<nav aria-label="Módulos de la Ruta 4" class="rail-modules">
+<p class="rail-modules__head">Ruta 4 · Habilidades y talentos</p>
+<ol>
+<li aria-current="page"><span class="n">4.1</span><span class="t">Habilidades y talentos del futuro</span></li>
+</ol>
+<a class="rail-modules__index" href="t4.html">Índice de la ruta →</a>
+</nav>
+<aside data-inema-rail="modulo-4-1#topico-1"></aside>
+<aside class="sidenote" data-kind="definicao">
+<div class="tag">Definición</div>
+<b>Nexialismo.</b> La capacidad de conectar conocimientos de distintas áreas — ver las relaciones
+          entre tecnología, comportamiento, economía y cultura. El nexialista no sabe solo una cosa; conecta
+          muchas.
+        </aside>
+<aside class="sidenote" data-kind="fundo">
+<div class="tag">Profundizando</div>
+<b>Alfabetización de datos</b> no es ser programador: es no dejarse engañar por los números. Saber que la correlación no es
+          causalidad, que un promedio oculta desigualdades y que los “me gusta” rara vez son un resultado real.
+        </aside>
+<aside class="sidenote" data-kind="fonte">
+<div class="tag">Fuente</div>
+          Las 12 habilidades humanas para la era de la IA, síntesis del canal INEMA.NCIA. La pregunta guía: ¿en quién
+          necesito convertirme para seguir siendo valioso cuando la máquina ejecuta cada vez más tareas?
+          <div class="src-line">t.me/c/2414677686/929</div>
+</aside>
+<!-- ---- SECAO 2 ---- -->
+<aside data-inema-rail="modulo-4-1#topico-2"></aside>
+<aside class="sidenote" data-kind="definicao">
+<div class="tag">Definición</div>
+<b>Anticipación.</b> Percibir problemas y oportunidades antes que los demás: ver lo que se avecina,
+          no solo resolver rápidamente lo que ya llegó. Para Jensen, el talento más raro de los seis.
+        </aside>
+<aside class="sidenote" data-kind="fundo">
+<div class="tag">Profundizando</div>
+          «IA como amplificador»: cuando cualquiera crea software con la herramienta, la diferencia
+          no está en usarla, sino en tener <i>buenas preguntas, buenos problemas y buena imaginación</i>.
+        </aside>
+<aside class="sidenote" data-kind="fonte">
+<div class="tag">Fuente</div>
+          Los 6 talentos del futuro, según la lectura de Jensen Huang resumida por Jansen. Idea central: ser inteligente
+          será combinar técnica, sensibilidad, visión y capacidad de adaptación.
+          <div class="src-line">t.me/c/2414677686/909</div>
+</aside>
+<!-- ---- SECAO 3 ---- -->
+<aside data-inema-rail="modulo-4-1#topico-3"></aside>
+<aside class="sidenote" data-kind="definicao">
+<div class="tag">Definición</div>
+<b>Brazo derecho vs. brazo izquierdo.</b> El derecho es el ejecutor de confianza que organiza el día a día; el izquierdo es el consejero o mentor que ayuda al fundador a evaluar riesgos y decisiones, y ni siquiera necesita tener un contrato laboral.
+        </aside>
+<aside class="sidenote" data-kind="fundo">
+<div class="tag">Profundizando</div>
+<b>Mula</b> e <b>salvador de la patria</b> son útiles al principio, pero se convierten en una trampa: ambos centralizan.
+          La transición es convertirse en <i>líder-arquitecto</i> — crear sistemas que funcionen sin tu esfuerzo constante.
+        </aside>
+<aside class="sidenote" data-kind="fonte" style="margin-bottom:0">
+<div class="tag">Fuente</div>
+          Perfiles humanos que definen el futuro de un negocio: mapa de 17 perfiles y estructura sugerida para
+          una empresa de 10 personas, con evidencias sobre especialista frente a generalista.
+          <div class="src-line">t.me/c/2414677686/754</div>
+</aside>
+</aside>
+</div></main>
+<footer class="colophon"><span>INEMA.CLUB · Cuaderno del alumno</span><span class="pg">Módulo 4-1</span><span>Compuesto en Spectral &amp; Source Serif 4</span></footer>
+<script src="../../curso/assets/learn.js"></script>
+<script>
+    if (window.INEMA && typeof window.INEMA.init === "function") { window.INEMA.init(); }
+  </script>
+</body>
+</html>

@@ -1,0 +1,419 @@
+<!DOCTYPE html>
+
+<html data-theme="papel" lang="en">
+<head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<!-- ===================================================================
+       1) ANTI-FOUC — script BLOQUEANTE, PRIMEIRO no <head>, ANTES das fontes
+          e do learn.css. Le inema.prefs (global, cross-curso) e aplica
+          data-theme + color-scheme + --measure/--leading/--fontscale +
+          data-font/--font-disp/--font-body ANTES do primeiro paint.
+          try/catch total => default papel no erro (preserva a marca INEMA).
+       =================================================================== -->
+<script>
+  (function () {
+    try {
+      var html = document.documentElement;
+      var DEF = { theme: 'papel', font: 'serif', fontScale: 100, lineWidth: 66, leading: 1.66 };
+      function clone(o) { var r = {}; for (var x in o) r[x] = o[x]; return r; }
+      var p = clone(DEF);
+      try {
+        var raw = localStorage.getItem('inema.prefs');
+        if (raw) {
+          var parsed = JSON.parse(raw);
+          if (parsed && typeof parsed === 'object') {
+            for (var k in DEF) if (parsed[k] != null) p[k] = parsed[k];
+          }
+        }
+      } catch (e) { p = clone(DEF); }
+
+      var THEMES = {
+        'papel':  { attr: 'papel',  cs: 'light' },
+        'sepia':  { attr: 'sepia',  cs: 'light' },
+        'escuro': { attr: 'escuro', cs: 'dark'  }
+      };
+      var t = THEMES[p.theme] || THEMES['papel'];
+      html.setAttribute('data-theme', t.attr);
+      html.style.colorScheme = t.cs;
+
+      var font = (p.font === 'sans' || p.font === 'hyperlegible') ? p.font : 'serif';
+      html.setAttribute('data-font', font);
+
+      var s = html.style;
+
+      var scale = (+p.fontScale || 100);
+      s.setProperty('--fontscale', scale + '%');
+      html.setAttribute('data-fontscale', String(scale));
+
+      var lw = (+p.lineWidth || 66);
+      s.setProperty('--measure', lw + 'ch');
+      html.setAttribute('data-line-width', lw <= 62 ? 'estreito' : (lw >= 70 ? 'largo' : 'medio'));
+
+      var lh = (+p.leading || 1.66);
+      s.setProperty('--leading', lh.toString());
+      html.setAttribute('data-leading', lh <= 1.66 ? 'compacto' : 'confortavel');
+
+      var DISP = {
+        serif: '"Spectral", Georgia, "Times New Roman", serif',
+        sans: 'ui-sans-serif, system-ui, -apple-system, "Segoe UI", Roboto, sans-serif',
+        hyperlegible: '"Atkinson Hyperlegible", system-ui, -apple-system, sans-serif'
+      };
+      var BODY = {
+        serif: '"Source Serif 4", Georgia, "Times New Roman", serif',
+        sans: 'ui-sans-serif, system-ui, -apple-system, "Segoe UI", Roboto, sans-serif',
+        hyperlegible: '"Atkinson Hyperlegible", system-ui, -apple-system, sans-serif'
+      };
+      s.setProperty('--font-disp', DISP[font] || DISP.serif);
+      s.setProperty('--font-body', BODY[font] || BODY.serif);
+    } catch (err) {
+      try {
+        document.documentElement.setAttribute('data-theme', 'papel');
+        document.documentElement.style.colorScheme = 'light';
+      } catch (e) {}
+    }
+  })();
+  </script>
+<meta content="inema-ncia" name="inema-course"/>
+<script data-inema-manifest="" type="application/json">
+{
+  "course": "inema-ncia",
+  "tracks": [
+    {
+      "n": "1",
+      "title": "Atenção",
+      "modules": [
+        {
+          "id": "1-1",
+          "title": "Necessidades & Atencao",
+          "topics": 3,
+          "href": "t1-1.html"
+        },
+        {
+          "id": "1-2",
+          "title": "A economia da distracao",
+          "topics": 3,
+          "href": "t1-2.html"
+        }
+      ]
+    },
+    {
+      "n": "2",
+      "title": "Percepção",
+      "modules": [
+        {
+          "id": "2-1",
+          "title": "Percepcao & valor",
+          "topics": 3,
+          "href": "t2-1.html"
+        },
+        {
+          "id": "2-2",
+          "title": "Como aprendemos",
+          "topics": 2,
+          "href": "t2-2.html"
+        }
+      ]
+    },
+    {
+      "n": "3",
+      "title": "Hábitos",
+      "modules": [
+        {
+          "id": "3-1",
+          "title": "Motivacao & determinacao",
+          "topics": 2,
+          "href": "t3-1.html"
+        },
+        {
+          "id": "3-2",
+          "title": "Rotinas que sustentam",
+          "topics": 3,
+          "href": "t3-2.html"
+        }
+      ]
+    },
+    {
+      "n": "4",
+      "title": "Habilidades",
+      "modules": [
+        {
+          "id": "4-1",
+          "title": "Habilidades & talentos do futuro",
+          "topics": 3,
+          "href": "t4-1.html"
+        }
+      ]
+    },
+    {
+      "n": "5",
+      "title": "Persuasão",
+      "modules": [
+        {
+          "id": "5-1",
+          "title": "Persuasao & estoria",
+          "topics": 2,
+          "href": "t5-1.html"
+        },
+        {
+          "id": "5-2",
+          "title": "Aplicacao",
+          "topics": 3,
+          "href": "t5-2.html"
+        }
+      ]
+    },
+    {
+      "n": "6",
+      "title": "Recursos",
+      "modules": [
+        {
+          "id": "6-1",
+          "title": "Recursos do Canal",
+          "topics": 3,
+          "href": "t6-1.html"
+        }
+      ]
+    }
+  ]
+}
+  </script>
+<title>Module 6-1 — Channel Resources | INEMA.NCIA</title>
+<link href="https://fonts.googleapis.com" rel="preconnect"/>
+<link crossorigin="" href="https://fonts.gstatic.com" rel="preconnect"/>
+<link href="https://fonts.googleapis.com/css2?family=Spectral:ital,wght@0,300;0,400;0,500;0,600;0,700;1,400;1,500&amp;family=Source+Serif+4:ital,opsz,wght@0,8..60,400;0,8..60,500;0,8..60,600;1,8..60,400;1,8..60,500&amp;family=IBM+Plex+Mono:wght@400;500&amp;family=Atkinson+Hyperlegible:ital,wght@0,400;0,700;1,400&amp;display=swap" rel="stylesheet"/>
+<link href="../../curso/assets/learn.css" rel="stylesheet"/>
+<link href="https://inematds.github.io/inemancia/curso/t6-1.html" hreflang="pt-BR" rel="alternate"/><link href="https://inematds.github.io/inemancia/en/curso/t6-1.html" hreflang="en" rel="alternate"/><link href="https://inematds.github.io/inemancia/es/curso/t6-1.html" hreflang="es" rel="alternate"/></head>
+<body><div class="inema-lang" style="position:fixed;right:14px;bottom:14px;z-index:9999;display:flex;gap:2px;padding:4px;border-radius:10px;background:rgba(12,12,16,.82);border:1px solid rgba(226,162,59,.45);font:600 12px/1 Sora,Inter,system-ui,sans-serif;backdrop-filter:blur(8px)" translate="no"><a href="../../curso/t6-1.html" hreflang="pt-BR" style="padding:6px 8px;border-radius:7px;text-decoration:none;color:#e9e9ee">PT</a><a href="t6-1.html" hreflang="en" style="padding:6px 8px;border-radius:7px;text-decoration:none;color:#1a1206;background:#E2A23B">EN</a><a href="../../es/curso/t6-1.html" hreflang="es" style="padding:6px 8px;border-radius:7px;text-decoration:none;color:#e9e9ee">ES</a></div>
+<a class="skip" href="#reading">Skip to content</a>
+<div class="reader-bar">
+<div class="reader-inner">
+<a class="wordmark" href="https://inema.club" rel="noopener" target="_blank">INEMA<span class="dot">.</span><span class="club">CLUB</span></a>
+<div class="reader-controls" data-inema-appearance="">
+<span class="rc-read"><span data-inema-meter="modulo:6-1"><span data-inema-meter-frac=""><strong>0</strong> of 3</span></span> read</span>
+<div aria-label="Reading theme" class="rc-group" role="group">
+<button aria-pressed="true" class="rc-btn" data-inema-set-theme="papel" type="button">Role</button>
+<button aria-pressed="false" class="rc-btn" data-inema-set-theme="sepia" type="button">Sepia</button>
+<button aria-pressed="false" class="rc-btn" data-inema-set-theme="escuro" type="button">Dark</button>
+</div>
+<div aria-label="Reading source" class="rc-group" role="group">
+<button aria-pressed="true" class="rc-btn" data-inema-set-font="serif" type="button">Serif</button>
+<button aria-pressed="false" class="rc-btn" data-inema-set-font="sans" type="button">Sans</button>
+<button aria-pressed="false" class="rc-btn" data-inema-set-font="hyperlegible" title="Atkinson Hyperlegible" type="button">Aa↹</button>
+</div>
+<div aria-label="Text size" class="rc-group" role="group">
+<button aria-pressed="true" class="rc-btn" data-inema-set-fontscale="100" type="button">A</button>
+<button aria-pressed="false" class="rc-btn" data-inema-set-fontscale="112" type="button">A+</button>
+<button aria-pressed="false" class="rc-btn" data-inema-set-fontscale="125" type="button">A++</button>
+</div>
+<div aria-label="Line width" class="rc-group" role="group">
+<button aria-pressed="false" class="rc-btn" data-inema-set-linewidth="62" type="button">Narrow</button>
+<button aria-pressed="true" class="rc-btn" data-inema-set-linewidth="66" type="button">Medium</button>
+<button aria-pressed="false" class="rc-btn" data-inema-set-linewidth="70" type="button">Wide</button>
+</div>
+</div>
+</div>
+</div>
+<header class="masthead">
+<nav aria-label="Where you are" class="wayfind">
+<span><a href="index.html" style="text-decoration:none">INEMA.NCIA</a></span><span class="sep">·</span>
+<span><a href="t6.html" style="text-decoration:none">Learning path <b>6</b></a></span><span class="sep">·</span>
+<span>Module <b>6-1</b></span><span class="sep">·</span>
+<span data-inema-section-counter="">Section 1 of 3</span><span class="sep">·</span>
+<button data-inema-journey-open="" type="button">My journey <span class="inema-journey-badge" data-count="0" data-inema-journey-badge="">0</span></button>
+</nav>
+<nav aria-label="Course tracks" class="course-nav" data-course-nav="">
+<a class="cn-home" href="index.html">Start</a>
+<span class="cn-sep">·</span>
+<a href="t1.html"><b>1</b> Attention</a>
+<a href="t2.html"><b>2</b> Perception</a>
+<a href="t3.html"><b>3</b> Habits</a>
+<a href="t4.html"><b>4</b> Skills</a>
+<a href="t5.html"><b>5</b> Persuasion</a>
+<a aria-current="page" class="active" href="t6.html"><b>6</b> Resources</a>
+</nav>
+</header>
+<main class="spread"><div class="leaf">
+<article class="reading" id="reading">
+<p class="kicker">Module 6-1 · Track 6 · INEMA.NCIA</p>
+<h1 class="module">Channel Resources</h1>
+<p class="deck">Welcome, video library, and index of the original topics, with a link back to Telegram.</p>
+<p class="read-meta"><span class="here">Reading now</span><span>3 sections</span><span><a href="t6.html" style="color:inherit">← trail index</a></span></p>
+<section aria-label="What this module covers" class="aims"><h2>What this module covers</h2><ul><li>Welcome to INEMA.NCIA</li><li>Video Library</li><li>Channel Topic Index</li></ul></section>
+<nav aria-label="Module summary" class="toc" data-inema-toc="">
+<p class="toc-head">Module summary</p>
+<ol>
+<li class="current"><span class="dot-now"></span><span class="n">1</span><a href="#topico-1"><span class="t">Welcome to INEMA.NCIA</span></a></li>
+<li><span class="n">2</span><a href="#topico-2"><span class="t">Video Library</span></a><span class="leader"></span></li>
+<li><span class="n">3</span><a href="#topico-3"><span class="t">Channel Topic Index</span></a><span class="leader"></span></li>
+</ol>
+</nav>
+<section data-inema-module="6-1" data-inema-topic="modulo-6-1#topico-1" data-inema-track="6" id="topico-1">
+<div class="section-mark">
+<span class="where">Section 1 of 3</span><span>·</span><span>Welcome</span>
+</div>
+<h2 class="head"><span class="num">1.</span>Welcome to INEMA.NCIA</h2>
+<div class="prose">
+<p class="lede dropcap" data-inema-block="m6-t1-p1">INEMA.NCIA began as a space for conversation
+              about how the mind works and how technology enters the picture—a place where
+              neuroscience and artificial intelligence intersect.<span class="sidenote-ref">1</span> The channel’s
+              opening message already announces this intersection: using neuroscience insights to understand how
+              the brain generates new ideas and creative solutions, while AI offers tools that
+              support this process.</p>
+<p data-inema-block="m6-t1-p2">That same initial movement also gives rise to one of the themes that run through the
+              channel: emotional intelligence. The welcome message introduces the five pillars defined by Daniel
+              Goleman— <strong>self-awareness</strong> (recognize your own emotions),
+              <strong>self-management</strong> (control impulses and stay calm), <strong>motivation</strong>
+              (persist toward goals), <strong>empathy</strong> (understand other people’s emotions), and
+              <strong>social skills</strong> (manage relationships and influence others positively).
+              Together, they form the foundation of self-awareness explored by the channel.</p>
+<h3 class="sub">How to read this appendix</h3>
+<p data-inema-block="m6-t1-p3">This Track 6 is an appendix: the course gathered the topics scattered
+              across the Telegram channel and reorganized them into reading tracks. Here are the resources that
+              point back to the source—the video library and the complete index of
+              topics.<span class="sidenote-ref">2</span> Access to the space became more direct through the
+              address <a href="http://inema.vip" rel="noopener">INEMA.VIP</a>.</p>
+</div>
+<details class="go-deeper">
+<summary><span class="chev">▸</span> Going deeper: materials mentioned in the welcome section
+              <span class="opt">optional</span></summary>
+<div class="inner">
+<p>The channel's opening points to some supporting materials, preserved here for reference:</p>
+<ul>
+<li>Video: <a href="https://youtu.be/wzIWURalJRI?si=XoDLLxOWVKd05doU" rel="noopener">youtu.be/wzIWURalJRI</a></li>
+<li>Video: <a href="https://youtu.be/DZz-cxXWQEQ?si=df3xywKqoypNhoT0" rel="noopener">youtu.be/DZz-cxXWQEQ</a></li>
+<li>Presentation (Gamma): <a href="https://gamma.app/docs/90zhdb84qrd9b9t" rel="noopener">gamma.app/docs/90zhdb84qrd9b9t</a></li>
+</ul>
+<p>The original welcome topic (“General”) is in
+                <a href="https://t.me/c/2414677686/1" rel="noopener">t.me/c/2414677686/1</a>.</p>
+</div>
+</details>
+</section>
+<section data-inema-module="6-1" data-inema-topic="modulo-6-1#topico-2" data-inema-track="6" id="topico-2">
+<div class="section-mark">
+<span class="where">Section 2 of 3</span><span>·</span><span>Videos</span>
+</div>
+<h2 class="head"><span class="num">2.</span>Video Library</h2>
+<div class="prose">
+<p class="lede" data-inema-block="m6-t2-p1">The channel maintains a dedicated topic for collecting
+              video materials.<span class="sidenote-ref">3</span> To be honest: in the collected source, this
+              topic is almost empty of text — it’s more a meeting point for the videos than a text
+              to read. The useful resource here is the topic’s own link, which is always up to date on Telegram.</p>
+</div>
+<div class="prose">
+<ul>
+<li>The channel's “Videos” topic —
+                <a href="https://t.me/c/2414677686/223" rel="noopener">t.me/c/2414677686/223</a></li>
+</ul>
+<p data-inema-block="m6-t2-p2">For the videos mentioned at the channel opening, also see the section
+              <em>Going deeper</em> from Section 1, which preserves the direct YouTube links.</p>
+</div>
+</section>
+<section data-inema-module="6-1" data-inema-topic="modulo-6-1#topico-3" data-inema-track="6" id="topico-3">
+<div class="section-mark">
+<span class="where">Section 3 of 3</span><span>·</span><span>Index</span>
+</div>
+<h2 class="head"><span class="num">3.</span>Channel Topic Index</h2>
+<div class="prose">
+<p class="lede" data-inema-block="m6-t3-p1">The channel maintains a master menu listing each topic with
+              its link <code>t.me</code> direct.<span class="sidenote-ref">4</span> Below is this index,
+              in order, with the title and address of each original conversation on Telegram — a map to
+              reach any topic through the front door.</p>
+</div>
+<div class="prose">
+<ul>
+<li>Archetypes — <a href="https://t.me/c/2414677686/543" rel="noopener">t.me/c/2414677686/543</a></li>
+<li>Self-Perception — <a href="https://t.me/c/2414677686/410" rel="noopener">t.me/c/2414677686/410</a></li>
+<li>Efficiency x Distraction — <a href="https://t.me/c/2414677686/675" rel="noopener">t.me/c/2414677686/675</a></li>
+<li>General — <a href="https://t.me/c/2414677686/1" rel="noopener">t.me/c/2414677686/1</a></li>
+<li>Personalization Models — <a href="https://t.me/c/2414677686/451" rel="noopener">t.me/c/2414677686/451</a></li>
+<li>Motivation x Determination — <a href="https://t.me/c/2414677686/560" rel="noopener">t.me/c/2414677686/560</a></li>
+<li>Human Needs — <a href="https://t.me/c/2414677686/130" rel="noopener">t.me/c/2414677686/130</a></li>
+<li>Neuroscience of ADDICTION — <a href="https://t.me/c/2414677686/664" rel="noopener">t.me/c/2414677686/664</a></li>
+<li>The 10 Powers of the Wise— <a href="https://t.me/c/2414677686/734" rel="noopener">t.me/c/2414677686/734</a></li>
+<li>Perception and Value — <a href="https://t.me/c/2414677686/608" rel="noopener">t.me/c/2414677686/608</a></li>
+<li>Human Profiles That Define the Future of a Business — <a href="https://t.me/c/2414677686/754" rel="noopener">t.me/c/2414677686/754</a></li>
+<li>PERMISSION to Succeed— <a href="https://t.me/c/2414677686/644" rel="noopener">t.me/c/2414677686/644</a></li>
+<li>Persuasion — Simple Techniques — <a href="https://t.me/c/2414677686/683" rel="noopener">t.me/c/2414677686/683</a></li>
+<li>The 1-Hour Morning Rule — <a href="https://t.me/c/2414677686/717" rel="noopener">t.me/c/2414677686/717</a></li>
+<li>The 5-Hour Week Rules — <a href="https://t.me/c/2414677686/694" rel="noopener">t.me/c/2414677686/694</a></li>
+<li>SRAA and Selective Attention — <a href="https://t.me/c/2414677686/628" rel="noopener">t.me/c/2414677686/628</a></li>
+<li>Shiny Object Syndrome (SOS) — <a href="https://t.me/c/2414677686/234" rel="noopener">t.me/c/2414677686/234</a></li>
+<li>Learning Theories — <a href="https://t.me/c/2414677686/131" rel="noopener">t.me/c/2414677686/131</a></li>
+<li>Videos — <a href="https://t.me/c/2414677686/223" rel="noopener">t.me/c/2414677686/223</a></li>
+<li>Prompt: VIRALST MODE VENDAS — <a href="https://t.me/c/2414677686/808" rel="noopener">t.me/c/2414677686/808</a></li>
+<li>VIRAL ST — Storytelling and Viral Psychology — <a href="https://t.me/c/2414677686/797" rel="noopener">t.me/c/2414677686/797</a></li>
+<li>THE COMPLETE MODEL OF DIGITAL TRIGGERS (2026+)— <a href="https://t.me/c/2414677686/841" rel="noopener">t.me/c/2414677686/841</a></li>
+<li>NciaFlux Project — NeuroFluxo App — <a href="https://t.me/c/2414677686/882" rel="noopener">t.me/c/2414677686/882</a></li>
+<li>6 Talentos do Futuro by Jansen — <a href="https://t.me/c/2414677686/909" rel="noopener">t.me/c/2414677686/909</a></li>
+</ul>
+<h3 class="sub">The version of these topics you read</h3>
+<p data-inema-block="m6-t3-p2">Many of these topics have already been rewritten and reorganized into the reading paths in this course.<span class="sidenote-ref">5</span> If you prefer to read the
+              editorial version instead of opening the conversation in Telegram, use the tracks:
+              <a href="t1.html">Learning path 1</a>, <a href="t2.html">Learning path 2</a>,
+              <a href="t3.html">Track 3</a>, <a href="t4.html">Track 4</a> e
+              <a href="t5.html">Track 5</a>. The index above remains the source: each link
+              <code>t.me</code> leads to the original conversation.</p>
+</div>
+</section>
+<section aria-label="My journey" class="journey">
+<div class="journey-top"><h2><span class="ico">❧</span> My journey</h2><button class="journey-cta" data-inema-journey-open="" type="button">Open the notebook →</button></div>
+<div class="journey-body">
+<div class="jstat"><div class="k">In this module</div><div class="v" data-inema-meter="modulo:6-1"><span data-inema-meter-frac=""><strong>0</strong> of 3</span> <span class="nm">sections read</span><div class="progress-line"><span class="progress-line__fill" data-inema-meter-fill=""></span></div></div></div>
+<div class="jstat"><div class="k">In Track 6</div><div class="v" data-inema-meter="trilha:6"><span data-inema-meter-frac=""><strong>0</strong> of 3</span> <span class="nm">topics</span><div class="progress-line"><span class="progress-line__fill" data-inema-meter-fill=""></span></div></div></div>
+<div class="jstat"><div class="k">In the course</div><div class="v" data-inema-meter="curso"><span data-inema-meter-frac=""><strong>0</strong> of 27</span> <span class="nm">covered</span><div class="progress-line"><span class="progress-line__fill" data-inema-meter-fill=""></span></div></div></div>
+</div>
+</section>
+<div class="nextup"><div class="txt"><div class="k">Continue</div><div class="t">Return to the beginning of the course</div></div><a class="go" href="index.html">Next →</a></div>
+</article>
+<aside aria-label="Margin: notes and your dashboard" class="margin-rail">
+<nav aria-label="Track 6 Modules" class="rail-modules">
+<p class="rail-modules__head">Track 6 · Channel Resources</p>
+<ol>
+<li aria-current="page"><span class="n">6.1</span><span class="t">Channel Resources</span></li>
+</ol>
+<a class="rail-modules__index" href="t6.html">Learning path index →</a>
+</nav>
+<aside data-inema-rail="modulo-6-1#topico-1"></aside>
+<aside class="sidenote" data-kind="definicao">
+<div class="tag">Definition</div>
+<b>INEMA.NCIA.</b> The original channel for this course, at the intersection of <i>neuroscience</i> e
+          <i>artificial intelligence</i> — mind and machine side by side.
+        </aside>
+<aside class="sidenote" data-kind="fundo">
+<div class="tag">Going deeper</div>
+          Goleman’s five pillars—self-awareness, self-management, motivation, empathy, social skills—reappear in the tracks on perception and self-knowledge in this course.
+        </aside>
+<aside class="sidenote" data-kind="fonte">
+<div class="tag">Source</div>
+          The channel's “General” topic, opening messages.
+          <div class="src-line"><a href="https://t.me/c/2414677686/1" rel="noopener">t.me/c/2414677686/1</a> · inema.vip</div>
+</aside>
+<!-- ---- SECAO 2 ---- -->
+<aside data-inema-rail="modulo-6-1#topico-2"></aside>
+<aside class="sidenote" data-kind="fonte">
+<div class="tag">Source</div>
+          The channel's “Videos” topic — a gathering point for video materials, updated right in Telegram.
+          <div class="src-line"><a href="https://t.me/c/2414677686/223" rel="noopener">t.me/c/2414677686/223</a></div>
+</aside>
+<!-- ---- SECAO 3 ---- -->
+<aside data-inema-rail="modulo-6-1#topico-3"></aside>
+<aside class="sidenote" data-kind="definicao">
+<div class="tag">Definition</div>
+<b>Topic index.</b> The channel's master menu: each topic with its link <code>t.me</code> direct.
+          It works as a navigable summary of everything that has been discussed so far.
+        </aside>
+<aside class="sidenote" data-kind="fundo" style="margin-bottom:0">
+<div class="tag">Going deeper</div>
+          The index is the source; Learning Paths 1 to 5 are the reading experience. One takes you to the original on Telegram; the others, to a
+          rewritten and organized version of the same material.
+        </aside>
+</aside>
+</div></main>
+<footer class="colophon"><span>INEMA.CLUB · Student Workbook</span><span class="pg">Module 6-1</span><span>Set in Spectral &amp; Source Serif 4</span></footer>
+<script src="../../curso/assets/learn.js"></script>
+<script>
+    if (window.INEMA && typeof window.INEMA.init === "function") { window.INEMA.init(); }
+  </script>
+</body>
+</html>

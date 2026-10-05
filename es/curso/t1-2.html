@@ -1,0 +1,414 @@
+<!DOCTYPE html>
+
+<html data-theme="papel" lang="es">
+<head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<!-- ===================================================================
+       1) ANTI-FOUC — script BLOQUEANTE, PRIMEIRO no <head>, ANTES das fontes
+          e do learn.css. Le inema.prefs (global, cross-curso) e aplica
+          data-theme + color-scheme + --measure/--leading/--fontscale +
+          data-font/--font-disp/--font-body ANTES do primeiro paint.
+          try/catch total => default papel no erro (preserva a marca INEMA).
+       =================================================================== -->
+<script>
+  (function () {
+    try {
+      var html = document.documentElement;
+      var DEF = { theme: 'papel', font: 'serif', fontScale: 100, lineWidth: 66, leading: 1.66 };
+      function clone(o) { var r = {}; for (var x in o) r[x] = o[x]; return r; }
+      var p = clone(DEF);
+      try {
+        var raw = localStorage.getItem('inema.prefs');
+        if (raw) {
+          var parsed = JSON.parse(raw);
+          if (parsed && typeof parsed === 'object') {
+            for (var k in DEF) if (parsed[k] != null) p[k] = parsed[k];
+          }
+        }
+      } catch (e) { p = clone(DEF); }
+
+      var THEMES = {
+        'papel':  { attr: 'papel',  cs: 'light' },
+        'sepia':  { attr: 'sepia',  cs: 'light' },
+        'escuro': { attr: 'escuro', cs: 'dark'  }
+      };
+      var t = THEMES[p.theme] || THEMES['papel'];
+      html.setAttribute('data-theme', t.attr);
+      html.style.colorScheme = t.cs;
+
+      var font = (p.font === 'sans' || p.font === 'hyperlegible') ? p.font : 'serif';
+      html.setAttribute('data-font', font);
+
+      var s = html.style;
+
+      var scale = (+p.fontScale || 100);
+      s.setProperty('--fontscale', scale + '%');
+      html.setAttribute('data-fontscale', String(scale));
+
+      var lw = (+p.lineWidth || 66);
+      s.setProperty('--measure', lw + 'ch');
+      html.setAttribute('data-line-width', lw <= 62 ? 'estreito' : (lw >= 70 ? 'largo' : 'medio'));
+
+      var lh = (+p.leading || 1.66);
+      s.setProperty('--leading', lh.toString());
+      html.setAttribute('data-leading', lh <= 1.66 ? 'compacto' : 'confortavel');
+
+      var DISP = {
+        serif: '"Spectral", Georgia, "Times New Roman", serif',
+        sans: 'ui-sans-serif, system-ui, -apple-system, "Segoe UI", Roboto, sans-serif',
+        hyperlegible: '"Atkinson Hyperlegible", system-ui, -apple-system, sans-serif'
+      };
+      var BODY = {
+        serif: '"Source Serif 4", Georgia, "Times New Roman", serif',
+        sans: 'ui-sans-serif, system-ui, -apple-system, "Segoe UI", Roboto, sans-serif',
+        hyperlegible: '"Atkinson Hyperlegible", system-ui, -apple-system, sans-serif'
+      };
+      s.setProperty('--font-disp', DISP[font] || DISP.serif);
+      s.setProperty('--font-body', BODY[font] || BODY.serif);
+    } catch (err) {
+      try {
+        document.documentElement.setAttribute('data-theme', 'papel');
+        document.documentElement.style.colorScheme = 'light';
+      } catch (e) {}
+    }
+  })();
+  </script>
+<meta content="inema-ncia" name="inema-course"/>
+<script data-inema-manifest="" type="application/json">
+{
+  "course": "inema-ncia",
+  "tracks": [
+    {
+      "n": "1",
+      "title": "Atenção",
+      "modules": [
+        {
+          "id": "1-1",
+          "title": "Necessidades & Atencao",
+          "topics": 3,
+          "href": "t1-1.html"
+        },
+        {
+          "id": "1-2",
+          "title": "A economia da distracao",
+          "topics": 3,
+          "href": "t1-2.html"
+        }
+      ]
+    },
+    {
+      "n": "2",
+      "title": "Percepção",
+      "modules": [
+        {
+          "id": "2-1",
+          "title": "Percepcao & valor",
+          "topics": 3,
+          "href": "t2-1.html"
+        },
+        {
+          "id": "2-2",
+          "title": "Como aprendemos",
+          "topics": 2,
+          "href": "t2-2.html"
+        }
+      ]
+    },
+    {
+      "n": "3",
+      "title": "Hábitos",
+      "modules": [
+        {
+          "id": "3-1",
+          "title": "Motivacao & determinacao",
+          "topics": 2,
+          "href": "t3-1.html"
+        },
+        {
+          "id": "3-2",
+          "title": "Rotinas que sustentam",
+          "topics": 3,
+          "href": "t3-2.html"
+        }
+      ]
+    },
+    {
+      "n": "4",
+      "title": "Habilidades",
+      "modules": [
+        {
+          "id": "4-1",
+          "title": "Habilidades & talentos do futuro",
+          "topics": 3,
+          "href": "t4-1.html"
+        }
+      ]
+    },
+    {
+      "n": "5",
+      "title": "Persuasão",
+      "modules": [
+        {
+          "id": "5-1",
+          "title": "Persuasao & estoria",
+          "topics": 2,
+          "href": "t5-1.html"
+        },
+        {
+          "id": "5-2",
+          "title": "Aplicacao",
+          "topics": 3,
+          "href": "t5-2.html"
+        }
+      ]
+    },
+    {
+      "n": "6",
+      "title": "Recursos",
+      "modules": [
+        {
+          "id": "6-1",
+          "title": "Recursos do Canal",
+          "topics": 3,
+          "href": "t6-1.html"
+        }
+      ]
+    }
+  ]
+}
+  </script>
+<title>Módulo 1-2 — La economía de la distracción | INEMA.NCIA</title>
+<link href="https://fonts.googleapis.com" rel="preconnect"/>
+<link crossorigin="" href="https://fonts.gstatic.com" rel="preconnect"/>
+<link href="https://fonts.googleapis.com/css2?family=Spectral:ital,wght@0,300;0,400;0,500;0,600;0,700;1,400;1,500&amp;family=Source+Serif+4:ital,opsz,wght@0,8..60,400;0,8..60,500;0,8..60,600;1,8..60,400;1,8..60,500&amp;family=IBM+Plex+Mono:wght@400;500&amp;family=Atkinson+Hyperlegible:ital,wght@0,400;0,700;1,400&amp;display=swap" rel="stylesheet"/>
+<link href="../../curso/assets/learn.css" rel="stylesheet"/>
+<link href="https://inematds.github.io/inemancia/curso/t1-2.html" hreflang="pt-BR" rel="alternate"/><link href="https://inematds.github.io/inemancia/en/curso/t1-2.html" hreflang="en" rel="alternate"/><link href="https://inematds.github.io/inemancia/es/curso/t1-2.html" hreflang="es" rel="alternate"/></head>
+<body><div class="inema-lang" style="position:fixed;right:14px;bottom:14px;z-index:9999;display:flex;gap:2px;padding:4px;border-radius:10px;background:rgba(12,12,16,.82);border:1px solid rgba(226,162,59,.45);font:600 12px/1 Sora,Inter,system-ui,sans-serif;backdrop-filter:blur(8px)" translate="no"><a href="../../curso/t1-2.html" hreflang="pt-BR" style="padding:6px 8px;border-radius:7px;text-decoration:none;color:#e9e9ee">PT</a><a href="../../en/curso/t1-2.html" hreflang="en" style="padding:6px 8px;border-radius:7px;text-decoration:none;color:#e9e9ee">EN</a><a href="t1-2.html" hreflang="es" style="padding:6px 8px;border-radius:7px;text-decoration:none;color:#1a1206;background:#E2A23B">ES</a></div>
+<a class="skip" href="#reading">Saltar al contenido</a>
+<div class="reader-bar">
+<div class="reader-inner">
+<a class="wordmark" href="https://inema.club" rel="noopener" target="_blank">INEMA<span class="dot">.</span><span class="club">CLUB</span></a>
+<div class="reader-controls" data-inema-appearance="">
+<span class="rc-read"><span data-inema-meter="modulo:1-2"><span data-inema-meter-frac=""><strong>0</strong> de 3</span></span> leídas</span>
+<div aria-label="Tema de lectura" class="rc-group" role="group">
+<button aria-pressed="true" class="rc-btn" data-inema-set-theme="papel" type="button">Papel</button>
+<button aria-pressed="false" class="rc-btn" data-inema-set-theme="sepia" type="button">Sepia</button>
+<button aria-pressed="false" class="rc-btn" data-inema-set-theme="escuro" type="button">Oscuro</button>
+</div>
+<div aria-label="Fuente de lectura" class="rc-group" role="group">
+<button aria-pressed="true" class="rc-btn" data-inema-set-font="serif" type="button">Serif</button>
+<button aria-pressed="false" class="rc-btn" data-inema-set-font="sans" type="button">Sans</button>
+<button aria-pressed="false" class="rc-btn" data-inema-set-font="hyperlegible" title="Atkinson Hyperlegible" type="button">Aa↹</button>
+</div>
+<div aria-label="Tamaño del texto" class="rc-group" role="group">
+<button aria-pressed="true" class="rc-btn" data-inema-set-fontscale="100" type="button">A</button>
+<button aria-pressed="false" class="rc-btn" data-inema-set-fontscale="112" type="button">A+</button>
+<button aria-pressed="false" class="rc-btn" data-inema-set-fontscale="125" type="button">A++</button>
+</div>
+<div aria-label="Ancho de línea" class="rc-group" role="group">
+<button aria-pressed="false" class="rc-btn" data-inema-set-linewidth="62" type="button">Estrecho</button>
+<button aria-pressed="true" class="rc-btn" data-inema-set-linewidth="66" type="button">Medio</button>
+<button aria-pressed="false" class="rc-btn" data-inema-set-linewidth="70" type="button">Ancho</button>
+</div>
+</div>
+</div>
+</div>
+<header class="masthead">
+<nav aria-label="Dónde estás" class="wayfind">
+<span><a href="index.html" style="text-decoration:none">INEMA.NCIA</a></span><span class="sep">·</span>
+<span><a href="t1.html" style="text-decoration:none">Recorrido <b>1</b></a></span><span class="sep">·</span>
+<span>Módulo <b>1-2</b></span><span class="sep">·</span>
+<span data-inema-section-counter="">Sección 1 de 3</span><span class="sep">·</span>
+<button data-inema-journey-open="" type="button">Mi recorrido <span class="inema-journey-badge" data-count="0" data-inema-journey-badge="">0</span></button>
+</nav>
+<nav aria-label="Rutas del curso" class="course-nav" data-course-nav="">
+<a class="cn-home" href="index.html">Inicio</a>
+<span class="cn-sep">·</span>
+<a aria-current="page" class="active" href="t1.html"><b>1</b> Atención</a>
+<a href="t2.html"><b>2</b> Percepción</a>
+<a href="t3.html"><b>3</b> Hábitos</a>
+<a href="t4.html"><b>4</b> Habilidades</a>
+<a href="t5.html"><b>5</b> Persuasión</a>
+<a href="t6.html"><b>6</b> Recursos</a>
+</nav>
+</header>
+<main class="spread"><div class="leaf">
+<article class="reading" id="reading">
+<p class="kicker">Módulo 1-2 · Ruta 1 · INEMA.NCIA</p>
+<h1 class="module">La economía de la distracción</h1>
+<p class="deck">Cuando el entorno se convierte en una trampa: el objeto brillante, el costo real de la distracción y la vulnerabilidad de nuestro tiempo.</p>
+<p class="read-meta"><span class="here">Leyendo ahora</span><span>3 secciones</span><span><a href="t1.html" style="color:inherit">← índice de la ruta</a></span></p>
+<section aria-label="Qué abarca este módulo" class="aims"><h2>Qué abarca este módulo</h2><ul><li>El Síndrome del Objeto Brillante (SOS)</li><li>Eficiencia x Distracción</li><li>2025: la principal vulnerabilidad</li></ul></section>
+<nav aria-label="Resumen del módulo" class="toc" data-inema-toc="">
+<p class="toc-head">Resumen del módulo</p>
+<ol>
+<li class="current"><span class="dot-now"></span><span class="n">1</span><a href="#topico-1"><span class="t">El Síndrome del Objeto Brillante (SOS)</span></a></li>
+<li><span class="n">2</span><a href="#topico-2"><span class="t">Eficiencia x Distracción</span></a><span class="leader"></span></li>
+<li><span class="n">3</span><a href="#topico-3"><span class="t">2025: la principal vulnerabilidad</span></a><span class="leader"></span></li>
+</ol>
+</nav>
+<section data-inema-module="1-2" data-inema-topic="modulo-1-2#topico-1" data-inema-track="1" id="topico-1">
+<div class="section-mark">
+<span class="where">Sección 1 de 3</span><span>·</span><span>Objeto brillante</span>
+</div>
+<h2 class="head"><span class="num">1.</span>El Síndrome del Objeto Brillante (SOS)</h2>
+<div class="prose">
+<p class="lede" data-inema-block="m1-t4-p1">Si la sección anterior trató sobre la distracción consumida, esta trata sobre la distracción <em>producida</em>. A <strong>Síndrome del Objeto Brillante</strong> y es la tendencia a
+              abandonar lo que está en marcha cada vez que surge una nueva idea, herramienta o proyecto más
+              emocionante. Cada novedad brilla — y el foco se desplaza hacia ella, dejando atrás lo que ya
+              estaba cerca de dar frutos.<span class="sidenote-ref">4</span></p>
+<p data-inema-block="m1-t4-p2">El precio es concreto. Cambiar de proyecto antes de terminar desperdicia
+              recursos —tiempo, dinero, equipo— sin un retorno real. Abandonar una idea que habría funcionado
+              si se hubiera terminado cuesta oportunidades. Y existe el costo invisible del tiempo de <em>ramp-up</em>: cada
+              comienzo requiere un período hasta alcanzar la eficiencia, y quien salta de una cosa a otra nunca cosecha los
+              frutos de ese aprendizaje. Muchos proyectos empiezan; casi ninguno termina.</p>
+<h3 class="sub">La disciplina de filtrar ideas</h3>
+<p data-inema-block="m1-t4-p3">La defensa no consiste en dejar de tener ideas — consiste en filtrarlas. Empieza con
+              <strong>claridad de objetivos</strong>: cuanto más claro está el destino, más fácil es darse cuenta de cuándo una
+              novedad te desvía. Entonces surge la pregunta filtro ante cada tentación: <em>¿esto
+              contribuye significativamente a mi objetivo principal?</em> Si no resuelve un problema real
+              ni se alinea con las metas, quizá no sea el momento. Esa es la regla de oro: solo empieza algo nuevo cuando hayas
+              cerrado o sistematizado lo que estaba en marcha.</p>
+</div>
+<div class="predict">
+<p class="lbl">Detente y predice</p>
+<p>Un progreso lento no es lo mismo que un proyecto malo. Antes de saltar a la siguiente idea brillante,
+              ¿qué mirarías para decidir entre <em>continuar</em> o <em>abandonar</em>?</p>
+<details>
+<summary>Ver una posible respuesta</summary>
+<p class="answer">Tendencias, no solo el número del día. Un crecimiento pequeño pero constante,
+                una retención en aumento y una mejora en los comentarios son señales de progreso sostenible que requieren paciencia.
+                Un estancamiento prolongado, un costo de adquisición siempre por encima del valor del cliente o una tendencia del mercado
+                que se vuelve desfavorable son señales de que quizá sea hora de cambiar el enfoque, basándote en datos, no en
+                el aburrimiento.</p>
+</details>
+</div>
+</section>
+<section data-inema-module="1-2" data-inema-topic="modulo-1-2#topico-2" data-inema-track="1" id="topico-2">
+<div class="section-mark">
+<span class="where">Sección 2 de 3</span><span>·</span><span>Eficiencia</span>
+</div>
+<h2 class="head"><span class="num">2.</span>Eficiencia x Distracción</h2>
+<div class="prose">
+<p class="lede" data-inema-block="m1-t5-p1">También hay quienes tratan el enfoque como un deporte de alto rendimiento. El
+              inversionista Kevin O'Leary, del programa <i>Shark Tank</i>, describe así la actitud de Elon Musk: si
+              no estás diciendo algo valioso, simplemente se va, en medio de la conversación y sin
+              pedir disculpas. Para O'Leary, Musk y Steve Jobs operaban en la misma frecuencia, donde la distracción se
+              elimina sin piedad.<span class="sidenote-ref">5</span></p>
+<p data-inema-block="m1-t5-p2">La metáfora que usa es sencilla. <strong>Señal</strong> y el tiempo
+              que dedicas a avanzar en tus objetivos; <strong>ruido</strong> y todo lo demás — distracciones, reuniones
+              inútiles, charla trivial. Perder demasiado tiempo en lo segundo, dice O'Leary, es fracasar. Tanto Jobs
+              como Musk habrían dominado ese equilibrio. No es algo personal: es una cuestión de eficiencia.</p>
+<h3 class="sub">Señal frente al ruido, en cifras</h3>
+<p data-inema-block="m1-t5-p3">O'Leary, que trabajó con Jobs en Apple, recuerda reuniones en las que él
+              se enfocaba de forma brutal, hasta el punto de descartar en el acto una propuesta de gastar millones en investigación
+              de mercado, con la frase «nadie sabe lo que quiere hasta que yo lo diga». Según O'Leary, Jobs era
+              aproximadamente «85 % señal, 15 % ruido»: todavía dejaba pasar algunas distracciones. Musk sería el caso excepcional
+              de «100 % señal», el hombre más enfocado que ha conocido. La postura puede sonar arrogante, pero
+              el argumento es que fue esa postura —ignorar las distracciones y decidir con confianza— la que ayudó a
+              construir empresas que cambiaron el mundo.</p>
+</div>
+<details class="go-deeper">
+<summary><span class="chev">▸</span> Profundizando: qué conservar y qué relativizar
+              <span class="opt">opcional</span></summary>
+<div class="inner">
+<p>Capa opcional. La historia es inspiradora, pero conviene leerla con cuidado.</p>
+<p>El núcleo aprovechable y la distinción <em>señal x ruido</em>: de verdad vale la pena preguntarse ante cada
+                tarea si hace avanzar un objetivo o solo consume tiempo. Ese es el hilo que conecta esta sección con el
+                Síndrome del Objeto Brillante: ambos tratan de proteger lo que importa de lo que solo parece
+                urgente. Por otro lado, el relato de O'Leary describe un estilo personal, no una receta universal:
+                tratar a las personas con aspereza no es lo que hace eficaz el enfoque, y las cifras ("85%", "100%") son una
+                figura retórica, no una medida. Quédate con el principio —menos ruido, más señal—
+                y descarta la parte de la rudeza.</p>
+</div>
+</details>
+</section>
+<section data-inema-module="1-2" data-inema-topic="modulo-1-2#topico-3" data-inema-track="1" id="topico-3">
+<div class="section-mark">
+<span class="where">Sección 3 de 3</span><span>·</span><span>Vulnerabilidad</span>
+</div>
+<h2 class="head"><span class="num">3.</span>2025: la principal vulnerabilidad</h2>
+<div class="prose">
+<p class="lede" data-inema-block="m1-t6-p1">Aquí la ruta cierra el círculo. En 2025, se argumenta, la
+              principal vulnerabilidad de las organizaciones deja de ser <em>técnica</em> y pasa a ser
+              <em>humana</em>. Incluso con firewalls, cifrado e infraestructura reforzados, el eslabón más débil
+              sigue siendo el comportamiento de las personas: el llamado <strong>algoritmo humano</strong>.<span class="sidenote-ref">6</span></p>
+<p data-inema-block="m1-t6-p2">La consecuencia es un cambio del enfoque de la defensa. De
+              <strong>perímetro</strong> de redes y paquetes para la <strong>defensa cognitiva</strong>: monitorear el
+              uso indebido de la confianza, identificar manipulaciones sutiles en los mensajes —ingeniería social,
+              phishing sofisticado, sobrecarga de decisiones. Desde la simple <em>detección</em> para la
+              <em>predicción de patrones humanos</em>: anticipar, por ejemplo, cuándo alguien está bajo fatiga digital
+              y es más propenso a hacer clic en un enlace sospechoso.</p>
+<h3 class="sub">Del firewall en la red al firewall en la mente</h3>
+<p data-inema-block="m1-t6-p3">Por eso la seguridad deja de ser solo técnica y se convierte en
+              <strong>educativo y conductual</strong> — una especie de <em>mindfulness digital</em>:
+              capacitar a los equipos sobre sesgos cognitivos, técnicas de persuasión y desinformación. Y los silos dan paso
+              a ecosistemas que integran TI, tecnología operativa y seguridad física, ya que todo está
+              interconectado. La síntesis es directa: la seguridad se convierte en una cuestión de
+              <strong>alfabetización cognitiva</strong>, donde el verdadero firewall es la mente entrenada.</p>
+<p data-inema-block="m1-t6-p4">Fíjate cómo encaja todo. Las necesidades mueven a la persona; el SRAA decide qué percibe; la adicción secuestra la recompensa; el Síndrome del Objeto Brillante y la distracción dispersan el foco. Al final, la propia seguridad pasa a depender de una atención entrenada. Entender el órgano en disputa no es curiosidad académica: es el requisito previo de todo lo que viene en las próximas rutas.</p>
+</div>
+</section>
+<section aria-label="Mi recorrido" class="journey">
+<div class="journey-top"><h2><span class="ico">❧</span> Mi recorrido</h2><button class="journey-cta" data-inema-journey-open="" type="button">Abrir el cuaderno →</button></div>
+<div class="journey-body">
+<div class="jstat"><div class="k">En este módulo</div><div class="v" data-inema-meter="modulo:1-2"><span data-inema-meter-frac=""><strong>0</strong> de 3</span> <span class="nm">secciones leídas</span><div class="progress-line"><span class="progress-line__fill" data-inema-meter-fill=""></span></div></div></div>
+<div class="jstat"><div class="k">En la ruta 1</div><div class="v" data-inema-meter="trilha:1"><span data-inema-meter-frac=""><strong>0</strong> de 6</span> <span class="nm">temas</span><div class="progress-line"><span class="progress-line__fill" data-inema-meter-fill=""></span></div></div></div>
+<div class="jstat"><div class="k">En el curso</div><div class="v" data-inema-meter="curso"><span data-inema-meter-frac=""><strong>0</strong> de 27</span> <span class="nm">recorrido</span><div class="progress-line"><span class="progress-line__fill" data-inema-meter-fill=""></span></div></div></div>
+</div>
+</section>
+<div class="nextup"><div class="txt"><div class="k">Continuar</div><div class="t">Recorrido 2 — Percepción y Autoconocimiento</div></div><a class="go" href="t2.html">Siguiente →</a></div>
+</article>
+<aside aria-label="Margen: notas y tu panel" class="margin-rail">
+<nav aria-label="Módulos de la Ruta 1" class="rail-modules">
+<p class="rail-modules__head">Recorrido 1 · Neurociencia de la Atención</p>
+<ol>
+<li><a href="t1-1.html"><span class="n">1.1</span><span class="t">Necesidades y atención</span></a></li>
+<li aria-current="page"><span class="n">1.2</span><span class="t">La economía de la distracción</span></li>
+</ol>
+<a class="rail-modules__index" href="t1.html">Índice de la ruta →</a>
+</nav>
+<aside data-inema-rail="modulo-1-2#topico-1"></aside>
+<aside class="sidenote" data-kind="definicao">
+<div class="tag">Definición</div>
+<b>Ramp-up.</b> El tiempo necesario para alcanzar la eficiencia en algo nuevo. Quien salta de un proyecto a otro
+          paga ese costo cada vez y nunca cosecha el aprendizaje.
+        </aside>
+<aside class="sidenote" data-kind="fundo">
+<div class="tag">Profundizando</div>
+          La pregunta filtro resuelve casi todos los casos: <i>¿esto contribuye significativamente a mi objetivo
+          principal?</i> Empieza algo nuevo solo cuando hayas terminado lo que estaba en marcha.
+        </aside>
+<!-- ---- SECAO 5 ---- -->
+<aside data-inema-rail="modulo-1-2#topico-2"></aside>
+<aside class="sidenote" data-kind="definicao">
+<div class="tag">Definición</div>
+<b>Señal vs. ruido.</b> Señal y el tiempo que impulsa un objetivo; ruido es todo lo demás. La metáfora de Kevin
+          O'Leary para describir el enfoque de Jobs y Musk.
+        </aside>
+<aside class="sidenote" data-kind="fonte">
+<div class="tag">Fuente</div>
+          El relato es de Kevin O'Leary, inversionista de <i>Shark Tank</i>, en una publicación en X. Los porcentajes
+          ("85%", "100% señal") son una figura retórica, no una medida: conserva el principio, no la grosería.
+        </aside>
+<!-- ---- SECAO 6 ---- -->
+<aside data-inema-rail="modulo-1-2#topico-3"></aside>
+<aside class="sidenote" data-kind="definicao">
+<div class="tag">Definición</div>
+<b>Algoritmo humano.</b> El comportamiento de las personas como el eslabón más débil de la seguridad: objetivo de la ingeniería social y la sobrecarga cognitiva, incluso con una infraestructura técnica reforzada.
+        </aside>
+<aside class="sidenote" data-kind="fundo" style="margin-bottom:0">
+<div class="tag">Profundizando</div>
+          La ruta cierra el círculo: necesidades, filtro de atención, adicción y distracción convergen aquí — la
+          seguridad de 2025 se convierte en <i>alfabetización cognitiva</i>, y el firewall pasa a ser la mente entrenada.
+        </aside>
+</aside>
+</div></main>
+<footer class="colophon"><span>INEMA.CLUB · Cuaderno del alumno</span><span class="pg">Módulo 1-2</span><span>Compuesto en Spectral &amp; Source Serif 4</span></footer>
+<script src="../../curso/assets/learn.js"></script>
+<script>
+    if (window.INEMA && typeof window.INEMA.init === "function") { window.INEMA.init(); }
+  </script>
+</body>
+</html>

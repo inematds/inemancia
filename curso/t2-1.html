@@ -1,17 +1,17 @@
 <!DOCTYPE html>
-<html lang="pt-BR" data-theme="papel">
-<head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
 
-  <!-- ===================================================================
+<html data-theme="papel" lang="pt-BR">
+<head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<!-- ===================================================================
        1) ANTI-FOUC — script BLOQUEANTE, PRIMEIRO no <head>, ANTES das fontes
           e do learn.css. Le inema.prefs (global, cross-curso) e aplica
           data-theme + color-scheme + --measure/--leading/--fontscale +
           data-font/--font-disp/--font-body ANTES do primeiro paint.
           try/catch total => default papel no erro (preserva a marca INEMA).
        =================================================================== -->
-  <script>
+<script>
   (function () {
     try {
       var html = document.documentElement;
@@ -74,9 +74,8 @@
     }
   })();
   </script>
-
-  <meta name="inema-course" content="inema-ncia" />
-  <script type="application/json" data-inema-manifest>
+<meta content="inema-ncia" name="inema-course"/>
+<script data-inema-manifest="" type="application/json">
 {
   "course": "inema-ncia",
   "tracks": [
@@ -179,354 +178,311 @@
   ]
 }
   </script>
-
-  <title>Modulo 2-1 &mdash; Percepcao & valor | INEMA.NCIA</title>
-
-  <link rel="preconnect" href="https://fonts.googleapis.com" />
-  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
-  <link href="https://fonts.googleapis.com/css2?family=Spectral:ital,wght@0,300;0,400;0,500;0,600;0,700;1,400;1,500&family=Source+Serif+4:ital,opsz,wght@0,8..60,400;0,8..60,500;0,8..60,600;1,8..60,400;1,8..60,500&family=IBM+Plex+Mono:wght@400;500&family=Atkinson+Hyperlegible:ital,wght@0,400;0,700;1,400&display=swap" rel="stylesheet" />
-  <link rel="stylesheet" href="./assets/learn.css" />
-</head>
-<body>
-  <a class="skip" href="#reading">Pular para o conteudo</a>
-  <div class="reader-bar">
-    <div class="reader-inner">
-      <a class="wordmark" href="https://inema.club" target="_blank" rel="noopener">INEMA<span class="dot">.</span><span class="club">CLUB</span></a>
-      <div class="reader-controls" data-inema-appearance>
-        <span class="rc-read"><span data-inema-meter="modulo:2-1"><span data-inema-meter-frac><strong>0</strong> de 3</span></span> lidas</span>
-        <div class="rc-group" role="group" aria-label="Tema de leitura">
-          <button type="button" class="rc-btn" data-inema-set-theme="papel" aria-pressed="true">Papel</button>
-          <button type="button" class="rc-btn" data-inema-set-theme="sepia" aria-pressed="false">Sepia</button>
-          <button type="button" class="rc-btn" data-inema-set-theme="escuro" aria-pressed="false">Escuro</button>
-        </div>
-        <div class="rc-group" role="group" aria-label="Fonte de leitura">
-          <button type="button" class="rc-btn" data-inema-set-font="serif" aria-pressed="true">Serif</button>
-          <button type="button" class="rc-btn" data-inema-set-font="sans" aria-pressed="false">Sans</button>
-          <button type="button" class="rc-btn" data-inema-set-font="hyperlegible" aria-pressed="false" title="Atkinson Hyperlegible">Aa&#8633;</button>
-        </div>
-        <div class="rc-group" role="group" aria-label="Tamanho do texto">
-          <button type="button" class="rc-btn" data-inema-set-fontscale="100" aria-pressed="true">A</button>
-          <button type="button" class="rc-btn" data-inema-set-fontscale="112" aria-pressed="false">A+</button>
-          <button type="button" class="rc-btn" data-inema-set-fontscale="125" aria-pressed="false">A++</button>
-        </div>
-        <div class="rc-group" role="group" aria-label="Largura da linha">
-          <button type="button" class="rc-btn" data-inema-set-linewidth="62" aria-pressed="false">Estreito</button>
-          <button type="button" class="rc-btn" data-inema-set-linewidth="66" aria-pressed="true">Medio</button>
-          <button type="button" class="rc-btn" data-inema-set-linewidth="70" aria-pressed="false">Largo</button>
-        </div>
-      </div>
-    </div>
-  </div>
-
-  <header class="masthead">
-    <nav class="wayfind" aria-label="Onde voce esta">
-      <span><a href="index.html" style="text-decoration:none">INEMA.NCIA</a></span><span class="sep">&middot;</span>
-      <span><a href="t2.html" style="text-decoration:none">Trilha <b>2</b></a></span><span class="sep">&middot;</span>
-      <span>Modulo <b>2-1</b></span><span class="sep">&middot;</span>
-      <span data-inema-section-counter>Secao 1 de 3</span><span class="sep">&middot;</span>
-      <button type="button" data-inema-journey-open>Minha jornada <span class="inema-journey-badge" data-inema-journey-badge data-count="0">0</span></button>
-    </nav>
-  <nav class="course-nav" aria-label="Trilhas do curso" data-course-nav>
-    <a class="cn-home" href="index.html">Início</a>
-    <span class="cn-sep">&middot;</span>
-    <a href="t1.html"><b>1</b>&nbsp;Atenção</a>
-    <a href="t2.html" class="active" aria-current="page"><b>2</b>&nbsp;Percepção</a>
-    <a href="t3.html"><b>3</b>&nbsp;Hábitos</a>
-    <a href="t4.html"><b>4</b>&nbsp;Habilidades</a>
-    <a href="t5.html"><b>5</b>&nbsp;Persuasão</a>
-    <a href="t6.html"><b>6</b>&nbsp;Recursos</a>
-  </nav>
-  </header>
-
-  <main class="spread"><div class="leaf">
-      <article class="reading" id="reading">
-        <p class="kicker">Modulo 2-1 &middot; Trilha 2 &middot; INEMA.NCIA</p>
-        <h1 class="module">Percepcao &amp; valor</h1>
-        <p class="deck">A percepcao como leitura, nao fato: como voce se ve, como o valor nasce no olhar e os moldes que herdamos.</p>
-        <p class="read-meta"><span class="here">Lendo agora</span><span>3 secoes</span><span><a href="t2.html" style="color:inherit">&larr; indice da trilha</a></span></p>
-        <section class="aims" aria-label="O que este modulo cobre"><h2>O que este modulo cobre</h2><ul><li>Como a autopercepcao engana</li><li>Percepcao e o valor que ela cria</li><li>Arquetipos: os moldes do comportamento</li></ul></section>
-          <nav class="toc" aria-label="Sumario do modulo" data-inema-toc>
-            <p class="toc-head">Sumario do modulo</p>
-            <ol>
-            <li class="current"><span class="dot-now"></span><span class="n">1</span><a href="#topico-1"><span class="t">Como a autopercepcao engana</span></a></li>
-            <li><span class="n">2</span><a href="#topico-2"><span class="t">Percepcao e o valor que ela cria</span></a><span class="leader"></span></li>
-            <li><span class="n">3</span><a href="#topico-3"><span class="t">Arquetipos: os moldes do comportamento</span></a><span class="leader"></span></li>
-            </ol>
-          </nav>
-
-<section id="topico-1"
-                 data-inema-topic="modulo-2-1#topico-1"
-                 data-inema-module="2-1"
-                 data-inema-track="2">
-          <div class="section-mark">
-            <span class="where">Secao 1 de 3</span><span>&middot;</span><span>Autopercepcao</span>
-          </div>
-          <h2 class="head"><span class="num">1.</span>Como a autopercepcao engana</h2>
-
-          <div class="prose">
-            <p class="lede dropcap" data-inema-block="m2-t1-p1">A imagem que voce faz da propria competencia
+<title>Modulo 2-1 — Percepcao &amp; valor | INEMA.NCIA</title>
+<link href="https://fonts.googleapis.com" rel="preconnect"/>
+<link crossorigin="" href="https://fonts.gstatic.com" rel="preconnect"/>
+<link href="https://fonts.googleapis.com/css2?family=Spectral:ital,wght@0,300;0,400;0,500;0,600;0,700;1,400;1,500&amp;family=Source+Serif+4:ital,opsz,wght@0,8..60,400;0,8..60,500;0,8..60,600;1,8..60,400;1,8..60,500&amp;family=IBM+Plex+Mono:wght@400;500&amp;family=Atkinson+Hyperlegible:ital,wght@0,400;0,700;1,400&amp;display=swap" rel="stylesheet"/>
+<link href="./assets/learn.css" rel="stylesheet"/>
+<link href="https://inematds.github.io/inemancia/curso/t2-1.html" hreflang="pt-BR" rel="alternate"/><link href="https://inematds.github.io/inemancia/en/curso/t2-1.html" hreflang="en" rel="alternate"/><link href="https://inematds.github.io/inemancia/es/curso/t2-1.html" hreflang="es" rel="alternate"/></head>
+<body><div class="inema-lang" style="position:fixed;right:14px;bottom:14px;z-index:9999;display:flex;gap:2px;padding:4px;border-radius:10px;background:rgba(12,12,16,.82);border:1px solid rgba(226,162,59,.45);font:600 12px/1 Sora,Inter,system-ui,sans-serif;backdrop-filter:blur(8px)" translate="no"><a href="t2-1.html" hreflang="pt-BR" style="padding:6px 8px;border-radius:7px;text-decoration:none;color:#1a1206;background:#E2A23B">PT</a><a href="../en/curso/t2-1.html" hreflang="en" style="padding:6px 8px;border-radius:7px;text-decoration:none;color:#e9e9ee">EN</a><a href="../es/curso/t2-1.html" hreflang="es" style="padding:6px 8px;border-radius:7px;text-decoration:none;color:#e9e9ee">ES</a></div>
+<a class="skip" href="#reading">Pular para o conteudo</a>
+<div class="reader-bar">
+<div class="reader-inner">
+<a class="wordmark" href="https://inema.club" rel="noopener" target="_blank">INEMA<span class="dot">.</span><span class="club">CLUB</span></a>
+<div class="reader-controls" data-inema-appearance="">
+<span class="rc-read"><span data-inema-meter="modulo:2-1"><span data-inema-meter-frac=""><strong>0</strong> de 3</span></span> lidas</span>
+<div aria-label="Tema de leitura" class="rc-group" role="group">
+<button aria-pressed="true" class="rc-btn" data-inema-set-theme="papel" type="button">Papel</button>
+<button aria-pressed="false" class="rc-btn" data-inema-set-theme="sepia" type="button">Sepia</button>
+<button aria-pressed="false" class="rc-btn" data-inema-set-theme="escuro" type="button">Escuro</button>
+</div>
+<div aria-label="Fonte de leitura" class="rc-group" role="group">
+<button aria-pressed="true" class="rc-btn" data-inema-set-font="serif" type="button">Serif</button>
+<button aria-pressed="false" class="rc-btn" data-inema-set-font="sans" type="button">Sans</button>
+<button aria-pressed="false" class="rc-btn" data-inema-set-font="hyperlegible" title="Atkinson Hyperlegible" type="button">Aa↹</button>
+</div>
+<div aria-label="Tamanho do texto" class="rc-group" role="group">
+<button aria-pressed="true" class="rc-btn" data-inema-set-fontscale="100" type="button">A</button>
+<button aria-pressed="false" class="rc-btn" data-inema-set-fontscale="112" type="button">A+</button>
+<button aria-pressed="false" class="rc-btn" data-inema-set-fontscale="125" type="button">A++</button>
+</div>
+<div aria-label="Largura da linha" class="rc-group" role="group">
+<button aria-pressed="false" class="rc-btn" data-inema-set-linewidth="62" type="button">Estreito</button>
+<button aria-pressed="true" class="rc-btn" data-inema-set-linewidth="66" type="button">Medio</button>
+<button aria-pressed="false" class="rc-btn" data-inema-set-linewidth="70" type="button">Largo</button>
+</div>
+</div>
+</div>
+</div>
+<header class="masthead">
+<nav aria-label="Onde voce esta" class="wayfind">
+<span><a href="index.html" style="text-decoration:none">INEMA.NCIA</a></span><span class="sep">·</span>
+<span><a href="t2.html" style="text-decoration:none">Trilha <b>2</b></a></span><span class="sep">·</span>
+<span>Modulo <b>2-1</b></span><span class="sep">·</span>
+<span data-inema-section-counter="">Secao 1 de 3</span><span class="sep">·</span>
+<button data-inema-journey-open="" type="button">Minha jornada <span class="inema-journey-badge" data-count="0" data-inema-journey-badge="">0</span></button>
+</nav>
+<nav aria-label="Trilhas do curso" class="course-nav" data-course-nav="">
+<a class="cn-home" href="index.html">Início</a>
+<span class="cn-sep">·</span>
+<a href="t1.html"><b>1</b> Atenção</a>
+<a aria-current="page" class="active" href="t2.html"><b>2</b> Percepção</a>
+<a href="t3.html"><b>3</b> Hábitos</a>
+<a href="t4.html"><b>4</b> Habilidades</a>
+<a href="t5.html"><b>5</b> Persuasão</a>
+<a href="t6.html"><b>6</b> Recursos</a>
+</nav>
+</header>
+<main class="spread"><div class="leaf">
+<article class="reading" id="reading">
+<p class="kicker">Modulo 2-1 · Trilha 2 · INEMA.NCIA</p>
+<h1 class="module">Percepcao &amp; valor</h1>
+<p class="deck">A percepcao como leitura, nao fato: como voce se ve, como o valor nasce no olhar e os moldes que herdamos.</p>
+<p class="read-meta"><span class="here">Lendo agora</span><span>3 secoes</span><span><a href="t2.html" style="color:inherit">← indice da trilha</a></span></p>
+<section aria-label="O que este modulo cobre" class="aims"><h2>O que este modulo cobre</h2><ul><li>Como a autopercepcao engana</li><li>Percepcao e o valor que ela cria</li><li>Arquetipos: os moldes do comportamento</li></ul></section>
+<nav aria-label="Sumario do modulo" class="toc" data-inema-toc="">
+<p class="toc-head">Sumario do modulo</p>
+<ol>
+<li class="current"><span class="dot-now"></span><span class="n">1</span><a href="#topico-1"><span class="t">Como a autopercepcao engana</span></a></li>
+<li><span class="n">2</span><a href="#topico-2"><span class="t">Percepcao e o valor que ela cria</span></a><span class="leader"></span></li>
+<li><span class="n">3</span><a href="#topico-3"><span class="t">Arquetipos: os moldes do comportamento</span></a><span class="leader"></span></li>
+</ol>
+</nav>
+<section data-inema-module="2-1" data-inema-topic="modulo-2-1#topico-1" data-inema-track="2" id="topico-1">
+<div class="section-mark">
+<span class="where">Secao 1 de 3</span><span>·</span><span>Autopercepcao</span>
+</div>
+<h2 class="head"><span class="num">1.</span>Como a autopercepcao engana</h2>
+<div class="prose">
+<p class="lede dropcap" data-inema-block="m2-t1-p1">A imagem que voce faz da propria competencia
               raramente coincide com a competencia real. Quem sabe pouco tende a se achar muito bom; quem sabe
               muito tende a duvidar de si. Esse descompasso entre o que somos e o que <em>achamos</em> que somos
-              e estudado na psicologia, na educacao e na gestao de pessoas &mdash; e ha alguns modelos que o
+              e estudado na psicologia, na educacao e na gestao de pessoas — e ha alguns modelos que o
               explicam.<span class="sidenote-ref">1</span></p>
-
-            <p data-inema-block="m2-t1-p2">O mais conhecido e o <strong>efeito Dunning-Kruger</strong>: pessoas com
+<p data-inema-block="m2-t1-p2">O mais conhecido e o <strong>efeito Dunning-Kruger</strong>: pessoas com
               pouco conhecimento numa area costumam superestimar suas habilidades, enquanto as mais competentes
               subestimam o proprio nivel. Quanto menos alguem sabe, mais confiante pode ficar numa percepcao
-              equivocada de dominio &mdash; e e justamente a experiencia que traz a consciencia das limitacoes e
+              equivocada de dominio — e e justamente a experiencia que traz a consciencia das limitacoes e
               da complexidade. Um novato em programacao pode se achar um grande programador depois de aprender
               uns conceitos basicos; o programador experiente, mesmo dominando tecnicas avancadas, sente que
               ainda ha muito a aprender.</p>
-
-            <h3 class="sub">O reverso: quando a competencia se sente fraude</h3>
-
-            <p data-inema-block="m2-t1-p3">A <strong>sindrome do impostor</strong> e o fenomeno oposto. Pessoas
+<h3 class="sub">O reverso: quando a competencia se sente fraude</h3>
+<p data-inema-block="m2-t1-p3">A <strong>sindrome do impostor</strong> e o fenomeno oposto. Pessoas
               altamente qualificadas sentem que nao sao boas o suficiente, ou que seu sucesso e fruto de sorte e
-              nao de competencia. Subestimam as proprias capacidades e vivem com o medo de serem &ldquo;expostas&rdquo;.
+              nao de competencia. Subestimam as proprias capacidades e vivem com o medo de serem “expostas”.
               Um lider com anos de experiencia pode acreditar que nao e capaz de conduzir a equipe, atribuindo
               tudo a circunstancias. Ha ainda a <strong>curva de aprendizagem</strong>: ao aprofundar um tema,
               o especialista enxerga novas variaveis e complexidades, o que aumenta a percepcao das proprias
               limitacoes e o torna mais cauteloso nas conclusoes.<span class="sidenote-ref">2</span></p>
-          </div>
-
-          <!-- recall ativo: pare e preveja -->
-          <div class="predict">
-            <p class="lbl">Pare e preveja</p>
-            <p>Dunning-Kruger e sindrome do impostor parecem opostos. Qual habilidade, se voce a desenvolvesse,
+</div>
+<!-- recall ativo: pare e preveja -->
+<div class="predict">
+<p class="lbl">Pare e preveja</p>
+<p>Dunning-Kruger e sindrome do impostor parecem opostos. Qual habilidade, se voce a desenvolvesse,
               ajudaria a corrigir <em>os dois</em> ao mesmo tempo?</p>
-            <details>
-              <summary>Ver uma resposta possivel</summary>
-              <p class="answer">A <strong>metacognicao</strong> &mdash; a capacidade de avaliar o proprio
+<details>
+<summary>Ver uma resposta possivel</summary>
+<p class="answer">A <strong>metacognicao</strong> — a capacidade de avaliar o proprio
                 conhecimento. Quem a desenvolve enxerga melhor o que sabe e o que nao sabe: reconhece quando
                 precisa de ajuda em vez de se achar dono da verdade, e tambem para de descontar a propria
                 competencia real. E o ajuste fino da autopercepcao nas duas direcoes.</p>
-            </details>
-          </div>
-
-          <div class="prose">
-            <p data-inema-block="m2-t1-p4">A peca que costura tudo isso e a <strong>metacognicao</strong>: avaliar
+</details>
+</div>
+<div class="prose">
+<p data-inema-block="m2-t1-p4">A peca que costura tudo isso e a <strong>metacognicao</strong>: avaliar
               o proprio conhecimento e as proprias habilidades. Quem a tem desenvolvida enxerga as proprias
               capacidades e limites com realismo; quem a tem fraca tende a superestimar o que entende. O estudante
               com boa metacognicao reconhece quando nao sabe algo e vai atras de ajuda; sem ela, acredita que sabe
               tudo sem nunca verificar. Esses modelos sao usados o tempo todo em educacao, treinamentos e
-              desenvolvimento pessoal &mdash; e o primeiro passo de qualquer um deles e admitir que a sua leitura
+              desenvolvimento pessoal — e o primeiro passo de qualquer um deles e admitir que a sua leitura
               de si mesmo pode estar errada.</p>
-          </div>
-
-          <!-- indo mais fundo: divulgacao progressiva -->
-          <details class="go-deeper">
-            <summary><span class="chev">&#9656;</span> Indo mais fundo: por que o iniciante nao ve o proprio limite
+</div>
+<!-- indo mais fundo: divulgacao progressiva -->
+<details class="go-deeper">
+<summary><span class="chev">▸</span> Indo mais fundo: por que o iniciante nao ve o proprio limite
               <span class="opt">opcional</span></summary>
-            <div class="inner">
-              <p>A ideia central do Dunning-Kruger e quase circular &mdash; e por isso e tao traicoeira. A mesma
+<div class="inner">
+<p>A ideia central do Dunning-Kruger e quase circular — e por isso e tao traicoeira. A mesma
                 falta de conhecimento que faz alguem errar e a que o impede de <em>perceber</em> que errou. Para
                 avaliar se uma resposta esta certa, voce precisa de parte do conhecimento que ainda nao tem; sem
                 ele, o erro fica invisivel para quem o comete.</p>
-              <p>Por isso a confianca do iniciante e genuina, nao fingida: ele realmente nao ve o que falta. E por
-                isso, tambem, o caminho para fora nao e &ldquo;ter mais autoconfianca&rdquo; nem &ldquo;ter
-                menos&rdquo;, mas construir o mapa &mdash; estudar a area a fundo o bastante para enxergar a
+<p>Por isso a confianca do iniciante e genuina, nao fingida: ele realmente nao ve o que falta. E por
+                isso, tambem, o caminho para fora nao e “ter mais autoconfianca” nem “ter
+                menos”, mas construir o mapa — estudar a area a fundo o bastante para enxergar a
                 propria posicao nela. A consciencia da complexidade vem junto com o conhecimento, nunca antes
                 dele.</p>
-            </div>
-          </details>
-        </section>
-<section id="topico-2"
-                 data-inema-topic="modulo-2-1#topico-2"
-                 data-inema-module="2-1"
-                 data-inema-track="2">
-          <div class="section-mark">
-            <span class="where">Secao 2 de 3</span><span>&middot;</span><span>Valor</span>
-          </div>
-          <h2 class="head"><span class="num">2.</span>Percepcao e o valor que ela cria</h2>
-
-          <div class="prose">
-            <p class="lede" data-inema-block="m2-t2-p1">Atividades identicas podem ser percebidas de formas opostas
-              &mdash; e a percepcao, nao o fato, e o que costuma decidir a experiencia. Alguem parado olhando pela
-              janela parece um &ldquo;antissocial&rdquo;; coloque um cigarro na mao da mesma pessoa e ela vira um
-              &ldquo;filosofo pensativo&rdquo;. Nada mudou na cena, so o <em>enquadramento</em>. Reenquadrar e
-              transformar um problema em oportunidade: o desemprego vira &ldquo;ano sabatico&rdquo; sem que um
+</div>
+</details>
+</section>
+<section data-inema-module="2-1" data-inema-topic="modulo-2-1#topico-2" data-inema-track="2" id="topico-2">
+<div class="section-mark">
+<span class="where">Secao 2 de 3</span><span>·</span><span>Valor</span>
+</div>
+<h2 class="head"><span class="num">2.</span>Percepcao e o valor que ela cria</h2>
+<div class="prose">
+<p class="lede" data-inema-block="m2-t2-p1">Atividades identicas podem ser percebidas de formas opostas
+              — e a percepcao, nao o fato, e o que costuma decidir a experiencia. Alguem parado olhando pela
+              janela parece um “antissocial”; coloque um cigarro na mao da mesma pessoa e ela vira um
+              “filosofo pensativo”. Nada mudou na cena, so o <em>enquadramento</em>. Reenquadrar e
+              transformar um problema em oportunidade: o desemprego vira “ano sabatico” sem que um
               unico fato se altere.</p>
-
-            <p data-inema-block="m2-t2-p2">A sensacao de <strong>escolha e controle</strong> importa mais do que a
+<p data-inema-block="m2-t2-p2">A sensacao de <strong>escolha e controle</strong> importa mais do que a
               realidade objetiva. Pensionistas costumam ser mais felizes do que jovens desempregados, mesmo com
-              tempo livre e pouco dinheiro &mdash; porque acreditam ter <em>escolhido</em> aquela situacao,
+              tempo livre e pouco dinheiro — porque acreditam ter <em>escolhido</em> aquela situacao,
               enquanto os jovens sentem que ela lhes foi imposta. O experimento dos caes na caixa diz o mesmo:
               dois caes recebem choques, mas o que tem um botao para interrompe-los nao fica deprimido. O que
               muda nao e a dor, e o <em>controle</em> sobre ela.<span class="sidenote-ref">3</span></p>
-
-            <h3 class="sub">O valor percebido vale tanto quanto o valor real</h3>
-
-            <p data-inema-block="m2-t2-p3">O mesmo R$ 20 mil em impostos gera frustracao; doado a um hospital, vira
-              filantropia &mdash; e o numero e identico. O economista Von Mises rejeitava a distincao entre valor
-              &ldquo;real&rdquo; (o produzido) e &ldquo;percebido&rdquo; (o do marketing): num restaurante, o
-              valor esta tanto na comida quanto no ambiente limpo. A percepcao ate &ldquo;vaza&rdquo; para o corpo:
+<h3 class="sub">O valor percebido vale tanto quanto o valor real</h3>
+<p data-inema-block="m2-t2-p3">O mesmo R$ 20 mil em impostos gera frustracao; doado a um hospital, vira
+              filantropia — e o numero e identico. O economista Von Mises rejeitava a distincao entre valor
+              “real” (o produzido) e “percebido” (o do marketing): num restaurante, o
+              valor esta tanto na comida quanto no ambiente limpo. A percepcao ate “vaza” para o corpo:
               um carro parece dirigir melhor depois de lavado, e analgesicos de marca aliviam mais a dor do que
               genericos fisicamente identicos. Por isso solucoes psicologicas costumam ser mais baratas e mais
-              eficazes que as tecnicas &mdash; paineis de contagem regressiva no metro aumentaram a satisfacao
+              eficazes que as tecnicas — paineis de contagem regressiva no metro aumentaram a satisfacao
               <em>sem</em> aumentar a frequencia dos trens.<span class="sidenote-ref">4</span></p>
-          </div>
-
-          <!-- figura: enquadramento muda a leitura -->
-          <figure class="figure">
-            <figcaption><span class="fig-n">Fig. 1</span> &middot; O mesmo fato, <b>dois enquadramentos</b> &mdash; a leitura muda o valor</figcaption>
-            <svg class="diagram" viewBox="0 0 720 196" role="img"
-                 aria-label="Diagrama: um mesmo fato no centro se ramifica em duas leituras opostas; o enquadramento decide se ele e percebido como problema ou como valor.">
-              <rect x="280" y="78" width="160" height="44" fill="url(#hatch2)" class="accent-stroke" stroke-width="1.2" rx="3"/>
-              <text x="360" y="100" text-anchor="middle" font-family="Spectral, serif" font-style="italic" font-size="16" class="ink">O mesmo fato</text>
-              <text x="360" y="116" text-anchor="middle" font-family="IBM Plex Mono, monospace" font-size="9.5" class="faint">R$ 20 mil &middot; janela &middot; espera</text>
-              <defs>
-                <pattern id="hatch2" width="6" height="6" patternTransform="rotate(45)" patternUnits="userSpaceOnUse">
-                  <line x1="0" y1="0" x2="0" y2="6" class="accent-stroke" stroke-width="2.4" opacity="0.16"/>
-                </pattern>
-              </defs>
-              <g class="rule-stroke" stroke-width="1.4" fill="none" opacity="0.85">
-                <path d="M280 92 C 210 70, 170 56, 90 52"/>
-              </g>
-              <g class="accent-stroke" stroke-width="1.6" fill="none">
-                <path d="M440 108 C 510 130, 550 146, 630 150"/>
-              </g>
-              <rect x="20" y="34" width="150" height="38" class="wash rule-stroke" stroke-width="1.1" rx="3"/>
-              <text x="95" y="51" text-anchor="middle" font-family="Source Serif 4, serif" font-size="12" class="ink-soft">enquadramento A</text>
-              <text x="95" y="66" text-anchor="middle" font-family="Source Serif 4, serif" font-size="11.5" class="faint">&ldquo;problema&rdquo;</text>
-              <rect x="552" y="130" width="150" height="38" fill="url(#hatch2)" class="accent-stroke" stroke-width="1.3" rx="3"/>
-              <text x="627" y="147" text-anchor="middle" font-family="Source Serif 4, serif" font-size="12" class="ink">enquadramento B</text>
-              <text x="627" y="162" text-anchor="middle" font-family="Source Serif 4, serif" font-size="11.5" class="accent">&ldquo;valor&rdquo;</text>
-            </svg>
-          </figure>
-
-          <!-- recall ativo -->
-          <div class="predict">
-            <p class="lbl">Pare e preveja</p>
-            <p>Sua viagem de trem demora 40 minutos a mais do que voce gostaria. Voce tem dois caminhos: gastar
+</div>
+<!-- figura: enquadramento muda a leitura -->
+<figure class="figure">
+<figcaption><span class="fig-n">Fig. 1</span> · O mesmo fato, <b>dois enquadramentos</b> — a leitura muda o valor</figcaption>
+<svg aria-label="Diagrama: um mesmo fato no centro se ramifica em duas leituras opostas; o enquadramento decide se ele e percebido como problema ou como valor." class="diagram" role="img" viewbox="0 0 720 196">
+<rect class="accent-stroke" fill="url(#hatch2)" height="44" rx="3" stroke-width="1.2" width="160" x="280" y="78"></rect>
+<text class="ink" font-family="Spectral, serif" font-size="16" font-style="italic" text-anchor="middle" x="360" y="100">O mesmo fato</text>
+<text class="faint" font-family="IBM Plex Mono, monospace" font-size="9.5" text-anchor="middle" x="360" y="116">R$ 20 mil · janela · espera</text>
+<defs>
+<pattern height="6" id="hatch2" patterntransform="rotate(45)" patternunits="userSpaceOnUse" width="6">
+<line class="accent-stroke" opacity="0.16" stroke-width="2.4" x1="0" x2="0" y1="0" y2="6"></line>
+</pattern>
+</defs>
+<g class="rule-stroke" fill="none" opacity="0.85" stroke-width="1.4">
+<path d="M280 92 C 210 70, 170 56, 90 52"></path>
+</g>
+<g class="accent-stroke" fill="none" stroke-width="1.6">
+<path d="M440 108 C 510 130, 550 146, 630 150"></path>
+</g>
+<rect class="wash rule-stroke" height="38" rx="3" stroke-width="1.1" width="150" x="20" y="34"></rect>
+<text class="ink-soft" font-family="Source Serif 4, serif" font-size="12" text-anchor="middle" x="95" y="51">enquadramento A</text>
+<text class="faint" font-family="Source Serif 4, serif" font-size="11.5" text-anchor="middle" x="95" y="66">“problema”</text>
+<rect class="accent-stroke" fill="url(#hatch2)" height="38" rx="3" stroke-width="1.3" width="150" x="552" y="130"></rect>
+<text class="ink" font-family="Source Serif 4, serif" font-size="12" text-anchor="middle" x="627" y="147">enquadramento B</text>
+<text class="accent" font-family="Source Serif 4, serif" font-size="11.5" text-anchor="middle" x="627" y="162">“valor”</text>
+</svg>
+</figure>
+<!-- recall ativo -->
+<div class="predict">
+<p class="lbl">Pare e preveja</p>
+<p>Sua viagem de trem demora 40 minutos a mais do que voce gostaria. Voce tem dois caminhos: gastar
               uma fortuna para encurtar a viagem, ou investir bem menos em outra coisa. O que rende mais satisfacao?</p>
-            <details>
-              <summary>Ver uma resposta possivel</summary>
-              <p class="answer">Quase sempre a segunda. A Eurostar gastou milhoes para reduzir o tempo de viagem,
-                quando Wi-Fi a bordo &mdash; bem mais barato &mdash; teria melhorado a <strong>experiencia</strong>
+<details>
+<summary>Ver uma resposta possivel</summary>
+<p class="answer">Quase sempre a segunda. A Eurostar gastou milhoes para reduzir o tempo de viagem,
+                quando Wi-Fi a bordo — bem mais barato — teria melhorado a <strong>experiencia</strong>
                 e a percepcao de valor. Reduzir a espera percebida costuma vencer reduzir a espera real.</p>
-            </details>
-          </div>
-        </section>
-<section id="topico-3"
-                 data-inema-topic="modulo-2-1#topico-3"
-                 data-inema-module="2-1"
-                 data-inema-track="2">
-          <div class="section-mark">
-            <span class="where">Secao 3 de 3</span><span>&middot;</span><span>Arquetipos</span>
-          </div>
-          <h2 class="head"><span class="num">3.</span>Arquetipos: os moldes do comportamento</h2>
-
-          <div class="prose">
-            <p class="lede" data-inema-block="m2-t3-p1">Arquetipos sao padroes universais de comportamento,
+</details>
+</div>
+</section>
+<section data-inema-module="2-1" data-inema-topic="modulo-2-1#topico-3" data-inema-track="2" id="topico-3">
+<div class="section-mark">
+<span class="where">Secao 3 de 3</span><span>·</span><span>Arquetipos</span>
+</div>
+<h2 class="head"><span class="num">3.</span>Arquetipos: os moldes do comportamento</h2>
+<div class="prose">
+<p class="lede" data-inema-block="m2-t3-p1">Arquetipos sao padroes universais de comportamento,
               simbolos ou imagens que, segundo Carl Gustav Jung, residem no <em>inconsciente coletivo</em>. Eles
-              representam caracteristicas, emocoes e experiencias compartilhadas por toda a humanidade &mdash;
-              independentemente de cultura, epoca ou lugar &mdash; e aparecem em mitos, sonhos, religiao, histórias
+              representam caracteristicas, emocoes e experiencias compartilhadas por toda a humanidade —
+              independentemente de cultura, epoca ou lugar — e aparecem em mitos, sonhos, religiao, histórias
               e ate em marcas. Sao moldes que ajudam a estruturar narrativas e influenciam como percebemos o mundo
               e a nos mesmos.<span class="sidenote-ref">5</span></p>
-
-            <p data-inema-block="m2-t3-p2">Jung identificou varios, e alguns ficaram celebres. <strong>O Heroi</strong>
+<p data-inema-block="m2-t3-p2">Jung identificou varios, e alguns ficaram celebres. <strong>O Heroi</strong>
               encarna coragem e superacao (Hercules, Superman). <strong>A Sombra</strong> e o lado reprimido,
               onde moram medos e impulsos escondidos (Darth Vader, os viloes). <strong>O Velho Sabio</strong>
               orienta como mentor (Yoda, Gandalf). <strong>O Inocente</strong> traz pureza e otimismo (Alice).
               <strong>O Rebelde</strong> desafia o status quo (Robin Hood). <strong>O Governante</strong> busca
               controle e estabilidade; <strong>o Amante</strong>, paixao e conexao (Romeu e Julieta); e <strong>o
               Bobo da Corte</strong> usa o humor para desafiar normas (o Coringa).</p>
-
-            <h3 class="sub">Do mito a marca</h3>
-
-            <p data-inema-block="m2-t3-p3">No marketing, arquetipos servem para criar conexao emocional entre marca
+<h3 class="sub">Do mito a marca</h3>
+<p data-inema-block="m2-t3-p3">No marketing, arquetipos servem para criar conexao emocional entre marca
               e consumidor. A Nike se apoia no Heroi (superacao, forca); a Coca-Cola, no Inocente (felicidade,
               nostalgia); a Jeep, no Explorador (aventura, liberdade); Dior e Chanel, no Amante (paixao, beleza).
               Em todos os casos o mecanismo e o mesmo: o arquetipo refere um aspecto universal da experiencia
-              humana e conecta as pessoas por meio de emocoes e narrativas compartilhadas &mdash; seja na sua
+              humana e conecta as pessoas por meio de emocoes e narrativas compartilhadas — seja na sua
               propria historia, numa obra de arte ou numa campanha.</p>
-          </div>
-
-          <!-- indo mais fundo -->
-          <details class="go-deeper">
-            <summary><span class="chev">&#9656;</span> Indo mais fundo: a Sombra como espelho
+</div>
+<!-- indo mais fundo -->
+<details class="go-deeper">
+<summary><span class="chev">▸</span> Indo mais fundo: a Sombra como espelho
               <span class="opt">opcional</span></summary>
-            <div class="inner">
-              <p>De todos os arquetipos, a Sombra e o que mais dialoga com a autopercepcao da Secao 1. Ela reune
-                o que a pessoa tenta esconder &mdash; medos, desejos e impulsos reprimidos. Reconhece-la nao e
+<div class="inner">
+<p>De todos os arquetipos, a Sombra e o que mais dialoga com a autopercepcao da Secao 1. Ela reune
+                o que a pessoa tenta esconder — medos, desejos e impulsos reprimidos. Reconhece-la nao e
                 ceder a ela, mas deixar de ser pego de surpresa por ela.</p>
-              <p>E por isso que os viloes mais memoraveis funcionam: nao sao o oposto do heroi, sao o que o heroi
+<p>E por isso que os viloes mais memoraveis funcionam: nao sao o oposto do heroi, sao o que o heroi
                 poderia ter sido. A narrativa fica cativante quando o espectador reconhece, na Sombra do
                 personagem, um pedaco da propria. O arquetipo conecta justamente porque fala de algo que todos
-                carregamos &mdash; e preferimos nao olhar.</p>
-            </div>
-          </details>
-        </section>
-                <section class="journey" aria-label="Minha jornada">
-          <div class="journey-top"><h2><span class="ico">&#10087;</span> Minha jornada</h2><button class="journey-cta" type="button" data-inema-journey-open>Abrir caderno &rarr;</button></div>
-          <div class="journey-body">
-            <div class="jstat"><div class="k">Neste modulo</div><div class="v" data-inema-meter="modulo:2-1"><span data-inema-meter-frac><strong>0</strong> de 3</span> <span class="nm">secoes lidas</span><div class="progress-line"><span class="progress-line__fill" data-inema-meter-fill></span></div></div></div>
-            <div class="jstat"><div class="k">Na trilha 2</div><div class="v" data-inema-meter="trilha:2"><span data-inema-meter-frac><strong>0</strong> de 5</span> <span class="nm">topicos</span><div class="progress-line"><span class="progress-line__fill" data-inema-meter-fill></span></div></div></div>
-            <div class="jstat"><div class="k">No curso</div><div class="v" data-inema-meter="curso"><span data-inema-meter-frac><strong>0</strong> de 27</span> <span class="nm">percorrido</span><div class="progress-line"><span class="progress-line__fill" data-inema-meter-fill></span></div></div></div>
-          </div>
-        </section>
-
-        <div class="nextup"><div class="txt"><div class="k">Continuar</div><div class="t">Modulo 2-2 &mdash; Como aprendemos</div></div><a class="go" href="t2-2.html">Proximo &rarr;</a></div>
-      </article>
-      <aside class="margin-rail" aria-label="Margem: notas e seu painel">
-        <nav class="rail-modules" aria-label="Modulos da Trilha 2">
-          <p class="rail-modules__head">Trilha 2 &middot; Percepcao &amp; Autoconhecimento</p>
-          <ol>
-            <li aria-current="page"><span class="n">2.1</span><span class="t">Percepcao &amp; valor</span></li>
-            <li><a href="t2-2.html"><span class="n">2.2</span><span class="t">Como aprendemos</span></a></li>
-          </ol>
-          <a class="rail-modules__index" href="t2.html">Indice da trilha &rarr;</a>
-        </nav>
-        <aside data-inema-rail="modulo-2-1#topico-1"></aside>
-
-        <aside class="sidenote" data-kind="definicao">
-          <div class="tag">Definicao</div>
-          <b>Efeito Dunning-Kruger.</b> Tendencia de quem sabe pouco a superestimar a propria competencia &mdash;
+                carregamos — e preferimos nao olhar.</p>
+</div>
+</details>
+</section>
+<section aria-label="Minha jornada" class="journey">
+<div class="journey-top"><h2><span class="ico">❧</span> Minha jornada</h2><button class="journey-cta" data-inema-journey-open="" type="button">Abrir caderno →</button></div>
+<div class="journey-body">
+<div class="jstat"><div class="k">Neste modulo</div><div class="v" data-inema-meter="modulo:2-1"><span data-inema-meter-frac=""><strong>0</strong> de 3</span> <span class="nm">secoes lidas</span><div class="progress-line"><span class="progress-line__fill" data-inema-meter-fill=""></span></div></div></div>
+<div class="jstat"><div class="k">Na trilha 2</div><div class="v" data-inema-meter="trilha:2"><span data-inema-meter-frac=""><strong>0</strong> de 5</span> <span class="nm">topicos</span><div class="progress-line"><span class="progress-line__fill" data-inema-meter-fill=""></span></div></div></div>
+<div class="jstat"><div class="k">No curso</div><div class="v" data-inema-meter="curso"><span data-inema-meter-frac=""><strong>0</strong> de 27</span> <span class="nm">percorrido</span><div class="progress-line"><span class="progress-line__fill" data-inema-meter-fill=""></span></div></div></div>
+</div>
+</section>
+<div class="nextup"><div class="txt"><div class="k">Continuar</div><div class="t">Modulo 2-2 — Como aprendemos</div></div><a class="go" href="t2-2.html">Proximo →</a></div>
+</article>
+<aside aria-label="Margem: notas e seu painel" class="margin-rail">
+<nav aria-label="Modulos da Trilha 2" class="rail-modules">
+<p class="rail-modules__head">Trilha 2 · Percepcao &amp; Autoconhecimento</p>
+<ol>
+<li aria-current="page"><span class="n">2.1</span><span class="t">Percepcao &amp; valor</span></li>
+<li><a href="t2-2.html"><span class="n">2.2</span><span class="t">Como aprendemos</span></a></li>
+</ol>
+<a class="rail-modules__index" href="t2.html">Indice da trilha →</a>
+</nav>
+<aside data-inema-rail="modulo-2-1#topico-1"></aside>
+<aside class="sidenote" data-kind="definicao">
+<div class="tag">Definicao</div>
+<b>Efeito Dunning-Kruger.</b> Tendencia de quem sabe pouco a superestimar a propria competencia —
           e de quem sabe muito a subestima-la. A confianca do iniciante e genuina: ele nao ve o que falta.
         </aside>
-        <aside class="sidenote" data-kind="definicao">
-          <div class="tag">Definicao</div>
-          <b>Metacognicao.</b> A capacidade de avaliar o proprio conhecimento. Quem a desenvolve reconhece quando
-          nao sabe &mdash; e e o que corrige tanto o excesso quanto a falta de confianca.
+<aside class="sidenote" data-kind="definicao">
+<div class="tag">Definicao</div>
+<b>Metacognicao.</b> A capacidade de avaliar o proprio conhecimento. Quem a desenvolve reconhece quando
+          nao sabe — e e o que corrige tanto o excesso quanto a falta de confianca.
         </aside>
-
-        <!-- ---- SECAO 2 ---- -->
-        
-        <aside data-inema-rail="modulo-2-1#topico-2"></aside>
-
-        <aside class="sidenote" data-kind="definicao">
-          <div class="tag">Definicao</div>
-          <b>Reenquadramento.</b> Mudar a moldura de uma situacao sem mudar o fato. O mesmo gesto vira
-          &ldquo;antissocial&rdquo; ou &ldquo;filosofico&rdquo;; o desemprego vira &ldquo;ano sabatico&rdquo;.
+<!-- ---- SECAO 2 ---- -->
+<aside data-inema-rail="modulo-2-1#topico-2"></aside>
+<aside class="sidenote" data-kind="definicao">
+<div class="tag">Definicao</div>
+<b>Reenquadramento.</b> Mudar a moldura de uma situacao sem mudar o fato. O mesmo gesto vira
+          “antissocial” ou “filosofico”; o desemprego vira “ano sabatico”.
         </aside>
-        <aside class="sidenote" data-kind="fundo">
-          <div class="tag">Indo mais fundo</div>
+<aside class="sidenote" data-kind="fundo">
+<div class="tag">Indo mais fundo</div>
           O experimento dos caes mostra que sofrimento e <i>controle</i> sao coisas distintas: o cao com botao para
           parar o choque nao deprime. A sensacao de escolha pesa mais que a realidade.
         </aside>
-
-        <!-- ---- SECAO 3 ---- -->
-        
-        <aside data-inema-rail="modulo-2-1#topico-3"></aside>
-
-        <aside class="sidenote" data-kind="definicao">
-          <div class="tag">Definicao</div>
-          <b>Inconsciente coletivo.</b> Conceito de Jung: uma camada psiquica comum a toda a humanidade, onde
-          residem os arquetipos &mdash; padroes herdados que aparecem em mitos, sonhos e simbolos.
+<!-- ---- SECAO 3 ---- -->
+<aside data-inema-rail="modulo-2-1#topico-3"></aside>
+<aside class="sidenote" data-kind="definicao">
+<div class="tag">Definicao</div>
+<b>Inconsciente coletivo.</b> Conceito de Jung: uma camada psiquica comum a toda a humanidade, onde
+          residem os arquetipos — padroes herdados que aparecem em mitos, sonhos e simbolos.
         </aside>
-        <aside class="sidenote" data-kind="fonte">
-          <div class="tag">Fonte</div>
+<aside class="sidenote" data-kind="fonte">
+<div class="tag">Fonte</div>
           A teoria dos arquetipos e do inconsciente coletivo e de <i>Carl Gustav Jung</i>; o uso em branding
           retoma esses moldes universais (Heroi, Inocente, Explorador) para conectar marca e consumidor.
         </aside>
-
-        <!-- ---- SECAO 4 ---- -->
-        
-      </aside>
-  </div></main>
-  <footer class="colophon"><span>INEMA.CLUB &middot; Caderno do aluno</span><span class="pg">Modulo 2-1</span><span>Composto em Spectral &amp; Source Serif 4</span></footer>
-  <script src="./assets/learn.js"></script>
-  <script>
+<!-- ---- SECAO 4 ---- -->
+</aside>
+</div></main>
+<footer class="colophon"><span>INEMA.CLUB · Caderno do aluno</span><span class="pg">Modulo 2-1</span><span>Composto em Spectral &amp; Source Serif 4</span></footer>
+<script src="./assets/learn.js"></script>
+<script>
     if (window.INEMA && typeof window.INEMA.init === "function") { window.INEMA.init(); }
   </script>
 </body>
